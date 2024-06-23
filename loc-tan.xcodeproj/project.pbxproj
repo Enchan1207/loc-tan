@@ -7,6 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9E5463072C27073B00602285 /* ToolBarItemType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E5463062C27073B00602285 /* ToolBarItemType.swift */; };
+		9E54630D2C27AFA200602285 /* ToolBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E54630C2C27AFA200602285 /* ToolBarView.swift */; };
+		9E5463102C27B11C00602285 /* ToolBarViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E54630F2C27B11C00602285 /* ToolBarViewDelegate.swift */; };
+		9E7401B52C27B2A60036059D /* ToolBarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E7401B42C27B2A60036059D /* ToolBarItem.swift */; };
+		9E7401B72C27BB4A0036059D /* ToolBarModeSwitcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E7401B62C27BB4A0036059D /* ToolBarModeSwitcher.swift */; };
+		9E7401B92C27BC5B0036059D /* ToolBarMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E7401B82C27BC5B0036059D /* ToolBarMode.swift */; };
+		9E7401BC2C27BD1D0036059D /* UIViewExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E7401BB2C27BD1D0036059D /* UIViewExt.swift */; };
+		9E7401BE2C2818770036059D /* ToolBarItemStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E7401BD2C2818770036059D /* ToolBarItemStack.swift */; };
 		9E78F1542C1D9991000EDE4A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E78F1532C1D9991000EDE4A /* AppDelegate.swift */; };
 		9E78F1562C1D9991000EDE4A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E78F1552C1D9991000EDE4A /* SceneDelegate.swift */; };
 		9E78F1582C1D9991000EDE4A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E78F1572C1D9991000EDE4A /* ViewController.swift */; };
@@ -16,6 +24,14 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		9E5463062C27073B00602285 /* ToolBarItemType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolBarItemType.swift; sourceTree = "<group>"; };
+		9E54630C2C27AFA200602285 /* ToolBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolBarView.swift; sourceTree = "<group>"; };
+		9E54630F2C27B11C00602285 /* ToolBarViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolBarViewDelegate.swift; sourceTree = "<group>"; };
+		9E7401B42C27B2A60036059D /* ToolBarItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolBarItem.swift; sourceTree = "<group>"; };
+		9E7401B62C27BB4A0036059D /* ToolBarModeSwitcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolBarModeSwitcher.swift; sourceTree = "<group>"; };
+		9E7401B82C27BC5B0036059D /* ToolBarMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolBarMode.swift; sourceTree = "<group>"; };
+		9E7401BB2C27BD1D0036059D /* UIViewExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewExt.swift; sourceTree = "<group>"; };
+		9E7401BD2C2818770036059D /* ToolBarItemStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolBarItemStack.swift; sourceTree = "<group>"; };
 		9E78F1502C1D9991000EDE4A /* loc-tan.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "loc-tan.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9E78F1532C1D9991000EDE4A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9E78F1552C1D9991000EDE4A /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -37,6 +53,28 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		9E54630E2C27B10D00602285 /* ToolBar */ = {
+			isa = PBXGroup;
+			children = (
+				9E54630C2C27AFA200602285 /* ToolBarView.swift */,
+				9E54630F2C27B11C00602285 /* ToolBarViewDelegate.swift */,
+				9E7401BD2C2818770036059D /* ToolBarItemStack.swift */,
+				9E7401B42C27B2A60036059D /* ToolBarItem.swift */,
+				9E7401B62C27BB4A0036059D /* ToolBarModeSwitcher.swift */,
+				9E7401B82C27BC5B0036059D /* ToolBarMode.swift */,
+				9E5463062C27073B00602285 /* ToolBarItemType.swift */,
+			);
+			path = ToolBar;
+			sourceTree = "<group>";
+		};
+		9E7401BA2C27BD0F0036059D /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				9E7401BB2C27BD1D0036059D /* UIViewExt.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
 		9E78F1472C1D9991000EDE4A = {
 			isa = PBXGroup;
 			children = (
@@ -60,6 +98,8 @@
 				9E78F1552C1D9991000EDE4A /* SceneDelegate.swift */,
 				9E78F1572C1D9991000EDE4A /* ViewController.swift */,
 				9E78F1592C1D9991000EDE4A /* Main.storyboard */,
+				9E54630E2C27B10D00602285 /* ToolBar */,
+				9E7401BA2C27BD0F0036059D /* Extensions */,
 				9E78F15C2C1D9993000EDE4A /* Assets.xcassets */,
 				9E78F15E2C1D9993000EDE4A /* LaunchScreen.storyboard */,
 				9E78F1612C1D9993000EDE4A /* Info.plist */,
@@ -138,9 +178,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9E7401BE2C2818770036059D /* ToolBarItemStack.swift in Sources */,
+				9E7401B92C27BC5B0036059D /* ToolBarMode.swift in Sources */,
+				9E54630D2C27AFA200602285 /* ToolBarView.swift in Sources */,
+				9E7401BC2C27BD1D0036059D /* UIViewExt.swift in Sources */,
 				9E78F1582C1D9991000EDE4A /* ViewController.swift in Sources */,
 				9E78F1542C1D9991000EDE4A /* AppDelegate.swift in Sources */,
+				9E7401B52C27B2A60036059D /* ToolBarItem.swift in Sources */,
 				9E78F1562C1D9991000EDE4A /* SceneDelegate.swift in Sources */,
+				9E7401B72C27BB4A0036059D /* ToolBarModeSwitcher.swift in Sources */,
+				9E5463072C27073B00602285 /* ToolBarItemType.swift in Sources */,
+				9E5463102C27B11C00602285 /* ToolBarViewDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
