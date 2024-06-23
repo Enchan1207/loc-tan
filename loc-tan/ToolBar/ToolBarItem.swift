@@ -13,6 +13,8 @@ class ToolBarItem: UIButton {
     /// ボタンの種別
     let itemType: ToolBarItemType
     
+    override var buttonType: UIButton.ButtonType { .custom }
+    
     // MARK: - Initializers
     
     init(itemType: ToolBarItemType){
@@ -60,8 +62,10 @@ class ToolBarItem: UIButton {
         NSLayoutConstraint.activate([
             heightAnchor.constraint(equalTo: superview.heightAnchor),
             widthAnchor.constraint(equalTo: heightAnchor),
-            imageView!.widthAnchor.constraint(equalTo: widthAnchor),
-            imageView!.heightAnchor.constraint(equalTo: heightAnchor)
+            imageView!.centerXAnchor.constraint(equalTo: centerXAnchor),
+            imageView!.centerYAnchor.constraint(equalTo: centerYAnchor),
+            imageView!.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.6),
+            imageView!.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.6)
         ])
     }
     

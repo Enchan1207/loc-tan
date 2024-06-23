@@ -51,8 +51,10 @@ class ToolBarModeSwitcher: UIButton {
     override func didMoveToSuperview() {
         NSLayoutConstraint.activate([
             widthAnchor.constraint(equalTo: heightAnchor),
-            imageView!.widthAnchor.constraint(equalTo: widthAnchor),
-            imageView!.heightAnchor.constraint(equalTo: heightAnchor)
+            imageView!.centerXAnchor.constraint(equalTo: centerXAnchor),
+            imageView!.centerYAnchor.constraint(equalTo: centerYAnchor),
+            imageView!.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.6),
+            imageView!.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.6)
         ])
     }
     

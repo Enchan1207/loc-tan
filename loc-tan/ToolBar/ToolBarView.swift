@@ -58,7 +58,7 @@ class ToolBarView: UIView {
         NSLayoutConstraint.activate([
             itemStack.centerYAnchor.constraint(equalTo: centerYAnchor),
             itemStack.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.6),
-            itemStack.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.8),
+            itemStack.heightAnchor.constraint(equalTo: heightAnchor),
             itemStack.rightAnchor.constraint(equalTo: rightAnchor)
         ])
         itemStack.delegate = self
@@ -68,7 +68,7 @@ class ToolBarView: UIView {
         self.addSubview(modeSwitcher)
         NSLayoutConstraint.activate([
             modeSwitcher.centerYAnchor.constraint(equalTo: centerYAnchor),
-            modeSwitcher.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.8),
+            modeSwitcher.heightAnchor.constraint(equalTo: heightAnchor),
             modeSwitcher.leftAnchor.constraint(equalTo: leftAnchor)
         ])
         modeSwitcher.addTarget(self, action: #selector(onTapModeSwitcher), for: .touchUpInside)

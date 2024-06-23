@@ -17,9 +17,9 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zyN-iL-npP" customClass="ToolBarView" customModule="loc_tan" customModuleProvider="target">
-                                <rect key="frame" x="10" y="69" width="373" height="36"/>
+                                <rect key="frame" x="10" y="69" width="373" height="50"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="36" id="d0b-GZ-pDu"/>
+                                    <constraint firstAttribute="height" constant="50" id="d0b-GZ-pDu"/>
                                 </constraints>
                             </view>
                         </subviews>
