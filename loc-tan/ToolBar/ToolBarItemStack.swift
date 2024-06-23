@@ -15,6 +15,8 @@ class ToolBarItemStack: UIStackView {
     /// ツールバーアイテムのリスト
     private var items: [ToolBarItemType]
     
+    weak var delegate: ToolBarItemStackDelegate?
+    
     // MARK: - Initializers
     
     init(items: [ToolBarItemType]){
@@ -50,7 +52,7 @@ class ToolBarItemStack: UIStackView {
     // MARK: - Methods
     
     @objc private func onTapButton(_ sender: ToolBarItem){
-        print(sender.itemType)
+        delegate?.toolbarItemStack(self, didTapItem: sender.itemType)
     }
     
     /// ツールバーアイテムを強制的に初期化

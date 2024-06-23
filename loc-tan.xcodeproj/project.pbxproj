@@ -15,6 +15,7 @@
 		9E7401B92C27BC5B0036059D /* ToolBarMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E7401B82C27BC5B0036059D /* ToolBarMode.swift */; };
 		9E7401BC2C27BD1D0036059D /* UIViewExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E7401BB2C27BD1D0036059D /* UIViewExt.swift */; };
 		9E7401BE2C2818770036059D /* ToolBarItemStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E7401BD2C2818770036059D /* ToolBarItemStack.swift */; };
+		9E7401C02C2860890036059D /* ToolBarItemStackDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E7401BF2C2860890036059D /* ToolBarItemStackDelegate.swift */; };
 		9E78F1542C1D9991000EDE4A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E78F1532C1D9991000EDE4A /* AppDelegate.swift */; };
 		9E78F1562C1D9991000EDE4A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E78F1552C1D9991000EDE4A /* SceneDelegate.swift */; };
 		9E78F1582C1D9991000EDE4A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E78F1572C1D9991000EDE4A /* ViewController.swift */; };
@@ -32,6 +33,7 @@
 		9E7401B82C27BC5B0036059D /* ToolBarMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolBarMode.swift; sourceTree = "<group>"; };
 		9E7401BB2C27BD1D0036059D /* UIViewExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewExt.swift; sourceTree = "<group>"; };
 		9E7401BD2C2818770036059D /* ToolBarItemStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolBarItemStack.swift; sourceTree = "<group>"; };
+		9E7401BF2C2860890036059D /* ToolBarItemStackDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolBarItemStackDelegate.swift; sourceTree = "<group>"; };
 		9E78F1502C1D9991000EDE4A /* loc-tan.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "loc-tan.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9E78F1532C1D9991000EDE4A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9E78F1552C1D9991000EDE4A /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -59,6 +61,7 @@
 				9E54630C2C27AFA200602285 /* ToolBarView.swift */,
 				9E54630F2C27B11C00602285 /* ToolBarViewDelegate.swift */,
 				9E7401BD2C2818770036059D /* ToolBarItemStack.swift */,
+				9E7401BF2C2860890036059D /* ToolBarItemStackDelegate.swift */,
 				9E7401B42C27B2A60036059D /* ToolBarItem.swift */,
 				9E7401B62C27BB4A0036059D /* ToolBarModeSwitcher.swift */,
 				9E7401B82C27BC5B0036059D /* ToolBarMode.swift */,
@@ -182,6 +185,7 @@
 				9E7401B92C27BC5B0036059D /* ToolBarMode.swift in Sources */,
 				9E54630D2C27AFA200602285 /* ToolBarView.swift in Sources */,
 				9E7401BC2C27BD1D0036059D /* UIViewExt.swift in Sources */,
+				9E7401C02C2860890036059D /* ToolBarItemStackDelegate.swift in Sources */,
 				9E78F1582C1D9991000EDE4A /* ViewController.swift in Sources */,
 				9E78F1542C1D9991000EDE4A /* AppDelegate.swift in Sources */,
 				9E7401B52C27B2A60036059D /* ToolBarItem.swift in Sources */,

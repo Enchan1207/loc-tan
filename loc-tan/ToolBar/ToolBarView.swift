@@ -61,6 +61,7 @@ class ToolBarView: UIView {
             itemStack.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.8),
             itemStack.rightAnchor.constraint(equalTo: rightAnchor)
         ])
+        itemStack.delegate = self
         itemStack.resetButtons(buttonTypes[currentMode] ?? [])
         
         // モードスイッチャを構成
@@ -71,7 +72,6 @@ class ToolBarView: UIView {
             modeSwitcher.leftAnchor.constraint(equalTo: leftAnchor)
         ])
         modeSwitcher.addTarget(self, action: #selector(onTapModeSwitcher), for: .touchUpInside)
-        
     }
     
     @objc private func onTapModeSwitcher(_ sender: ToolBarModeSwitcher) {
@@ -79,13 +79,23 @@ class ToolBarView: UIView {
         let animationDuration = 0.2
         
         Task{
+            self.delegate?.modeWillSwitch(self, to: currentMode)
             await withTaskGroup(of: Void.self) {[weak self] group in
                 guard let `self` = self else {return}
                 group.addTask { await sender.switchMode(to: self.currentMode, duration: animationDuration) }
                 group.addTask { await self.itemStack.setButtons(self.buttonTypes[self.currentMode] ?? [], duration: animationDuration) }
             }
+            self.delegate?.modeDidSwitch(self, to: currentMode)
         }
         
+    }
+    
+}
+
+extension ToolBarView: ToolBarItemStackDelegate {
+    
+    func toolbarItemStack(_ itemStack: ToolBarItemStack, didTapItem type: ToolBarItemType) {
+        delegate?.toolbar(self, didTapItem: type)
     }
     
 }

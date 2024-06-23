@@ -31,6 +31,9 @@
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="zyN-iL-npP" secondAttribute="trailing" constant="10" id="X4F-V9-rCZ"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="toolbar" destination="zyN-iL-npP" id="Vn1-Pw-R6a"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
