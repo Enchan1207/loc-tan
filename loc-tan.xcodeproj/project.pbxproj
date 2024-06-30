@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		9E1E5D182C31325D001F8EB9 /* UIViewExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E1E5D172C31325D001F8EB9 /* UIViewExt.swift */; };
+		9E1E5D1A2C3193C0001F8EB9 /* CGPointExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E1E5D192C3193C0001F8EB9 /* CGPointExt.swift */; };
 		9E7401C42C31129F0036059D /* OverlayObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E7401C32C31129F0036059D /* OverlayObject.swift */; };
 		9E7401C62C312E3B0036059D /* OverlayBoard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E7401C52C312E3B0036059D /* OverlayBoard.swift */; };
 		9E7401C82C312FCD0036059D /* OverlayObjectDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E7401C72C312FCD0036059D /* OverlayObjectDelegate.swift */; };
@@ -21,6 +22,7 @@
 
 /* Begin PBXFileReference section */
 		9E1E5D172C31325D001F8EB9 /* UIViewExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewExt.swift; sourceTree = "<group>"; };
+		9E1E5D192C3193C0001F8EB9 /* CGPointExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGPointExt.swift; sourceTree = "<group>"; };
 		9E7401C32C31129F0036059D /* OverlayObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverlayObject.swift; sourceTree = "<group>"; };
 		9E7401C52C312E3B0036059D /* OverlayBoard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverlayBoard.swift; sourceTree = "<group>"; };
 		9E7401C72C312FCD0036059D /* OverlayObjectDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverlayObjectDelegate.swift; sourceTree = "<group>"; };
@@ -49,6 +51,7 @@
 			isa = PBXGroup;
 			children = (
 				9E1E5D172C31325D001F8EB9 /* UIViewExt.swift */,
+				9E1E5D192C3193C0001F8EB9 /* CGPointExt.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -166,6 +169,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9E1E5D1A2C3193C0001F8EB9 /* CGPointExt.swift in Sources */,
 				9E1E5D182C31325D001F8EB9 /* UIViewExt.swift in Sources */,
 				9E7401C62C312E3B0036059D /* OverlayBoard.swift in Sources */,
 				9E78F1582C1D9991000EDE4A /* ViewController.swift in Sources */,

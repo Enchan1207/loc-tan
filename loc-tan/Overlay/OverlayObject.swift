@@ -35,6 +35,15 @@ class OverlayObject: UIView {
     /// ステータスリングを表示するビュー
     private let statusRingView: UIView
     
+    /// x軸中心制約
+    private var centerXConstraint = NSLayoutConstraint()
+    
+    /// y軸中心制約
+    private var centerYConstraint = NSLayoutConstraint()
+    
+    /// 最後のジェスチャでの移動量
+    private var gestureTranslation: CGPoint = .zero
+    
     // MARK: - Initializers
     
     /// 表示する画像を渡して初期化
@@ -116,6 +125,17 @@ class OverlayObject: UIView {
         self.addGestureRecognizer(tapGesture)
     }
     
+    // MARK: - View lifecycles
+    
+    override func didMoveToSuperview() {
+        // 各軸中心制約を構成し、有効化
+        centerXConstraint = centerXAnchor.constraint(equalTo: superview!.centerXAnchor)
+        centerXConstraint.isActive = true
+        centerYConstraint = centerYAnchor.constraint(equalTo: superview!.centerYAnchor)
+        centerYConstraint.isActive = true
+        setNeedsLayout()
+    }
+    
     // MARK: - Gestures
     
     @objc private func handleGesture(_ gesture: UIGestureRecognizer){
@@ -146,4 +166,31 @@ class OverlayObject: UIView {
         }
         isActive = state
     }
+    
+    /// オブジェクトの変位を設定する
+    /// - Parameter diff: 変位量
+    @MainActor
+    func setTranslation(_ diff: CGPoint){
+        gestureTranslation += diff
+        center += diff
+    }
+    
+    /// オブジェクトの移動を完了する
+    @MainActor
+    func endTranslation(){
+        // 累積変位量を制約に加算し、変位量をリセット
+        centerXConstraint.constant += gestureTranslation.x
+        centerYConstraint.constant += gestureTranslation.y
+        gestureTranslation = .zero
+        setNeedsLayout()
+    }
+    
+    /// オブジェクトの移動を取り消す
+    @MainActor
+    func cancelTranslation(){
+        // 累積変位量の分だけcenterを戻す
+        center -= gestureTranslation
+        gestureTranslation = .zero
+    }
+    
 }
