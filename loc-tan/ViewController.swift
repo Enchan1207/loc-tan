@@ -13,6 +13,7 @@ class ViewController: UIViewController {
     @IBOutlet private weak var toolbar: ToolBarView! {
         didSet {
             toolbar.delegate = self
+            toolbar.dataSource = self
         }
     }
     
@@ -20,10 +21,17 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
     }
-
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        // TODO: 別にこれでも構わないんだけど、いちいちリロードしないと初期アイテムすら設定できないのは正直どうなの?
+        toolbar.reloadItemStack()
+    }
+    
 }
 
-extension ViewController: ToolBarViewDelegate {
+extension ViewController: ToolBarViewDelegate, ToolBarViewDataSource {
     
     func modeWillSwitch(_ view: ToolBarView, to mode: ToolBarMode) {
         print("mode will switch to \(mode)")
@@ -35,6 +43,15 @@ extension ViewController: ToolBarViewDelegate {
     
     func toolbar(_ view: ToolBarView, didTapItem type: ToolBarItemType) {
         print("item \(type) tapped")
+    }
+    
+    func toolbar(_ view: ToolBarView, buttonTypesFor mode: ToolBarMode) -> [ToolBarItemType] {
+        switch mode {
+        case .normal:
+            return [.config]
+        case .edit:
+            return [.rotate, .resize, .add]
+        }
     }
     
 }

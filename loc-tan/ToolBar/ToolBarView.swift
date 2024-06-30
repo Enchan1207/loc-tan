@@ -18,35 +18,29 @@ class ToolBarView: UIView {
     /// デリゲート
     weak var delegate: ToolBarViewDelegate?
     
+    /// データソース
+    weak var dataSource: ToolBarViewDataSource?
+    
     /// モード別ツールバーアイテムリスト
-    private let buttonTypes: [ToolBarMode: [ToolBarItemType]] = [
-        .normal: [.config],
-        .edit: [.rotate, .resize, .add]
-    ]
+    private var itemTypes: [ToolBarMode: [ToolBarItemType]] = [:]
     
     // MARK: - GUI Components
     
     /// サブアイテムを配置するスタック
-    private let itemStack: ToolBarItemStack
+    private let itemStack: ToolBarItemStack = .init(items: [])
     
     /// モードスイッチャ
-    private let modeSwitcher: ToolBarModeSwitcher
+    private let modeSwitcher: ToolBarModeSwitcher = .init(mode: .normal)
     
     
     // MARK: - Initializers
     
     override init(frame: CGRect) {
-        self.itemStack = .init(items: buttonTypes[currentMode] ?? [])
-        self.modeSwitcher = .init(mode: currentMode)
-        
         super.init(frame: frame)
         setup()
     }
     
     required init?(coder: NSCoder) {
-        self.itemStack = .init(items: buttonTypes[currentMode] ?? [])
-        self.modeSwitcher = .init(mode: currentMode)
-        
         super.init(coder: coder)
         setup()
     }
@@ -62,7 +56,6 @@ class ToolBarView: UIView {
             itemStack.rightAnchor.constraint(equalTo: rightAnchor)
         ])
         itemStack.delegate = self
-        itemStack.resetButtons(buttonTypes[currentMode] ?? [])
         
         // モードスイッチャを構成
         self.addSubview(modeSwitcher)
@@ -74,6 +67,8 @@ class ToolBarView: UIView {
         modeSwitcher.addTarget(self, action: #selector(onTapModeSwitcher), for: .touchUpInside)
     }
     
+    // MARK: - Gesture recognizers
+    
     @objc private func onTapModeSwitcher(_ sender: ToolBarModeSwitcher) {
         currentMode = currentMode == .normal ? .edit : .normal
         let animationDuration = 0.2
@@ -83,11 +78,41 @@ class ToolBarView: UIView {
             await withTaskGroup(of: Void.self) {[weak self] group in
                 guard let `self` = self else {return}
                 group.addTask { await sender.switchMode(to: self.currentMode, duration: animationDuration) }
-                group.addTask { await self.itemStack.setButtons(self.buttonTypes[self.currentMode] ?? [], duration: animationDuration) }
+                group.addTask { await self.itemStack.setButtons(self.getItemTypes(for: self.currentMode), duration: animationDuration) }
             }
             self.delegate?.modeDidSwitch(self, to: currentMode)
         }
         
+    }
+    
+    // MARK: - Methods
+    
+    /// ツールバーのアイテムを再読み込み
+    func reloadItemStack(){
+        let animationDuration = 0.2
+        Task {
+            await self.itemStack.setButtons(self.getItemTypes(for: self.currentMode), duration: animationDuration)
+        }
+    }
+    
+    /// モードに対応するアイテムをルックアップする
+    /// - Parameter mode: モード
+    /// - Returns: モードに対応するアイテムタイプのリスト
+    /// - Note: 存在しない場合はデータソースに尋ね、応答をキャッシュします。
+    private func getItemTypes(for mode: ToolBarMode) -> [ToolBarItemType]{
+        // 存在するならそれを返す
+        if let exisingTypes = itemTypes[mode] {
+            return exisingTypes
+        }
+        
+        // しないならデリゲートに聞く
+        if let typesFromDelegate = dataSource?.toolbar(self, buttonTypesFor: currentMode) {
+            itemTypes[mode] = typesFromDelegate
+            return typesFromDelegate
+        }
+        
+        // しらん！
+        return []
     }
     
 }
