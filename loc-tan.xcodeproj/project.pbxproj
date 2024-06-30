@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9E1E5D182C31325D001F8EB9 /* UIViewExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E1E5D172C31325D001F8EB9 /* UIViewExt.swift */; };
+		9E7401C42C31129F0036059D /* OverlayObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E7401C32C31129F0036059D /* OverlayObject.swift */; };
+		9E7401C62C312E3B0036059D /* OverlayBoard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E7401C52C312E3B0036059D /* OverlayBoard.swift */; };
+		9E7401C82C312FCD0036059D /* OverlayObjectDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E7401C72C312FCD0036059D /* OverlayObjectDelegate.swift */; };
 		9E78F1542C1D9991000EDE4A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E78F1532C1D9991000EDE4A /* AppDelegate.swift */; };
 		9E78F1562C1D9991000EDE4A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E78F1552C1D9991000EDE4A /* SceneDelegate.swift */; };
 		9E78F1582C1D9991000EDE4A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E78F1572C1D9991000EDE4A /* ViewController.swift */; };
@@ -16,6 +20,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		9E1E5D172C31325D001F8EB9 /* UIViewExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewExt.swift; sourceTree = "<group>"; };
+		9E7401C32C31129F0036059D /* OverlayObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverlayObject.swift; sourceTree = "<group>"; };
+		9E7401C52C312E3B0036059D /* OverlayBoard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverlayBoard.swift; sourceTree = "<group>"; };
+		9E7401C72C312FCD0036059D /* OverlayObjectDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverlayObjectDelegate.swift; sourceTree = "<group>"; };
 		9E78F1502C1D9991000EDE4A /* loc-tan.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "loc-tan.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9E78F1532C1D9991000EDE4A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9E78F1552C1D9991000EDE4A /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -37,6 +45,24 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		9E1E5D162C313255001F8EB9 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				9E1E5D172C31325D001F8EB9 /* UIViewExt.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		9E7401C92C3132120036059D /* Overlay */ = {
+			isa = PBXGroup;
+			children = (
+				9E7401C32C31129F0036059D /* OverlayObject.swift */,
+				9E7401C72C312FCD0036059D /* OverlayObjectDelegate.swift */,
+				9E7401C52C312E3B0036059D /* OverlayBoard.swift */,
+			);
+			path = Overlay;
+			sourceTree = "<group>";
+		};
 		9E78F1472C1D9991000EDE4A = {
 			isa = PBXGroup;
 			children = (
@@ -59,6 +85,8 @@
 				9E78F1532C1D9991000EDE4A /* AppDelegate.swift */,
 				9E78F1552C1D9991000EDE4A /* SceneDelegate.swift */,
 				9E78F1572C1D9991000EDE4A /* ViewController.swift */,
+				9E1E5D162C313255001F8EB9 /* Extensions */,
+				9E7401C92C3132120036059D /* Overlay */,
 				9E78F1592C1D9991000EDE4A /* Main.storyboard */,
 				9E78F15C2C1D9993000EDE4A /* Assets.xcassets */,
 				9E78F15E2C1D9993000EDE4A /* LaunchScreen.storyboard */,
@@ -138,8 +166,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9E1E5D182C31325D001F8EB9 /* UIViewExt.swift in Sources */,
+				9E7401C62C312E3B0036059D /* OverlayBoard.swift in Sources */,
 				9E78F1582C1D9991000EDE4A /* ViewController.swift in Sources */,
 				9E78F1542C1D9991000EDE4A /* AppDelegate.swift in Sources */,
+				9E7401C42C31129F0036059D /* OverlayObject.swift in Sources */,
+				9E7401C82C312FCD0036059D /* OverlayObjectDelegate.swift in Sources */,
 				9E78F1562C1D9991000EDE4A /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
