@@ -45,7 +45,8 @@ class OverlayBoard: UIView {
     private func configureGestures(){
         let gestures = [
             UIPanGestureRecognizer(target: self, action: #selector(handleGesture)),
-            UIPinchGestureRecognizer(target: self, action: #selector(handleGesture))
+            UIPinchGestureRecognizer(target: self, action: #selector(handleGesture)),
+            UIRotationGestureRecognizer(target: self, action: #selector(handleGesture))
         ]
         gestures.forEach { gesture in
             gesture.delegate = self
@@ -77,6 +78,10 @@ class OverlayBoard: UIView {
         case let pinch as UIPinchGestureRecognizer:
             currentObject.transform = currentObject.transform.scaledBy(x: pinch.scale, y: pinch.scale)
             pinch.scale = 1.0
+        
+        case let rot as UIRotationGestureRecognizer:
+            currentObject.transform = currentObject.transform.rotated(by: rot.rotation)
+            rot.rotation = 0.0
             
         default:
             break
