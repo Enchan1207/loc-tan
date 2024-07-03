@@ -76,7 +76,18 @@ class OverlayBoard: UIView {
             pan.setTranslation(.zero, in: self)
             
         case let pinch as UIPinchGestureRecognizer:
-            currentObject.transform = currentObject.transform.scaledBy(x: pinch.scale, y: pinch.scale)
+            switch pinch.state {
+            case .began:
+                fallthrough
+            case .changed:
+                currentObject.setScale(pinch.scale)
+            case .ended:
+                currentObject.endScale()
+            case .cancelled:
+                currentObject.cancelScale()
+            default:
+                break
+            }
             pinch.scale = 1.0
         
         case let rot as UIRotationGestureRecognizer:

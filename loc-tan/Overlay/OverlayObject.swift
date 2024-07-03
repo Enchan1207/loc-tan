@@ -41,8 +41,14 @@ class OverlayObject: UIView {
     /// y軸中心制約
     private var centerYConstraint = NSLayoutConstraint()
     
-    /// 最後のジェスチャでの移動量
+    /// 幅制約
+    private var widthConstraint = NSLayoutConstraint()
+    
+    /// 最後のパンジェスチャでの移動量
     private var gestureTranslation: CGPoint = .zero
+    
+    /// 最後のピンチジェスチャでのスケール増加量
+    private var gestureScale: CGFloat = 1.0
     
     // MARK: - Initializers
     
@@ -128,11 +134,13 @@ class OverlayObject: UIView {
     // MARK: - View lifecycles
     
     override func didMoveToSuperview() {
-        // 各軸中心制約を構成し、有効化
+        // 制約を構成し、有効化
         centerXConstraint = centerXAnchor.constraint(equalTo: superview!.centerXAnchor)
         centerXConstraint.isActive = true
         centerYConstraint = centerYAnchor.constraint(equalTo: superview!.centerYAnchor)
         centerYConstraint.isActive = true
+        widthConstraint = widthAnchor.constraint(equalToConstant: 400)
+        widthConstraint.isActive = true
         setNeedsLayout()
     }
     
@@ -176,6 +184,7 @@ class OverlayObject: UIView {
     }
     
     /// オブジェクトの移動を完了する
+    /// - Note: この関数によりレイアウト制約が更新されます。
     @MainActor
     func endTranslation(){
         // 累積変位量を制約に加算し、変位量をリセット
@@ -191,6 +200,32 @@ class OverlayObject: UIView {
         // 累積変位量の分だけcenterを戻す
         center -= gestureTranslation
         gestureTranslation = .zero
+    }
+    
+    /// オブジェクトを拡大する
+    /// - Parameter diff: 倍率
+    @MainActor
+    func setScale(_ diff: CGFloat){
+        // TODO: 枠線消す?
+        gestureScale *= diff
+        transform = transform.scaledBy(x: diff, y: diff)
+    }
+    
+    /// オブジェクトの拡大を完了する
+    /// - Note: この関数によりレイアウト制約が更新されます。
+    @MainActor
+    func endScale(){
+        // TODO: 枠線再表示?
+        widthConstraint.constant *= gestureScale
+        transform = transform.scaledBy(x: 1.0 / gestureScale, y: 1.0 / gestureScale)
+        gestureScale = 1.0
+        setNeedsLayout()
+    }
+    
+    /// オブジェクトの拡大を取り消す
+    @MainActor func cancelScale(){
+        widthConstraint.constant /= gestureScale
+        gestureScale = 1.0
     }
     
 }
