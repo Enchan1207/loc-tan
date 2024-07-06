@@ -57,47 +57,8 @@ class OverlayBoard: UIView {
     // MARK: - Gestures
     
     @objc private func handleGesture(_ gesture: UIGestureRecognizer){
-        // 操作対象のオブジェクトがなければ何もしない
-        guard let currentObject = currentActivatedObject else {return}
-        
-        switch gesture {
-            
-        case let pan as UIPanGestureRecognizer:
-            switch pan.state {
-            case _ where [.began, .changed].contains(pan.state):
-                currentObject.setTranslation(pan.translation(in: superview))
-            case .ended:
-                currentObject.endTranslation()
-            case .cancelled:
-                currentObject.cancelTranslation()
-            default:
-                break
-            }
-            pan.setTranslation(.zero, in: self)
-            
-        case let pinch as UIPinchGestureRecognizer:
-            switch pinch.state {
-            case .began:
-                fallthrough
-            case .changed:
-                currentObject.setScale(pinch.scale)
-            case .ended:
-                currentObject.endScale()
-            case .cancelled:
-                currentObject.cancelScale()
-            default:
-                break
-            }
-            pinch.scale = 1.0
-        
-        case let rot as UIRotationGestureRecognizer:
-            currentObject.transform = currentObject.transform.rotated(by: rot.rotation)
-            rot.rotation = 0.0
-            
-        default:
-            break
-        }
-        
+        // 現在選択中のオブジェクトに処理を任せる
+        currentActivatedObject?.handleGesture(gesture)
     }
     
     // MARK: - Methods

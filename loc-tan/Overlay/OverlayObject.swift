@@ -25,6 +25,15 @@ class OverlayObject: UIView {
         }
     }
     
+    /// 最後のパンジェスチャでの移動量
+    private var gestureTranslation: CGPoint = .zero
+    
+    /// 最後のピンチジェスチャでのスケール増加量
+    private var gestureScale: CGFloat = 1.0
+    
+    /// 最後のローテートジェスチャでの角度増加量
+    private var gestureRotation: CGFloat = 0.0
+    
     override var canBecomeFirstResponder: Bool { true }
     
     // MARK: - GUI Components
@@ -43,12 +52,6 @@ class OverlayObject: UIView {
     
     /// 幅制約
     private var widthConstraint = NSLayoutConstraint()
-    
-    /// 最後のパンジェスチャでの移動量
-    private var gestureTranslation: CGPoint = .zero
-    
-    /// 最後のピンチジェスチャでのスケール増加量
-    private var gestureScale: CGFloat = 1.0
     
     // MARK: - Initializers
     
@@ -144,12 +147,60 @@ class OverlayObject: UIView {
         setNeedsLayout()
     }
     
-    // MARK: - Gestures
+    // MARK: - Methods
     
-    @objc private func handleGesture(_ gesture: UIGestureRecognizer){
+    @objc func handleGesture(_ gesture: UIGestureRecognizer){
         switch gesture {
             
-        case is UITapGestureRecognizer:
+        case let pan as UIPanGestureRecognizer:
+            switch pan.state {
+            case .began:
+                beginTranslation()
+                fallthrough
+            case .changed:
+                setTranslation(pan.translation(in: superview))
+            case .ended:
+                endTranslation()
+            case .cancelled:
+                cancelTranslation()
+            default:
+                break
+            }
+            pan.setTranslation(.zero, in: self)
+        
+        case let pinch as UIPinchGestureRecognizer:
+            switch pinch.state {
+            case .began:
+                beginScale()
+                fallthrough
+            case .changed:
+                setScale(pinch.scale)
+            case .ended:
+                endScale()
+            case .cancelled:
+                cancelScale()
+            default:
+                break
+            }
+            pinch.scale = 1.0
+        
+        case let rot as UIRotationGestureRecognizer:
+            switch rot.state {
+            case .began:
+                beginRotate()
+                fallthrough
+            case .changed:
+                setRotate(rot.rotation)
+            case .ended:
+                endRotate()
+            case .cancelled:
+                cancelRotate()
+            default:
+                break
+            }
+            rot.rotation = 0.0
+            
+        case let tap as UITapGestureRecognizer:
             // デリゲートに通知
             if !isActive {
                 delegate?.didRequireActivate(self)
@@ -160,8 +211,6 @@ class OverlayObject: UIView {
         }
         
     }
-    
-    // MARK: - Methods
     
     /// オブジェクトの状態を設定
     /// - Parameter state: 状態
@@ -175,10 +224,18 @@ class OverlayObject: UIView {
         isActive = state
     }
     
+    // MARK: - Gesture handling
+    
+    /// オブジェクトの移動を開始する
+    @MainActor
+    private func beginTranslation(){
+        gestureTranslation = .zero
+    }
+    
     /// オブジェクトの変位を設定する
     /// - Parameter diff: 変位量
     @MainActor
-    func setTranslation(_ diff: CGPoint){
+    private func setTranslation(_ diff: CGPoint){
         gestureTranslation += diff
         center += diff
     }
@@ -186,7 +243,7 @@ class OverlayObject: UIView {
     /// オブジェクトの移動を完了する
     /// - Note: この関数によりレイアウト制約が更新されます。
     @MainActor
-    func endTranslation(){
+    private func endTranslation(){
         // 累積変位量を制約に加算し、変位量をリセット
         centerXConstraint.constant += gestureTranslation.x
         centerYConstraint.constant += gestureTranslation.y
@@ -196,16 +253,22 @@ class OverlayObject: UIView {
     
     /// オブジェクトの移動を取り消す
     @MainActor
-    func cancelTranslation(){
+    private func cancelTranslation(){
         // 累積変位量の分だけcenterを戻す
         center -= gestureTranslation
         gestureTranslation = .zero
     }
     
-    /// オブジェクトを拡大する
+    /// オブジェクトの拡大を開始する
+    @MainActor
+    private func beginScale(){
+        gestureScale = 1.0
+    }
+    
+    /// オブジェクトの拡大倍率を設定する
     /// - Parameter diff: 倍率
     @MainActor
-    func setScale(_ diff: CGFloat){
+    private func setScale(_ diff: CGFloat){
         // TODO: 枠線消す?
         gestureScale *= diff
         transform = transform.scaledBy(x: diff, y: diff)
@@ -214,7 +277,7 @@ class OverlayObject: UIView {
     /// オブジェクトの拡大を完了する
     /// - Note: この関数によりレイアウト制約が更新されます。
     @MainActor
-    func endScale(){
+    private func endScale(){
         // TODO: 枠線再表示?
         widthConstraint.constant *= gestureScale
         transform = transform.scaledBy(x: 1.0 / gestureScale, y: 1.0 / gestureScale)
@@ -223,9 +286,37 @@ class OverlayObject: UIView {
     }
     
     /// オブジェクトの拡大を取り消す
-    @MainActor func cancelScale(){
+    @MainActor
+    private func cancelScale(){
         widthConstraint.constant /= gestureScale
         gestureScale = 1.0
+    }
+    
+    /// オブジェクトの回転を開始する
+    @MainActor
+    private func beginRotate(){
+        gestureRotation = 0.0
+    }
+    
+    /// オブジェクトの回転角度を設定する
+    /// - Parameter diff: 角度移動量
+    @MainActor
+    private func setRotate(_ diff: CGFloat){
+        gestureRotation += diff
+        transform = transform.rotated(by: diff)
+    }
+    
+    /// オブジェクトの回転を終了する
+    @MainActor
+    private func endRotate(){
+        gestureRotation = 0.0
+    }
+    
+    /// オブジェクトの回転を取り消す
+    @MainActor
+    private func cancelRotate(){
+        transform = transform.rotated(by: -gestureRotation)
+        gestureRotation = 0.0
     }
     
 }
