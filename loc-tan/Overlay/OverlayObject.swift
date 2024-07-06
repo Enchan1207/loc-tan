@@ -34,6 +34,19 @@ class OverlayObject: UIView {
     /// 最後のローテートジェスチャでの角度増加量
     private var gestureRotation: CGFloat = 0.0
     
+    /// オブジェクトの中心位置
+    var currentCenter: CGPoint {
+        .init(x: centerXConstraint.constant, y: centerYConstraint.constant)
+    }
+    
+    /// オブジェクトのサイズ
+    var currentSize: CGSize {
+        .init(width: widthConstraint.constant, height: bounds.height)
+    }
+    
+    /// オブジェクトの角度
+    private (set) public var currentTilt: CGFloat = 0.0
+    
     override var canBecomeFirstResponder: Bool { true }
     
     // MARK: - GUI Components
@@ -139,11 +152,11 @@ class OverlayObject: UIView {
     override func didMoveToSuperview() {
         // 制約を構成し、有効化
         centerXConstraint = centerXAnchor.constraint(equalTo: superview!.centerXAnchor)
-        centerXConstraint.isActive = true
         centerYConstraint = centerYAnchor.constraint(equalTo: superview!.centerYAnchor)
-        centerYConstraint.isActive = true
         widthConstraint = widthAnchor.constraint(equalToConstant: 400)
-        widthConstraint.isActive = true
+        NSLayoutConstraint.activate([
+            centerXConstraint, centerYConstraint, widthConstraint
+        ])
         setNeedsLayout()
     }
     
@@ -200,7 +213,7 @@ class OverlayObject: UIView {
             }
             rot.rotation = 0.0
             
-        case let tap as UITapGestureRecognizer:
+        case is UITapGestureRecognizer:
             // デリゲートに通知
             if !isActive {
                 delegate?.didRequireActivate(self)
@@ -309,6 +322,8 @@ class OverlayObject: UIView {
     /// オブジェクトの回転を終了する
     @MainActor
     private func endRotate(){
+        let newTilt = (currentTilt + gestureRotation).truncatingRemainder(dividingBy: 2 * .pi)
+        currentTilt = newTilt >= 0 ? newTilt : newTilt + 2 * .pi
         gestureRotation = 0.0
     }
     
