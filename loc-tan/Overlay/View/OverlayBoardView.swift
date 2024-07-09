@@ -1,5 +1,5 @@
 //
-//  OverlayBoard.swift
+//  OverlayBoardView.swift
 //  loc-tan
 //
 //  Created by EnchantCode on 2024/06/30.
@@ -8,12 +8,12 @@
 import UIKit
 
 /// OverlayObjectを配置するベースとなるビュー
-class OverlayBoard: UIView {
+class OverlayBoardView: UIView {
     
     // MARK: - Properties
     
     /// 現在操作対象となっているオブジェクト
-    private var currentActivatedObject: OverlayObject? = nil
+    private var currentActivatedObject: OverlayObjectView? = nil
     
     // MARK: - Initializers
     
@@ -65,7 +65,7 @@ class OverlayBoard: UIView {
     
     /// オーバーレイオブジェクトを追加する
     /// - Parameter overlayObject: 追加するオブジェクト
-    func addObject(_ overlayObject: OverlayObject){
+    func addObject(_ overlayObject: OverlayObjectView){
         overlayObject.delegate = self
         addSubview(overlayObject)
         Task {
@@ -82,7 +82,7 @@ class OverlayBoard: UIView {
     /// フォーカスを移動する
     /// - Parameter object: 操作対象にしたいオブジェクト
     @MainActor
-    private func switchFocus(to object: OverlayObject) async {
+    private func switchFocus(to object: OverlayObjectView) async {
         guard self.subviews.contains(object) else {return}
         bringSubviewToFront(object)
         await withTaskGroup(of: Void.self) { [weak self] group in
@@ -95,9 +95,9 @@ class OverlayBoard: UIView {
     
 }
 
-extension OverlayBoard: OverlayObjectDelegate {
+extension OverlayBoardView: OverlayObjectViewDelegate {
     
-    func didRequireActivate(_ sender: OverlayObject) {
+    func didRequireActivate(_ sender: OverlayObjectView) {
         Task {
             await switchFocus(to: sender)
         }
@@ -105,7 +105,7 @@ extension OverlayBoard: OverlayObjectDelegate {
     
 }
 
-extension OverlayBoard: UIGestureRecognizerDelegate {
+extension OverlayBoardView: UIGestureRecognizerDelegate {
     
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         true

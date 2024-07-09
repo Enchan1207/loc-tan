@@ -1,5 +1,5 @@
 //
-//  OverlayObject.swift
+//  OverlayObjectView.swift
 //  loc-tan
 //
 //  Created by EnchantCode on 2024/06/30.
@@ -8,7 +8,7 @@
 import UIKit
 
 /// ファインダー上にオーバーレイして表示され、ユーザにより移動・回転・拡縮できるビュー
-class OverlayObject: UIView {
+class OverlayObjectView: UIView {
     
     // MARK: - Properties
     
@@ -16,7 +16,7 @@ class OverlayObject: UIView {
     let overlayImage: UIImage
     
     /// デリゲート
-    weak var delegate: OverlayObjectDelegate?
+    weak var delegate: OverlayObjectViewDelegate?
     
     /// 自身が操作対象になっているかどうか
     private (set) public var isActive: Bool = false {
