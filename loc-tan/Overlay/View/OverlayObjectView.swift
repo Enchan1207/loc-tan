@@ -10,6 +10,13 @@ import UIKit
 /// ファインダー上にオーバーレイして表示され、ユーザにより移動・回転・拡縮できるビュー
 class OverlayObjectView: UIView {
     
+    var isSelected: Bool = false {
+        didSet {
+            layer.borderColor = isSelected ? UIColor.red.cgColor : UIColor.clear.cgColor
+            layer.borderWidth = isSelected ? 2.0 : 0.0
+        }
+    }
+    
     // MARK: - Properties
     
     /// オーバーレイ画像
@@ -161,6 +168,10 @@ class OverlayObjectView: UIView {
     }
     
     // MARK: - Methods
+    
+    func udpatePosition(to center: CGPoint){
+        
+    }
     
     @objc func handleGesture(_ gesture: UIGestureRecognizer){
         switch gesture {
