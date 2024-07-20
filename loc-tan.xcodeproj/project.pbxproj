@@ -9,13 +9,13 @@
 /* Begin PBXBuildFile section */
 		9E1E5D182C31325D001F8EB9 /* UIViewExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E1E5D172C31325D001F8EB9 /* UIViewExt.swift */; };
 		9E1E5D1A2C3193C0001F8EB9 /* CGPointExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E1E5D192C3193C0001F8EB9 /* CGPointExt.swift */; };
-		9E30C8282C48075900B1B26A /* OverlayBoardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E30C8272C48075900B1B26A /* OverlayBoardViewController.swift */; };
-		9E30C82B2C48078100B1B26A /* OverlayObjectModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E30C82A2C48078100B1B26A /* OverlayObjectModel.swift */; };
-		9E30C82D2C48081000B1B26A /* OverlayBoardModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E30C82C2C48081000B1B26A /* OverlayBoardModel.swift */; };
-		9E30C82F2C480B1A00B1B26A /* OverlayObjectController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E30C82E2C480B1A00B1B26A /* OverlayObjectController.swift */; };
-		9E7401C42C31129F0036059D /* OverlayObjectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E7401C32C31129F0036059D /* OverlayObjectView.swift */; };
-		9E7401C62C312E3B0036059D /* OverlayBoardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E7401C52C312E3B0036059D /* OverlayBoardView.swift */; };
-		9E7401C82C312FCD0036059D /* OverlayObjectViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E7401C72C312FCD0036059D /* OverlayObjectViewDelegate.swift */; };
+		9E30C8282C48075900B1B26A /* OldOverlayBoardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E30C8272C48075900B1B26A /* OldOverlayBoardViewController.swift */; };
+		9E30C82B2C48078100B1B26A /* OldOverlayObjectModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E30C82A2C48078100B1B26A /* OldOverlayObjectModel.swift */; };
+		9E30C82D2C48081000B1B26A /* OldOverlayBoardModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E30C82C2C48081000B1B26A /* OldOverlayBoardModel.swift */; };
+		9E30C82F2C480B1A00B1B26A /* OldOverlayObjectController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E30C82E2C480B1A00B1B26A /* OldOverlayObjectController.swift */; };
+		9E7401C42C31129F0036059D /* OldOverlayObjectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E7401C32C31129F0036059D /* OldOverlayObjectView.swift */; };
+		9E7401C62C312E3B0036059D /* OldOverlayBoardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E7401C52C312E3B0036059D /* OldOverlayBoardView.swift */; };
+		9E7401C82C312FCD0036059D /* OldOverlayObjectViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E7401C72C312FCD0036059D /* OldOverlayObjectViewDelegate.swift */; };
 		9E78F1542C1D9991000EDE4A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E78F1532C1D9991000EDE4A /* AppDelegate.swift */; };
 		9E78F1562C1D9991000EDE4A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E78F1552C1D9991000EDE4A /* SceneDelegate.swift */; };
 		9E78F1582C1D9991000EDE4A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E78F1572C1D9991000EDE4A /* ViewController.swift */; };
@@ -27,13 +27,13 @@
 /* Begin PBXFileReference section */
 		9E1E5D172C31325D001F8EB9 /* UIViewExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewExt.swift; sourceTree = "<group>"; };
 		9E1E5D192C3193C0001F8EB9 /* CGPointExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGPointExt.swift; sourceTree = "<group>"; };
-		9E30C8272C48075900B1B26A /* OverlayBoardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverlayBoardViewController.swift; sourceTree = "<group>"; };
-		9E30C82A2C48078100B1B26A /* OverlayObjectModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverlayObjectModel.swift; sourceTree = "<group>"; };
-		9E30C82C2C48081000B1B26A /* OverlayBoardModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverlayBoardModel.swift; sourceTree = "<group>"; };
-		9E30C82E2C480B1A00B1B26A /* OverlayObjectController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverlayObjectController.swift; sourceTree = "<group>"; };
-		9E7401C32C31129F0036059D /* OverlayObjectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverlayObjectView.swift; sourceTree = "<group>"; };
-		9E7401C52C312E3B0036059D /* OverlayBoardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverlayBoardView.swift; sourceTree = "<group>"; };
-		9E7401C72C312FCD0036059D /* OverlayObjectViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverlayObjectViewDelegate.swift; sourceTree = "<group>"; };
+		9E30C8272C48075900B1B26A /* OldOverlayBoardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OldOverlayBoardViewController.swift; sourceTree = "<group>"; };
+		9E30C82A2C48078100B1B26A /* OldOverlayObjectModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OldOverlayObjectModel.swift; sourceTree = "<group>"; };
+		9E30C82C2C48081000B1B26A /* OldOverlayBoardModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OldOverlayBoardModel.swift; sourceTree = "<group>"; };
+		9E30C82E2C480B1A00B1B26A /* OldOverlayObjectController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OldOverlayObjectController.swift; sourceTree = "<group>"; };
+		9E7401C32C31129F0036059D /* OldOverlayObjectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OldOverlayObjectView.swift; sourceTree = "<group>"; };
+		9E7401C52C312E3B0036059D /* OldOverlayBoardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OldOverlayBoardView.swift; sourceTree = "<group>"; };
+		9E7401C72C312FCD0036059D /* OldOverlayObjectViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OldOverlayObjectViewDelegate.swift; sourceTree = "<group>"; };
 		9E78F1502C1D9991000EDE4A /* loc-tan.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "loc-tan.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9E78F1532C1D9991000EDE4A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9E78F1552C1D9991000EDE4A /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -67,8 +67,8 @@
 		9E30C8262C48073400B1B26A /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				9E30C8272C48075900B1B26A /* OverlayBoardViewController.swift */,
-				9E30C82E2C480B1A00B1B26A /* OverlayObjectController.swift */,
+				9E30C8272C48075900B1B26A /* OldOverlayBoardViewController.swift */,
+				9E30C82E2C480B1A00B1B26A /* OldOverlayObjectController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -76,20 +76,20 @@
 		9E30C8292C48077000B1B26A /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				9E30C82A2C48078100B1B26A /* OverlayObjectModel.swift */,
-				9E30C82C2C48081000B1B26A /* OverlayBoardModel.swift */,
+				9E30C82A2C48078100B1B26A /* OldOverlayObjectModel.swift */,
+				9E30C82C2C48081000B1B26A /* OldOverlayBoardModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
 		};
-		9E7401C92C3132120036059D /* Overlay */ = {
+		9E7401C92C3132120036059D /* Overlay_old */ = {
 			isa = PBXGroup;
 			children = (
 				9E30C8292C48077000B1B26A /* Model */,
 				9E30C8262C48073400B1B26A /* Controller */,
 				9EB40A3C2C3DFD49000F9D19 /* View */,
 			);
-			path = Overlay;
+			path = Overlay_old;
 			sourceTree = "<group>";
 		};
 		9E78F1472C1D9991000EDE4A = {
@@ -115,7 +115,7 @@
 				9E78F1552C1D9991000EDE4A /* SceneDelegate.swift */,
 				9E78F1572C1D9991000EDE4A /* ViewController.swift */,
 				9E1E5D162C313255001F8EB9 /* Extensions */,
-				9E7401C92C3132120036059D /* Overlay */,
+				9E7401C92C3132120036059D /* Overlay_old */,
 				9E78F1592C1D9991000EDE4A /* Main.storyboard */,
 				9E78F15C2C1D9993000EDE4A /* Assets.xcassets */,
 				9E78F15E2C1D9993000EDE4A /* LaunchScreen.storyboard */,
@@ -127,9 +127,9 @@
 		9EB40A3C2C3DFD49000F9D19 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				9E7401C32C31129F0036059D /* OverlayObjectView.swift */,
-				9E7401C72C312FCD0036059D /* OverlayObjectViewDelegate.swift */,
-				9E7401C52C312E3B0036059D /* OverlayBoardView.swift */,
+				9E7401C32C31129F0036059D /* OldOverlayObjectView.swift */,
+				9E7401C72C312FCD0036059D /* OldOverlayObjectViewDelegate.swift */,
+				9E7401C52C312E3B0036059D /* OldOverlayBoardView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -205,18 +205,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9E30C82F2C480B1A00B1B26A /* OverlayObjectController.swift in Sources */,
+				9E30C82F2C480B1A00B1B26A /* OldOverlayObjectController.swift in Sources */,
 				9E1E5D1A2C3193C0001F8EB9 /* CGPointExt.swift in Sources */,
 				9E1E5D182C31325D001F8EB9 /* UIViewExt.swift in Sources */,
-				9E7401C62C312E3B0036059D /* OverlayBoardView.swift in Sources */,
+				9E7401C62C312E3B0036059D /* OldOverlayBoardView.swift in Sources */,
 				9E78F1582C1D9991000EDE4A /* ViewController.swift in Sources */,
 				9E78F1542C1D9991000EDE4A /* AppDelegate.swift in Sources */,
-				9E30C82D2C48081000B1B26A /* OverlayBoardModel.swift in Sources */,
-				9E7401C42C31129F0036059D /* OverlayObjectView.swift in Sources */,
-				9E7401C82C312FCD0036059D /* OverlayObjectViewDelegate.swift in Sources */,
+				9E30C82D2C48081000B1B26A /* OldOverlayBoardModel.swift in Sources */,
+				9E7401C42C31129F0036059D /* OldOverlayObjectView.swift in Sources */,
+				9E7401C82C312FCD0036059D /* OldOverlayObjectViewDelegate.swift in Sources */,
 				9E78F1562C1D9991000EDE4A /* SceneDelegate.swift in Sources */,
-				9E30C8282C48075900B1B26A /* OverlayBoardViewController.swift in Sources */,
-				9E30C82B2C48078100B1B26A /* OverlayObjectModel.swift in Sources */,
+				9E30C8282C48075900B1B26A /* OldOverlayBoardViewController.swift in Sources */,
+				9E30C82B2C48078100B1B26A /* OldOverlayObjectModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

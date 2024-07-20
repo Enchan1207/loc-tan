@@ -1,5 +1,5 @@
 //
-//  OverlayObjectModel.swift
+//  OldOverlayObjectModel.swift
 //  loc-tan
 //
 //  Created by EnchantCode on 2024/07/17.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-class OverlayObjectModel {
+class OldOverlayObjectModel {
     
     /// オブジェクト識別子
     let id: String

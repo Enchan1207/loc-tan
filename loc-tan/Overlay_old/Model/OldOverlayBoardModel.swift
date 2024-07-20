@@ -1,5 +1,5 @@
 //
-//  OverlayBoardModel.swift
+//  OldOverlayBoardModel.swift
 //  loc-tan
 //
 //  Created by EnchantCode on 2024/07/17.
@@ -7,9 +7,9 @@
 
 import Foundation
 
-class OverlayBoardModel {
+class OldOverlayBoardModel {
     
-    private (set) public var overlayObjects: [OverlayObjectModel]
+    private (set) public var overlayObjects: [OldOverlayObjectModel]
     var selectedObjectID: String?
     
     init(){
@@ -17,7 +17,7 @@ class OverlayBoardModel {
         selectedObjectID = nil
     }
     
-    func addObject(_ object: OverlayObjectModel){
+    func addObject(_ object: OldOverlayObjectModel){
         overlayObjects.append(object)
     }
     
@@ -30,7 +30,7 @@ class OverlayBoardModel {
         selectedObjectID = nil
     }
     
-    func getSelectedOverlayObject() -> OverlayObjectModel? {
+    func getSelectedOverlayObject() -> OldOverlayObjectModel? {
         guard let id = selectedObjectID else { return nil }
         return overlayObjects.first { $0.id == id }
     }

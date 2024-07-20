@@ -1,5 +1,5 @@
 //
-//  OverlayObjectController.swift
+//  OldOverlayObjectController.swift
 //  loc-tan
 //
 //  Created by EnchantCode on 2024/07/17.
@@ -7,13 +7,13 @@
 
 import UIKit
 
-class OverlayObjectController {
+class OldOverlayObjectController {
     
-    let model: OverlayObjectModel
+    let model: OldOverlayObjectModel
     
-    let view: OverlayObjectView
+    let view: OldOverlayObjectView
     
-    init(model: OverlayObjectModel) {
+    init(model: OldOverlayObjectModel) {
         self.model = model
         self.view = .init(image: model.image)
         updateViewPosition()

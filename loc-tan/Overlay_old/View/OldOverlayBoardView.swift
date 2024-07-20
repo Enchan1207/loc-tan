@@ -1,5 +1,5 @@
 //
-//  OverlayBoardView.swift
+//  OldOverlayBoardView.swift
 //  loc-tan
 //
 //  Created by EnchantCode on 2024/06/30.
@@ -8,12 +8,12 @@
 import UIKit
 
 /// OverlayObjectを配置するベースとなるビュー
-class OverlayBoardView: UIView {
+class OldOverlayBoardView: UIView {
     
     // MARK: - Properties
     
     /// 現在操作対象となっているオブジェクト
-    private var currentActivatedObject: OverlayObjectView? = nil
+    private var currentActivatedObject: OldOverlayObjectView? = nil
     
     // MARK: - Initializers
     
@@ -65,7 +65,7 @@ class OverlayBoardView: UIView {
     
     /// オーバーレイオブジェクトを追加する
     /// - Parameter overlayObject: 追加するオブジェクト
-    func addObject(_ overlayObject: OverlayObjectView){
+    func addObject(_ overlayObject: OldOverlayObjectView){
         overlayObject.delegate = self
         addSubview(overlayObject)
         Task {
@@ -82,7 +82,7 @@ class OverlayBoardView: UIView {
     /// フォーカスを移動する
     /// - Parameter object: 操作対象にしたいオブジェクト
     @MainActor
-    private func switchFocus(to object: OverlayObjectView) async {
+    private func switchFocus(to object: OldOverlayObjectView) async {
         guard self.subviews.contains(object) else {return}
         bringSubviewToFront(object)
         await withTaskGroup(of: Void.self) { [weak self] group in
@@ -95,9 +95,9 @@ class OverlayBoardView: UIView {
     
 }
 
-extension OverlayBoardView: OverlayObjectViewDelegate {
+extension OldOverlayBoardView: OldOverlayObjectViewDelegate {
     
-    func didRequireActivate(_ sender: OverlayObjectView) {
+    func didRequireActivate(_ sender: OldOverlayObjectView) {
         Task {
             await switchFocus(to: sender)
         }
@@ -105,7 +105,7 @@ extension OverlayBoardView: OverlayObjectViewDelegate {
     
 }
 
-extension OverlayBoardView: UIGestureRecognizerDelegate {
+extension OldOverlayBoardView: UIGestureRecognizerDelegate {
     
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         true

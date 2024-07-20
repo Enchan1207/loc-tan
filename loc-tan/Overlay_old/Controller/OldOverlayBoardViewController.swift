@@ -1,5 +1,5 @@
 //
-//  OverlayBoardViewController.swift
+//  OldOverlayBoardViewController.swift
 //  loc-tan
 //
 //  Created by EnchantCode on 2024/07/17.
@@ -7,10 +7,10 @@
 
 import UIKit
 
-class OverlayBoardViewController: UIViewController {
+class OldOverlayBoardViewController: UIViewController {
     
-    private var boardModel: OverlayBoardModel!
-    private var objectControllers: [OverlayObjectController] = []
+    private var boardModel: OldOverlayBoardModel!
+    private var objectControllers: [OldOverlayObjectController] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,10 +26,10 @@ class OverlayBoardViewController: UIViewController {
     
     func addObject(at center: CGPoint, with image: UIImage){
         let id = UUID().uuidString
-        let newObject = OverlayObjectModel(id: id, center: center, image: image)
+        let newObject = OldOverlayObjectModel(id: id, center: center, image: image)
         boardModel.addObject(newObject)
         
-        let newController = OverlayObjectController(model: newObject)
+        let newController = OldOverlayObjectController(model: newObject)
         objectControllers.append(newController)
         
         let overlayView = newController.view
@@ -63,7 +63,7 @@ class OverlayBoardViewController: UIViewController {
     }
     
     
-    func handleTapGesture(_ sender: UITapGestureRecognizer, for overlayView: OverlayObjectView) {
+    func handleTapGesture(_ sender: UITapGestureRecognizer, for overlayView: OldOverlayObjectView) {
         deselectAllOverlayObjects()
         if let objectController = objectControllers.first(where: { $0.view == overlayView }) {
             objectController.select()

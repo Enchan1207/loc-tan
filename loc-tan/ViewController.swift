@@ -21,7 +21,7 @@ class ViewController: UIViewController {
     // MARK: - GUI Components
     
     /// オーバーレイオブジェクトを配置するボード
-    @IBOutlet weak var overlayBoard: OverlayBoardView!
+    @IBOutlet weak var overlayBoard: OldOverlayBoardView!
     
     // MARK: - View lifecycles
 
