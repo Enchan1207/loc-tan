@@ -83,8 +83,12 @@ class StickerView: UIView {
     }
     
     func setWidth(_ width: CGFloat){
-        widthConstraint = widthAnchor.constraint(equalToConstant: width)
-        widthConstraint.isActive = true
+        if widthConstraint.isActive {
+            widthConstraint.constant = width
+        } else {
+            widthConstraint = widthAnchor.constraint(equalToConstant: width)
+            widthConstraint.isActive = true
+        }
         layoutIfNeeded()
     }
     
