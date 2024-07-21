@@ -34,8 +34,10 @@ class ViewController: UIViewController {
         boardContainer.addSubview(boardController.view)
         boardController.view.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            boardContainer.widthAnchor.constraint(equalTo: boardController.view.widthAnchor),
-            boardContainer.heightAnchor.constraint(equalTo: boardController.view.heightAnchor),
+            boardContainer.topAnchor.constraint(equalTo: boardController.view.topAnchor),
+            boardContainer.bottomAnchor.constraint(equalTo: boardController.view.bottomAnchor),
+            boardContainer.leftAnchor.constraint(equalTo: boardController.view.leftAnchor),
+            boardContainer.rightAnchor.constraint(equalTo: boardController.view.rightAnchor),
         ])
         boardController.didMove(toParent: self)
     }

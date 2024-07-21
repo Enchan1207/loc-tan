@@ -11,6 +11,8 @@ class StickerView: UIView {
     
     let stickerImage: UIImage
     
+    private let statusEffectView = UIView()
+    
     private var centerPoint: CGPoint = .zero
     
     private var widthConstraint = NSLayoutConstraint()
@@ -47,12 +49,11 @@ class StickerView: UIView {
     }
     
     private func setup(){
+        // 画像ビューの設定
         let stickerImageView = UIImageView(image: stickerImage)
         self.translatesAutoresizingMaskIntoConstraints = false
         self.addSubview(stickerImageView)
         stickerImageView.translatesAutoresizingMaskIntoConstraints = false
-        
-        // 親ビューに張り付かせる
         NSLayoutConstraint.activate([
             topAnchor.constraint(equalTo: stickerImageView.topAnchor),
             bottomAnchor.constraint(equalTo: stickerImageView.bottomAnchor),
@@ -72,19 +73,26 @@ class StickerView: UIView {
         // 幅を設定する
         setWidth(0)
         
-        // アクティベート枠の設定
-        layer.borderWidth = 2.0
-        layer.borderColor = UIColor.clear.cgColor
+        // 状態効果ビューの設定
+        self.addSubview(statusEffectView)
+        statusEffectView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            topAnchor.constraint(equalTo: statusEffectView.topAnchor),
+            bottomAnchor.constraint(equalTo: statusEffectView.bottomAnchor),
+            leftAnchor.constraint(equalTo: statusEffectView.leftAnchor),
+            rightAnchor.constraint(equalTo: statusEffectView.rightAnchor),
+        ])
+        statusEffectView.backgroundColor = .systemBackground.withAlphaComponent(0.5)
+        statusEffectView.alpha = 0.0
     }
     
     // MARK: - Status modification
     
     @MainActor
     func setStatusRing(_ isActive: Bool) async {
-        let ringColor: UIColor = isActive ? .red : .clear
-        let duration = 0.2
+        let duration = 0.15
         await UIView.animate(withDuration: duration) {
-            self.layer.borderColor = ringColor.cgColor
+            self.statusEffectView.alpha = isActive ? 0.0 : 1.0
         }
     }
     
@@ -92,7 +100,6 @@ class StickerView: UIView {
     
     override func didMoveToSuperview() {
         super.didMoveToSuperview()
-        guard let superview = self.superview else {return}
         
         // 中心座標の制約を再構成する
         NSLayoutConstraint.deactivate([centerXConstraint, centerYConstraint])

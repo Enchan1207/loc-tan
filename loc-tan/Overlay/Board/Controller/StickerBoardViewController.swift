@@ -42,7 +42,6 @@ class StickerBoardViewController: UIViewController {
     
     override func loadView() {
         let stickerBoard = StickerBoardView(frame: .zero)
-        stickerBoard.backgroundColor = .lightGray
         self.view = stickerBoard
     }
     
@@ -78,6 +77,11 @@ class StickerBoardViewController: UIViewController {
         addChild(stickerController)
         view.addSubview(stickerController.view)
         stickerController.didMove(toParent: self)
+        
+        // 操作対象にする
+        Task {
+            await switchActiveSticker(to: stickerController)
+        }
     }
     
     private func removeSticker(_ stickerController: StickerViewController){
@@ -91,6 +95,11 @@ class StickerBoardViewController: UIViewController {
     }
     
     private func switchActiveSticker(to newSticker: StickerViewController?) async {
+        // 制御を引き継ぐ方のステッカーを上に持ってくる
+        if let newSticker = newSticker {
+            view.bringSubviewToFront(newSticker.view)
+        }
+        
         // 既存のステッカーを非活性化し、新たなステッカーを活性化
         await withTaskGroup(of: Void.self) { group in
             group.addTask {
@@ -130,7 +139,6 @@ class StickerBoardViewController: UIViewController {
 extension StickerBoardViewController: StickerViewControllerDelegate {
     
     func stickerViewDidRequireActivation(_ sticker: StickerViewController) {
-        view.bringSubviewToFront(sticker.view)
         // FIXME: 終わっていないうちから別のステッカーに切り替えるのは危険では?
         Task {
             await switchActiveSticker(to: sticker)
@@ -138,7 +146,13 @@ extension StickerBoardViewController: StickerViewControllerDelegate {
     }
     
     func stickerViewDidRequireDeletion(_ sticker: StickerViewController){
-        removeSticker(sticker)
+        Task {
+            sticker.view.isUserInteractionEnabled = false
+            await UIView.animate(withDuration: 0.08) {
+                sticker.view.alpha = 0.0
+            }
+            removeSticker(sticker)
+        }
     }
     
 }
