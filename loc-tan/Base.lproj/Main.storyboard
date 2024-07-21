@@ -16,8 +16,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kGU-VC-TwP" customClass="OldOverlayBoardView" customModule="loc_tan" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="59" width="393" height="759"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Snd-Bk-BxH">
+                                <rect key="frame" x="0.0" y="0.0" width="393" height="818"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xSe-cu-NK0">
@@ -33,17 +33,17 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
+                            <constraint firstItem="Snd-Bk-BxH" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="2aI-LU-5ax"/>
                             <constraint firstItem="xSe-cu-NK0" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="10" id="8P1-xS-GwI"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="kGU-VC-TwP" secondAttribute="trailing" id="T9s-rQ-i9H"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="Snd-Bk-BxH" secondAttribute="trailing" id="CeA-yO-Iwg"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="Snd-Bk-BxH" secondAttribute="bottom" id="JK0-be-M9L"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="xSe-cu-NK0" secondAttribute="trailing" constant="10" id="VtJ-3x-lFs"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="kGU-VC-TwP" secondAttribute="bottom" id="Y77-kM-t7V"/>
-                            <constraint firstItem="kGU-VC-TwP" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="cmf-d5-nLQ"/>
                             <constraint firstItem="xSe-cu-NK0" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="10" id="tK3-jP-KwR"/>
-                            <constraint firstItem="kGU-VC-TwP" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="tvq-oR-277"/>
+                            <constraint firstItem="Snd-Bk-BxH" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="vgQ-o7-XdU"/>
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="overlayBoard" destination="kGU-VC-TwP" id="Klh-Em-skJ"/>
+                        <outlet property="boardContainer" destination="Snd-Bk-BxH" id="dg1-hO-0CQ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

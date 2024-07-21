@@ -9,30 +9,40 @@ import UIKit
 
 class ViewController: UIViewController {
     
-    // MARK: - Properties
+    private let boardModel = StickerBoardModel(stickers: [])
     
-    let imageIdentifiers = [
+    private var boardController: StickerBoardViewController!
+    
+    @IBOutlet private weak var boardContainer: UIView!
+    
+    private let images: [UIImage] = [
         "dive_stage",
         "rainbow_bridge_night",
         "rainbow_bridge_noon",
         "tokyo_skytree"
-    ]
-    
-    // MARK: - GUI Components
-    
-    /// オーバーレイオブジェクトを配置するボード
-    @IBOutlet weak var overlayBoard: OldOverlayBoardView!
+    ].compactMap({.init(named: $0)})
     
     // MARK: - View lifecycles
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        
+        boardController = StickerBoardViewController(model: boardModel)
+        
+        // StickerBoardViewControllerを子ViewControllerとして追加
+        addChild(boardController)
+        boardContainer.addSubview(boardController.view)
+        boardController.view.frame = view.bounds
+        boardController.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        boardController.didMove(toParent: self)
     }
     
     
     @IBAction func onTapAdd(_ sender: Any) {
-        overlayBoard.addObject(.init(named: imageIdentifiers.randomElement()!)!)
+        let center = CGPoint(x: (-100...100).randomElement()!, y: (-100...100).randomElement()!)
+        let sticker = StickerModel(image: images.randomElement()!, center: center, width: 300, angle: 0)
+        
+        boardController.addSticker(sticker)
     }
     
 }
