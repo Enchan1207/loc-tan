@@ -42,21 +42,22 @@ class StickerBoardViewController: UIViewController {
     
     override func loadView() {
         let stickerBoard = StickerBoardView(frame: .zero)
+        stickerBoard.backgroundColor = .lightGray
         self.view = stickerBoard
     }
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         // モデルが持つステッカーの情報をもとにステッカーのビューとコントローラを構成
         model.stickers.forEach({self.addSticker($0)})
-
+        
         // ジェスチャを追加
-        [
-            UIPanGestureRecognizer(target: self, action: #selector(onPanStickerBoard)),
-            UIPinchGestureRecognizer(target: self, action: #selector(onPinchStickerBoard)),
-            UIRotationGestureRecognizer(target: self, action: #selector(onRotateStickerBoard))
-        ].forEach({self.view.addGestureRecognizer($0)})
+        [UIPanGestureRecognizer.self,
+         UIPinchGestureRecognizer.self,
+         UIRotationGestureRecognizer.self]
+            .map({$0.init(target: self, action: #selector(handleGesture))})
+            .forEach({self.view.addGestureRecognizer($0)})
     }
     
     // MARK: - Add/remove stickers
@@ -95,21 +96,24 @@ class StickerBoardViewController: UIViewController {
         // 制御を置き換える
         activeStickerController = newSticker
     }
-
-}
-
-extension StickerBoardViewController {
     
-    @objc private func onPanStickerBoard(_ gesture: UIPanGestureRecognizer){
-        // TODO: 実装
-    }
+    // MARK: - Gestures
     
-    @objc private func onPinchStickerBoard(_ gesture: UIPinchGestureRecognizer){
-        // TODO: 実装
-    }
-    
-    @objc private func onRotateStickerBoard(_ gesture: UIPinchGestureRecognizer){
-        // TODO: 実装
+    @objc private func handleGesture(_ gesture: UIGestureRecognizer){
+        switch gesture {
+        case let pan as UIPanGestureRecognizer:
+            activeStickerController?.onPanSticker(pan)
+            break
+        
+        case let pinch as UIPinchGestureRecognizer:
+            activeStickerController?.onPinchSticker(pinch)
+        
+        case let rot as UIRotationGestureRecognizer:
+            activeStickerController?.onRotateSticker(rot)
+            
+        default:
+            break
+        }
     }
     
 }

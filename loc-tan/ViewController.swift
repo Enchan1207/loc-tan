@@ -32,8 +32,11 @@ class ViewController: UIViewController {
         // StickerBoardViewControllerを子ViewControllerとして追加
         addChild(boardController)
         boardContainer.addSubview(boardController.view)
-        boardController.view.frame = view.bounds
-        boardController.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        boardController.view.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            boardContainer.widthAnchor.constraint(equalTo: boardController.view.widthAnchor),
+            boardContainer.heightAnchor.constraint(equalTo: boardController.view.heightAnchor),
+        ])
         boardController.didMove(toParent: self)
     }
     
@@ -42,6 +45,7 @@ class ViewController: UIViewController {
         let center = CGPoint(x: (-100...100).randomElement()!, y: (-100...100).randomElement()!)
         let sticker = StickerModel(image: images.randomElement()!, center: center, width: 300, angle: 0)
         
+        print("new sticker spawn at \(center)")
         boardController.addSticker(sticker)
     }
     

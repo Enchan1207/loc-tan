@@ -11,6 +11,8 @@ class StickerView: UIView {
     
     let stickerImage: UIImage
     
+    private var centerPoint: CGPoint = .zero
+    
     private var widthConstraint = NSLayoutConstraint()
     
     private var centerXConstraint = NSLayoutConstraint()
@@ -75,17 +77,6 @@ class StickerView: UIView {
     
     // MARK: - Status modification
     
-    override func didMoveToSuperview() {
-        super.didMoveToSuperview()
-        guard let superview = self.superview else {return}
-        
-        // 中心座標の制約を再構成する
-        NSLayoutConstraint.deactivate([centerXConstraint, centerYConstraint])
-        centerXConstraint = centerXAnchor.constraint(equalTo: superview.centerXAnchor)
-        centerYConstraint = centerYAnchor.constraint(equalTo: superview.centerYAnchor)
-        NSLayoutConstraint.activate([centerXConstraint, centerYConstraint])
-    }
-    
     @MainActor
     func setStatusRing(_ isActive: Bool) async {
         let ringColor: UIColor = isActive ? .red : .clear
@@ -93,6 +84,17 @@ class StickerView: UIView {
         await UIView.animate(withDuration: duration) {
             self.layer.borderColor = ringColor.cgColor
         }
+    }
+    
+    // MARK: - View geometry
+    
+    override func didMoveToSuperview() {
+        super.didMoveToSuperview()
+        guard let superview = self.superview else {return}
+        
+        // 中心座標の制約を再構成する
+        NSLayoutConstraint.deactivate([centerXConstraint, centerYConstraint])
+        setCenter(centerPoint)
     }
     
     func setWidth(_ width: CGFloat){
@@ -106,13 +108,21 @@ class StickerView: UIView {
     }
     
     func setCenter(_ center: CGPoint){
-        guard centerXConstraint.isActive && centerYConstraint.isActive else {
-            // TODO: Logging
+        centerPoint = center
+        
+        // 制約が生きてるなら定数値を変えて戻る
+        if centerXConstraint.isActive && centerYConstraint.isActive {
+            centerXConstraint.constant = center.x
+            centerYConstraint.constant = center.y
+            layoutIfNeeded()
             return
         }
         
-        centerXConstraint.constant = center.x
-        centerYConstraint.constant = center.y
+        // なければ制約自体を構成する
+        guard let superview = self.superview else {return}
+        centerXConstraint = centerXAnchor.constraint(equalTo: superview.centerXAnchor,constant: centerPoint.x)
+        centerYConstraint = centerYAnchor.constraint(equalTo: superview.centerYAnchor,constant: centerPoint.y)
+        NSLayoutConstraint.activate([centerXConstraint, centerYConstraint])
         layoutIfNeeded()
     }
     
