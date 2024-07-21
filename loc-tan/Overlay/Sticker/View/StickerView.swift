@@ -9,7 +9,7 @@ import UIKit
 
 class StickerView: UIView {
     
-    let stickerImage: UIImageView
+    let stickerImage: UIImage
     
     private var widthConstraint = NSLayoutConstraint()
     
@@ -20,37 +20,50 @@ class StickerView: UIView {
     // MARK: - Initializing
     
     init(frame: CGRect, image: UIImage){
-        self.stickerImage = .init(image: image)
+        self.stickerImage = image
         super.init(frame: frame)
         setup()
     }
     
     required init?(coder: NSCoder) {
-        // TODO: 実装
-        fatalError("init(coder:) has not been implemented")
+        guard let stickerImage = coder.decodeObject(forKey: "image") as? UIImage else {return nil}
+        self.stickerImage = stickerImage
+        super.init(coder: coder)
+        setup()
+    }
+    
+    override func encode(with coder: NSCoder) {
+        super.encode(with: coder)
+        coder.encode(stickerImage, forKey: "image")
+    }
+    
+    override func encodeRestorableState(with coder: NSCoder) {
+        super.encodeRestorableState(with: coder)
+        coder.encode(stickerImage, forKey: "image")
     }
     
     private func setup(){
+        let stickerImageView = UIImageView(image: stickerImage)
         self.translatesAutoresizingMaskIntoConstraints = false
-        self.addSubview(stickerImage)
-        stickerImage.translatesAutoresizingMaskIntoConstraints = false
+        self.addSubview(stickerImageView)
+        stickerImageView.translatesAutoresizingMaskIntoConstraints = false
         
         // 親ビューに張り付かせる
         NSLayoutConstraint.activate([
-            topAnchor.constraint(equalTo: stickerImage.topAnchor),
-            bottomAnchor.constraint(equalTo: stickerImage.bottomAnchor),
-            leftAnchor.constraint(equalTo: stickerImage.leftAnchor),
-            rightAnchor.constraint(equalTo: stickerImage.rightAnchor),
+            topAnchor.constraint(equalTo: stickerImageView.topAnchor),
+            bottomAnchor.constraint(equalTo: stickerImageView.bottomAnchor),
+            leftAnchor.constraint(equalTo: stickerImageView.leftAnchor),
+            rightAnchor.constraint(equalTo: stickerImageView.rightAnchor),
         ])
         
         // アスペクト比を固定する
         let aspectRatio: CGFloat
-        if let imageSize = stickerImage.image?.size {
+        if let imageSize = stickerImageView.image?.size {
             aspectRatio = imageSize.width / imageSize.height
         }else{
             aspectRatio = 1.0
         }
-        stickerImage.widthAnchor.constraint(equalTo: stickerImage.heightAnchor, multiplier: aspectRatio).isActive = true
+        stickerImageView.widthAnchor.constraint(equalTo: stickerImageView.heightAnchor, multiplier: aspectRatio).isActive = true
         
         // 幅を設定する
         setWidth(0)

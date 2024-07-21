@@ -23,8 +23,19 @@ class StickerBoardViewController: UIViewController {
     }
     
     required init?(coder: NSCoder) {
-        // TODO: 実装
-        fatalError("init(coder:) has not been implemented")
+        guard let model = coder.decodeObject(forKey: "model") as? StickerBoardModel else {return nil}
+        self.model = model
+        super.init(coder: coder)
+    }
+    
+    override func encode(with coder: NSCoder) {
+        super.encode(with: coder)
+        coder.encode(model, forKey: "model")
+    }
+    
+    override func encodeRestorableState(with coder: NSCoder) {
+        super.encodeRestorableState(with: coder)
+        coder.encode(model, forKey: "model")
     }
     
     // MARK: - View lifecycle
