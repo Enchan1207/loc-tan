@@ -11,7 +11,7 @@ class StickerBoardViewController: UIViewController {
     
     private let model: StickerBoardModel
     
-    private var controllers: [StickerViewController]
+    private var controllers: [StickerViewController] = []
     
     private var activeStickerController: StickerViewController?
     
@@ -19,7 +19,6 @@ class StickerBoardViewController: UIViewController {
     
     init(model: StickerBoardModel) {
         self.model = model
-        self.controllers = model.stickers.map({.init(model: $0)})
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -32,10 +31,10 @@ class StickerBoardViewController: UIViewController {
     
     override func loadView() {
         let stickerBoard = StickerBoardView(frame: .zero)
-        
-        // TODO: restore stickers from model (passed at initializer)
-        
         self.view = stickerBoard
+        
+        // モデルが持つステッカーの情報をもとにステッカーのビューとコントローラを構成
+        model.stickers.forEach({self.addSticker($0)})
     }
 
     override func viewDidLoad() {
@@ -50,12 +49,39 @@ class StickerBoardViewController: UIViewController {
     
     // MARK: - Add/remove stickers
     
-    func addSticker(){
-        // TODO: 実装
+    func addSticker(_ sticker: StickerModel){
+        // ステッカーコントローラの構成
+        let stickerController = StickerViewController(model: sticker)
+        stickerController.delegate = self
+        
+        // ボードに追加
+        model.stickers.append(sticker)
+        controllers.append(stickerController)
+        
+        // 子VCとして追加
+        addChild(stickerController)
+        view.addSubview(stickerController.view)
+        stickerController.didMove(toParent: self)
     }
     
     func removeSticker(){
         // TODO: 実装
+    }
+    
+    private func switchActiveSticker(to newSticker: StickerViewController) async {
+        // 既存のステッカーを非活性化し、新たなステッカーを活性化
+        await withTaskGroup(of: Void.self) { group in
+            group.addTask {
+                await self.activeStickerController?.deactivate()
+            }
+            
+            group.addTask {
+                await newSticker.activate()
+            }
+        }
+        
+        // 制御を置き換える
+        activeStickerController = newSticker
     }
 
 }
@@ -79,7 +105,10 @@ extension StickerBoardViewController {
 extension StickerBoardViewController: StickerViewControllerDelegate {
     
     func stickerViewDidRequireActivation(_ sticker: StickerViewController) {
-        // TODO: deselect all stickers and select specified sticker
+        // FIXME: 終わっていないうちから別のステッカーに切り替えるのは危険では?
+        Task {
+            await switchActiveSticker(to: sticker)
+        }
     }
     
 }

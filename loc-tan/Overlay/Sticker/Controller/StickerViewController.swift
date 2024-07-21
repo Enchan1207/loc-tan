@@ -11,6 +11,8 @@ class StickerViewController: UIViewController {
     
     private let model: StickerModel
     
+    private var isActive: Bool = false
+    
     weak var delegate: StickerViewControllerDelegate?
     
     // MARK: - Initializing
@@ -30,6 +32,8 @@ class StickerViewController: UIViewController {
     override func loadView() {
         let sticker = StickerView(frame: .zero, image: model.image)
         sticker.setWidth(model.width)
+        sticker.setCenter(model.center)
+        sticker.setAngle(model.angle)
         
         self.view = sticker
     }
@@ -44,18 +48,25 @@ class StickerViewController: UIViewController {
     // MARK: - Gestures
     
     @objc private func onTapSticker(_ gesture: UITapGestureRecognizer){
-        if gesture.state == .began {
+        guard gesture.state == .began else {return}
+        
+        // 活性化されていないなら要求する
+        if !isActive {
             delegate?.stickerViewDidRequireActivation(self)
         }
+        
+        // TODO: 活性化されたうえでさらにタップされた場合は、「削除」「複製」などのメニューを表示する
     }
     
     
     func activate() async {
         await (self.view as! StickerView).setStatusRing(true)
+        isActive = true
     }
     
     func deactivate() async {
         await (self.view as! StickerView).setStatusRing(false)
+        isActive = false
     }
 
 }

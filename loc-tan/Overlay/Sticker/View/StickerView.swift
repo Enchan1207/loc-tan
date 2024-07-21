@@ -13,6 +13,10 @@ class StickerView: UIView {
     
     private var widthConstraint = NSLayoutConstraint()
     
+    private var centerXConstraint = NSLayoutConstraint()
+    
+    private var centerYConstraint = NSLayoutConstraint()
+    
     // MARK: - Initializing
     
     init(frame: CGRect, image: UIImage){
@@ -27,6 +31,7 @@ class StickerView: UIView {
     }
     
     private func setup(){
+        self.translatesAutoresizingMaskIntoConstraints = false
         self.addSubview(stickerImage)
         stickerImage.translatesAutoresizingMaskIntoConstraints = false
         
@@ -57,6 +62,17 @@ class StickerView: UIView {
     
     // MARK: - Status modification
     
+    override func didMoveToSuperview() {
+        super.didMoveToSuperview()
+        guard let superview = self.superview else {return}
+        
+        // 中心座標の制約を再構成する
+        NSLayoutConstraint.deactivate([centerXConstraint, centerYConstraint])
+        centerXConstraint = centerXAnchor.constraint(equalTo: superview.centerXAnchor)
+        centerYConstraint = centerYAnchor.constraint(equalTo: superview.centerYAnchor)
+        NSLayoutConstraint.activate([centerXConstraint, centerYConstraint])
+    }
+    
     @MainActor
     func setStatusRing(_ isActive: Bool) async {
         let ringColor: UIColor = isActive ? .red : .clear
@@ -70,6 +86,24 @@ class StickerView: UIView {
         widthConstraint = widthAnchor.constraint(equalToConstant: width)
         widthConstraint.isActive = true
         layoutIfNeeded()
+    }
+    
+    func setCenter(_ center: CGPoint){
+        guard centerXConstraint.isActive && centerYConstraint.isActive else {
+            // TODO: Logging
+            return
+        }
+        
+        centerXConstraint.constant = center.x
+        centerYConstraint.constant = center.y
+        layoutIfNeeded()
+    }
+    
+    /// 角度を設定する
+    /// - Parameter angle: 角度
+    /// - Warning: アフィン変換行列が置き換えられます。スケール等の情報は失われます。
+    func setAngle(_ angle: CGFloat){
+        transform = CGAffineTransform(rotationAngle: angle)
     }
     
 }
