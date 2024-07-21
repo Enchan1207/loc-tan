@@ -11,4 +11,6 @@ protocol StickerViewControllerDelegate: AnyObject {
     
     func stickerViewDidRequireActivation(_ sticker: StickerViewController)
     
+    func stickerViewDidRequireDeletion(_ sticker: StickerViewController)
+    
 }

@@ -19,6 +19,8 @@ class StickerView: UIView {
     
     private var centerYConstraint = NSLayoutConstraint()
     
+    override var canBecomeFirstResponder: Bool {true}
+    
     // MARK: - Initializing
     
     init(frame: CGRect, image: UIImage){

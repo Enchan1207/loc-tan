@@ -13,6 +13,8 @@ class StickerViewController: UIViewController {
     
     private var isActive: Bool = false
     
+    private lazy var interaction = UIEditMenuInteraction(delegate: self)
+    
     weak var delegate: StickerViewControllerDelegate?
     
     // MARK: - Gesture history
@@ -62,6 +64,8 @@ class StickerViewController: UIViewController {
 
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(onTapSticker))
         self.view.addGestureRecognizer(tapGesture)
+        
+        self.view.addInteraction(interaction)
     }
     
     // MARK: - State modification
@@ -82,9 +86,11 @@ class StickerViewController: UIViewController {
         // 活性化されていないなら要求する
         if !isActive {
             delegate?.stickerViewDidRequireActivation(self)
+            return
         }
         
-        // TODO: 活性化されたうえでさらにタップされた場合は、「削除」「複製」などのメニューを表示する
+        // 編集メニューを表示する
+        showMenu(at: gesture.location(in: view))
     }
     
     func onPanSticker(_ gesture: UIPanGestureRecognizer){
@@ -180,6 +186,25 @@ class StickerViewController: UIViewController {
         }
         gesture.rotation = 0.0
     }
+    
+    // MARK: - Edit menu
+    
+    @MainActor
+    private func showMenu(at point: CGPoint){
+        guard self.view.becomeFirstResponder() else {return}
+        interaction.presentEditMenu(with: .init(identifier: nil, sourcePoint: point))
+    }
 
+}
 
+extension StickerViewController: UIEditMenuInteractionDelegate {
+    
+    func editMenuInteraction(_ interaction: UIEditMenuInteraction, menuFor configuration: UIEditMenuConfiguration, suggestedActions: [UIMenuElement]) -> UIMenu? {
+        return .init(children: [
+            UIAction(title: "削除", attributes: .destructive, handler: { _ in
+                self.delegate?.stickerViewDidRequireDeletion(self)
+            })
+        ])
+    }
+    
 }

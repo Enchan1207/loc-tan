@@ -57,7 +57,10 @@ class StickerBoardViewController: UIViewController {
          UIPinchGestureRecognizer.self,
          UIRotationGestureRecognizer.self]
             .map({$0.init(target: self, action: #selector(handleGesture))})
-            .forEach({self.view.addGestureRecognizer($0)})
+            .forEach({gesture in
+                gesture.delegate = self
+                self.view.addGestureRecognizer(gesture)
+            })
     }
     
     // MARK: - Add/remove stickers
@@ -77,11 +80,17 @@ class StickerBoardViewController: UIViewController {
         stickerController.didMove(toParent: self)
     }
     
-    func removeSticker(){
-        // TODO: 実装
+    private func removeSticker(_ stickerController: StickerViewController){
+        guard let index = controllers.firstIndex(of: stickerController) else {return}
+        stickerController.view.removeFromSuperview()
+        model.stickers.remove(at: index)
+        controllers.remove(at: index)
+        if activeStickerController == stickerController {
+            activeStickerController = nil
+        }
     }
     
-    private func switchActiveSticker(to newSticker: StickerViewController) async {
+    private func switchActiveSticker(to newSticker: StickerViewController?) async {
         // 既存のステッカーを非活性化し、新たなステッカーを活性化
         await withTaskGroup(of: Void.self) { group in
             group.addTask {
@@ -89,7 +98,7 @@ class StickerBoardViewController: UIViewController {
             }
             
             group.addTask {
-                await newSticker.activate()
+                await newSticker?.activate()
             }
         }
         
@@ -104,10 +113,10 @@ class StickerBoardViewController: UIViewController {
         case let pan as UIPanGestureRecognizer:
             activeStickerController?.onPanSticker(pan)
             break
-        
+            
         case let pinch as UIPinchGestureRecognizer:
             activeStickerController?.onPinchSticker(pinch)
-        
+            
         case let rot as UIRotationGestureRecognizer:
             activeStickerController?.onRotateSticker(rot)
             
@@ -121,10 +130,23 @@ class StickerBoardViewController: UIViewController {
 extension StickerBoardViewController: StickerViewControllerDelegate {
     
     func stickerViewDidRequireActivation(_ sticker: StickerViewController) {
+        view.bringSubviewToFront(sticker.view)
         // FIXME: 終わっていないうちから別のステッカーに切り替えるのは危険では?
         Task {
             await switchActiveSticker(to: sticker)
         }
+    }
+    
+    func stickerViewDidRequireDeletion(_ sticker: StickerViewController){
+        removeSticker(sticker)
+    }
+    
+}
+
+extension StickerBoardViewController: UIGestureRecognizerDelegate {
+    
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return true
     }
     
 }
