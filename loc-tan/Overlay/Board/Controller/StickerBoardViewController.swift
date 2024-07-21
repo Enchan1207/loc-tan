@@ -32,18 +32,19 @@ class StickerBoardViewController: UIViewController {
     override func loadView() {
         let stickerBoard = StickerBoardView(frame: .zero)
         self.view = stickerBoard
-        
-        // モデルが持つステッカーの情報をもとにステッカーのビューとコントローラを構成
-        model.stickers.forEach({self.addSticker($0)})
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // モデルが持つステッカーの情報をもとにステッカーのビューとコントローラを構成
+        model.stickers.forEach({self.addSticker($0)})
 
+        // ジェスチャを追加
         [
-            UIPanGestureRecognizer(target: self.view, action: #selector(onPanStickerBoard)),
-            UIPinchGestureRecognizer(target: self.view, action: #selector(onPinchStickerBoard)),
-            UIRotationGestureRecognizer(target: self.view, action: #selector(onRotateStickerBoard))
+            UIPanGestureRecognizer(target: self, action: #selector(onPanStickerBoard)),
+            UIPinchGestureRecognizer(target: self, action: #selector(onPinchStickerBoard)),
+            UIRotationGestureRecognizer(target: self, action: #selector(onRotateStickerBoard))
         ].forEach({self.view.addGestureRecognizer($0)})
     }
     

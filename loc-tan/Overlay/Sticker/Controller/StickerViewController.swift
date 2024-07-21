@@ -41,15 +41,13 @@ class StickerViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        let tapGesture = UITapGestureRecognizer(target: self.view, action: #selector(onTapSticker))
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(onTapSticker))
         self.view.addGestureRecognizer(tapGesture)
     }
     
     // MARK: - Gestures
     
-    @objc private func onTapSticker(_ gesture: UITapGestureRecognizer){
-        guard gesture.state == .began else {return}
-        
+    @objc private func onTapSticker(_ gesture: UITapGestureRecognizer){        
         // 活性化されていないなら要求する
         if !isActive {
             delegate?.stickerViewDidRequireActivation(self)
