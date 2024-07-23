@@ -51,7 +51,8 @@ class StickerViewController: UIViewController {
     // MARK: - View lifecycle
     
     override func loadView() {
-        let sticker = StickerView(frame: .zero, image: model.image)
+        // TODO: フォールバック画像を持たせるべきか、それとも?
+        let sticker = StickerView(frame: .zero, image: model.image!)
         sticker.setWidth(model.width)
         sticker.setCenter(model.center)
         sticker.setAngle(model.angle)

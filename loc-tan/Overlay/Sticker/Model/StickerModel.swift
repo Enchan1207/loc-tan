@@ -8,10 +8,15 @@
 import UIKit
 
 
-final class StickerModel {
-
+final class StickerModel: Codable {
+    
+    /// ステッカーの画像を表す識別子
+    let imageIdentifier: String
+    
     /// ステッカーの画像
-    let image: UIImage
+    var image: UIImage? {
+        StickerImageProvider.shared.image(for: imageIdentifier)
+    }
     
     /// 中心座標
     var center: CGPoint
@@ -22,8 +27,8 @@ final class StickerModel {
     /// 傾き
     var angle: Angle
     
-    init(image: UIImage, center: CGPoint, width: CGFloat, angle: Angle) {
-        self.image = image
+    init(imageIdentifier: String, center: CGPoint, width: CGFloat, angle: Angle) {
+        self.imageIdentifier = imageIdentifier
         self.center = center
         self.width = width
         self.angle = angle

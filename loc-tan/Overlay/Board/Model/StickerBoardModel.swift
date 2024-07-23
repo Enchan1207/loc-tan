@@ -7,7 +7,7 @@
 
 import Foundation
 
-class StickerBoardModel {
+class StickerBoardModel: Codable {
     
     var stickers: [StickerModel] = []
     

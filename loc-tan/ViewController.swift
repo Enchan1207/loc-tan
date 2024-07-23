@@ -15,12 +15,12 @@ class ViewController: UIViewController {
     
     @IBOutlet private weak var boardContainer: UIView!
     
-    private let images: [UIImage] = [
+    private let imageIdentifiers = [
         "dive_stage",
         "rainbow_bridge_night",
         "rainbow_bridge_noon",
         "tokyo_skytree"
-    ].compactMap({.init(named: $0)})
+    ]
     
     // MARK: - View lifecycles
     
@@ -45,7 +45,7 @@ class ViewController: UIViewController {
     
     @IBAction func onTapAdd(_ sender: Any) {
         let center = CGPoint(x: (-100...100).randomElement()!, y: (-100...100).randomElement()!)
-        let sticker = StickerModel(image: images.randomElement()!, center: center, width: 300, angle: .zero)
+        let sticker = StickerModel(imageIdentifier: imageIdentifiers.randomElement()!, center: center, width: 300, angle: .zero)
         
         print("new sticker spawn at \(center)")
         boardController.addSticker(sticker)

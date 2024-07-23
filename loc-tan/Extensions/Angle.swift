@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Angle: Equatable, CustomStringConvertible {
+struct Angle: Equatable, CustomStringConvertible, Codable {
     
     /// 内部角度情報(ラジアン)
     private var angle: CGFloat
