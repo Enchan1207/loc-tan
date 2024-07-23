@@ -82,7 +82,10 @@ class StickerViewController: UIViewController {
     
     // MARK: - Gestures
     
-    @objc private func onTapSticker(_ gesture: UITapGestureRecognizer){        
+    @objc private func onTapSticker(_ gesture: UITapGestureRecognizer){
+        // モデルの情報をデバッグ表示
+        print("Sticker at:\(model.center) size:\(model.width) angle:\(model.angle.degrees)")
+        
         // 活性化されていないなら要求する
         if !isActive {
             delegate?.stickerViewDidRequireActivation(self)
@@ -170,9 +173,8 @@ class StickerViewController: UIViewController {
             break
             
         case .ended:
-            print("rot: end (diff:\(rotationGestureAngle)")
-            let newAngle = (model.angle + rotationGestureAngle).truncatingRemainder(dividingBy: 2 * .pi)
-            model.angle = newAngle >= 0 ? newAngle : newAngle + 2 * .pi
+            model.angle += rotationGestureAngle
+            print(String(format: "rot: end (diff: %.2f, new: %.2f)", rotationGestureAngle / (2 * .pi) * 360.0, model.angle.degrees))
             rotationGestureAngle = 0.0
             break
             

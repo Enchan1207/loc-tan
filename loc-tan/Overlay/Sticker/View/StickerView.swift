@@ -138,8 +138,8 @@ class StickerView: UIView {
     /// 角度を設定する
     /// - Parameter angle: 角度
     /// - Warning: アフィン変換行列が置き換えられます。スケール等の情報は失われます。
-    func setAngle(_ angle: CGFloat){
-        transform = CGAffineTransform(rotationAngle: angle)
+    func setAngle(_ angle: Angle){
+        transform = CGAffineTransform(rotationAngle: angle.radians)
     }
     
 }

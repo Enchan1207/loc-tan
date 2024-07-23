@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9E1917542C4EA2D400ECA384 /* Angle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E1917532C4EA2D400ECA384 /* Angle.swift */; };
 		9E1E5D182C31325D001F8EB9 /* UIViewExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E1E5D172C31325D001F8EB9 /* UIViewExt.swift */; };
 		9E1E5D1A2C3193C0001F8EB9 /* CGPointExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E1E5D192C3193C0001F8EB9 /* CGPointExt.swift */; };
 		9E30C8282C48075900B1B26A /* OldOverlayBoardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E30C8272C48075900B1B26A /* OldOverlayBoardViewController.swift */; };
@@ -32,6 +33,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		9E1917532C4EA2D400ECA384 /* Angle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Angle.swift; sourceTree = "<group>"; };
 		9E1E5D172C31325D001F8EB9 /* UIViewExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewExt.swift; sourceTree = "<group>"; };
 		9E1E5D192C3193C0001F8EB9 /* CGPointExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGPointExt.swift; sourceTree = "<group>"; };
 		9E30C8272C48075900B1B26A /* OldOverlayBoardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OldOverlayBoardViewController.swift; sourceTree = "<group>"; };
@@ -74,6 +76,7 @@
 			children = (
 				9E1E5D172C31325D001F8EB9 /* UIViewExt.swift */,
 				9E1E5D192C3193C0001F8EB9 /* CGPointExt.swift */,
+				9E1917532C4EA2D400ECA384 /* Angle.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -303,6 +306,7 @@
 				9E1E5D1A2C3193C0001F8EB9 /* CGPointExt.swift in Sources */,
 				9E1E5D182C31325D001F8EB9 /* UIViewExt.swift in Sources */,
 				9E7401C62C312E3B0036059D /* OldOverlayBoardView.swift in Sources */,
+				9E1917542C4EA2D400ECA384 /* Angle.swift in Sources */,
 				9ED49FBE2C4BF554001A7A5B /* StickerView.swift in Sources */,
 				9ED49FC82C4BF69A001A7A5B /* StickerBoardView.swift in Sources */,
 				9ED49FBB2C4BEE1C001A7A5B /* StickerViewControllerDelegate.swift in Sources */,

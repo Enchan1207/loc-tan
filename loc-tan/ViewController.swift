@@ -45,7 +45,7 @@ class ViewController: UIViewController {
     
     @IBAction func onTapAdd(_ sender: Any) {
         let center = CGPoint(x: (-100...100).randomElement()!, y: (-100...100).randomElement()!)
-        let sticker = StickerModel(image: images.randomElement()!, center: center, width: 300, angle: 0)
+        let sticker = StickerModel(image: images.randomElement()!, center: center, width: 300, angle: .zero)
         
         print("new sticker spawn at \(center)")
         boardController.addSticker(sticker)

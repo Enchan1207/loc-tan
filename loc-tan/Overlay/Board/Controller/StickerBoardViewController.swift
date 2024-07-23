@@ -146,6 +146,7 @@ extension StickerBoardViewController: StickerViewControllerDelegate {
     }
     
     func stickerViewDidRequireDeletion(_ sticker: StickerViewController){
+        // FIXME: アニメーションをここで定義するのはちょっと…
         Task {
             sticker.view.isUserInteractionEnabled = false
             await UIView.animate(withDuration: 0.08) {

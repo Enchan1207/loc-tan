@@ -20,9 +20,9 @@ final class StickerModel {
     var width: CGFloat
     
     /// 傾き
-    var angle: CGFloat
+    var angle: Angle
     
-    init(image: UIImage, center: CGPoint, width: CGFloat, angle: CGFloat) {
+    init(image: UIImage, center: CGPoint, width: CGFloat, angle: Angle) {
         self.image = image
         self.center = center
         self.width = width
