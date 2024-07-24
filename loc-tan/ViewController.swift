@@ -13,6 +13,8 @@ class ViewController: UIViewController {
     
     private var boardController: StickerBoardViewController!
     
+    private var lastEncodedData: Data?
+    
     @IBOutlet private weak var boardContainer: UIView!
     
     private let imageIdentifiers = [
@@ -49,6 +51,26 @@ class ViewController: UIViewController {
         
         print("new sticker spawn at \(center)")
         boardController.addSticker(sticker)
+    }
+    
+    
+    @IBAction func onTapEncode(_ sender: Any) {
+        do {
+            let encodedModel = try JSONEncoder().encode(boardModel)
+            lastEncodedData = encodedModel
+        } catch {
+            print(error)
+        }
+    }
+    
+    @IBAction func onTapDecode(_ sender: Any) {
+        guard let lastEncodedData = lastEncodedData else {return}
+        do {
+            let decodedBoard = try JSONDecoder().decode(StickerBoardModel.self, from: lastEncodedData)
+            print("\(decodedBoard.stickers.count)個のステッカーをデコードしたけどこれどうやってモデルに戻すの")
+        } catch {
+            print(error)
+        }
     }
     
 }

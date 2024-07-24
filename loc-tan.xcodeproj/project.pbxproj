@@ -24,6 +24,7 @@
 		9E78F15B2C1D9991000EDE4A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9E78F1592C1D9991000EDE4A /* Main.storyboard */; };
 		9E78F15D2C1D9993000EDE4A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9E78F15C2C1D9993000EDE4A /* Assets.xcassets */; };
 		9E78F1602C1D9993000EDE4A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9E78F15E2C1D9993000EDE4A /* LaunchScreen.storyboard */; };
+		9E7DCCD32C5115C200E78F5D /* StickerBoardModelDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E7DCCD22C5115C200E78F5D /* StickerBoardModelDelegate.swift */; };
 		9ED49FB52C4BD269001A7A5B /* StickerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ED49FB42C4BD269001A7A5B /* StickerModel.swift */; };
 		9ED49FB92C4BE062001A7A5B /* StickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ED49FB82C4BE062001A7A5B /* StickerViewController.swift */; };
 		9ED49FBB2C4BEE1C001A7A5B /* StickerViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ED49FBA2C4BEE1C001A7A5B /* StickerViewControllerDelegate.swift */; };
@@ -53,6 +54,7 @@
 		9E78F15C2C1D9993000EDE4A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9E78F15F2C1D9993000EDE4A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		9E78F1612C1D9993000EDE4A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		9E7DCCD22C5115C200E78F5D /* StickerBoardModelDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerBoardModelDelegate.swift; sourceTree = "<group>"; };
 		9ED49FB42C4BD269001A7A5B /* StickerModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerModel.swift; sourceTree = "<group>"; };
 		9ED49FB82C4BE062001A7A5B /* StickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerViewController.swift; sourceTree = "<group>"; };
 		9ED49FBA2C4BEE1C001A7A5B /* StickerViewControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerViewControllerDelegate.swift; sourceTree = "<group>"; };
@@ -213,6 +215,7 @@
 			isa = PBXGroup;
 			children = (
 				9ED49FC32C4BF599001A7A5B /* StickerBoardModel.swift */,
+				9E7DCCD22C5115C200E78F5D /* StickerBoardModelDelegate.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -325,6 +328,7 @@
 				9E30C8282C48075900B1B26A /* OldOverlayBoardViewController.swift in Sources */,
 				9ED49FB52C4BD269001A7A5B /* StickerModel.swift in Sources */,
 				9E30C82B2C48078100B1B26A /* OldOverlayObjectModel.swift in Sources */,
+				9E7DCCD32C5115C200E78F5D /* StickerBoardModelDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

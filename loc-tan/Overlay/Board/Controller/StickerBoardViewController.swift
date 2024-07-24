@@ -70,7 +70,7 @@ class StickerBoardViewController: UIViewController {
         stickerController.delegate = self
         
         // ボードに追加
-        model.stickers.append(sticker)
+        model.add(sticker)
         controllers.append(stickerController)
         
         // 子VCとして追加
@@ -87,7 +87,7 @@ class StickerBoardViewController: UIViewController {
     private func removeSticker(_ stickerController: StickerViewController){
         guard let index = controllers.firstIndex(of: stickerController) else {return}
         stickerController.view.removeFromSuperview()
-        model.stickers.remove(at: index)
+        model.remove(at: index)
         controllers.remove(at: index)
         if activeStickerController == stickerController {
             activeStickerController = nil
