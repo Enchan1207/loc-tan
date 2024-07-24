@@ -29,7 +29,7 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        boardController = StickerBoardViewController(model: boardModel)
+        boardController = StickerBoardViewController(boardModel: boardModel)
         
         // StickerBoardViewControllerを子ViewControllerとして追加
         addChild(boardController)
@@ -49,7 +49,7 @@ class ViewController: UIViewController {
         let center = CGPoint(x: (-100...100).randomElement()!, y: (-100...100).randomElement()!)
         let sticker = StickerModel(imageIdentifier: imageIdentifiers.randomElement()!, center: center, width: 300, angle: .zero)
         
-        print("new sticker spawn at \(center)")
+        print("new sticker spawn at \(center.shortDescription)")
         boardController.addSticker(sticker)
     }
     

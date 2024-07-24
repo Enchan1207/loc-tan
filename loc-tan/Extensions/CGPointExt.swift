@@ -24,4 +24,6 @@ extension CGPoint {
     static func -=(lhs: inout CGPoint, rhs: CGPoint) {
         lhs = lhs - rhs
     }
+    
+    var shortDescription: String { .init(format: "(%.2f, %.2f)", self.x, self.y) }
 }

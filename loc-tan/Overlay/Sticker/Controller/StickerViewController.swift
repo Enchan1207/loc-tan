@@ -9,7 +9,7 @@ import UIKit
 
 class StickerViewController: UIViewController {
     
-    private let model: StickerModel
+    private let stickerModel: StickerModel
     
     private var isActive: Bool = false
     
@@ -27,35 +27,35 @@ class StickerViewController: UIViewController {
     
     // MARK: - Initializing
     
-    init(model: StickerModel){
-        self.model = model
+    init(stickerModel: StickerModel){
+        self.stickerModel = stickerModel
         super.init(nibName: nil, bundle: nil)
     }
     
     required init?(coder: NSCoder) {
         guard let model = coder.decodeObject(forKey: "model") as? StickerModel else {return nil}
-        self.model = model
+        self.stickerModel = model
         super.init(coder: coder)
     }
     
     override func encode(with coder: NSCoder) {
         super.encode(with: coder)
-        coder.encode(model, forKey: "model")
+        coder.encode(stickerModel, forKey: "model")
     }
     
     override func encodeRestorableState(with coder: NSCoder) {
         super.encodeRestorableState(with: coder)
-        coder.encode(model, forKey: "model")
+        coder.encode(stickerModel, forKey: "model")
     }
     
     // MARK: - View lifecycle
     
     override func loadView() {
         // TODO: フォールバック画像を持たせるべきか、それとも?
-        let sticker = StickerView(frame: .zero, image: model.image!)
-        sticker.setWidth(model.width)
-        sticker.setCenter(model.center)
-        sticker.setAngle(model.angle)
+        let sticker = StickerView(frame: .zero, image: stickerModel.image!)
+        sticker.setWidth(stickerModel.width)
+        sticker.setCenter(stickerModel.center)
+        sticker.setAngle(stickerModel.angle)
         
         self.view = sticker
     }
@@ -85,7 +85,7 @@ class StickerViewController: UIViewController {
     
     @objc private func onTapSticker(_ gesture: UITapGestureRecognizer){
         // モデルの情報をデバッグ表示
-        print("Sticker at:\(model.center) size:\(model.width) angle:\(model.angle.degrees)")
+        print(String(format: "Sticker at:%@ size:%.2f angle:%.2f", stickerModel.center.shortDescription, stickerModel.width, stickerModel.angle.degrees))
         
         // 活性化されていないなら要求する
         if !isActive {
@@ -100,7 +100,7 @@ class StickerViewController: UIViewController {
     func onPanSticker(_ gesture: UIPanGestureRecognizer){
         switch gesture.state {
         case .began:
-            print("pan: began (current:\(view.center))")
+            print("pan: began (current:\(view.center.shortDescription))")
             panGestureTranslation = .zero
             fallthrough
             
@@ -111,9 +111,9 @@ class StickerViewController: UIViewController {
             break
             
         case .ended:
-            model.center += panGestureTranslation
-            print("pan: end (diff:\(panGestureTranslation) view-center:\(view.center) model-center:\(model.center)")
-            (view as! StickerView).setCenter(model.center)
+            stickerModel.center += panGestureTranslation
+            print("pan: end (diff:\(panGestureTranslation.shortDescription) view-center:\(view.center.shortDescription) model-center:\(stickerModel.center.shortDescription)")
+            (view as! StickerView).setCenter(stickerModel.center)
             panGestureTranslation = .zero
             break
             
@@ -142,10 +142,10 @@ class StickerViewController: UIViewController {
             break
             
         case .ended:
-            print("pan: end (diff:\(pinchGestureScale) current:\(view.center))")
+            print(String(format: "scale: end (diff: %.2f current: %@", pinchGestureScale, view.center.shortDescription))
             view.transform = view.transform.scaledBy(x: 1.0 / pinchGestureScale, y: 1.0 / pinchGestureScale)
-            model.width *= pinchGestureScale
-            (view as! StickerView).setWidth(model.width)
+            stickerModel.width *= pinchGestureScale
+            (view as! StickerView).setWidth(stickerModel.width)
             pinchGestureScale = 1.0
             break
             
@@ -174,8 +174,8 @@ class StickerViewController: UIViewController {
             break
             
         case .ended:
-            model.angle += rotationGestureAngle
-            print(String(format: "rot: end (diff: %.2f, new: %.2f)", rotationGestureAngle / (2 * .pi) * 360.0, model.angle.degrees))
+            stickerModel.angle += rotationGestureAngle
+            print(String(format: "rot: end (diff: %.2f, new: %.2f)", rotationGestureAngle / (2 * .pi) * 360.0, stickerModel.angle.degrees))
             rotationGestureAngle = 0.0
             break
             

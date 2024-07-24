@@ -9,7 +9,7 @@ import UIKit
 
 class StickerBoardViewController: UIViewController {
     
-    private let model: StickerBoardModel
+    private let boardModel: StickerBoardModel
     
     private var controllers: [StickerViewController] = []
     
@@ -17,25 +17,25 @@ class StickerBoardViewController: UIViewController {
     
     // MARK: - Initializing
     
-    init(model: StickerBoardModel) {
-        self.model = model
+    init(boardModel: StickerBoardModel) {
+        self.boardModel = boardModel
         super.init(nibName: nil, bundle: nil)
     }
     
     required init?(coder: NSCoder) {
         guard let model = coder.decodeObject(forKey: "model") as? StickerBoardModel else {return nil}
-        self.model = model
+        self.boardModel = model
         super.init(coder: coder)
     }
     
     override func encode(with coder: NSCoder) {
         super.encode(with: coder)
-        coder.encode(model, forKey: "model")
+        coder.encode(boardModel, forKey: "model")
     }
     
     override func encodeRestorableState(with coder: NSCoder) {
         super.encodeRestorableState(with: coder)
-        coder.encode(model, forKey: "model")
+        coder.encode(boardModel, forKey: "model")
     }
     
     // MARK: - View lifecycle
@@ -49,7 +49,7 @@ class StickerBoardViewController: UIViewController {
         super.viewDidLoad()
         
         // モデルが持つステッカーの情報をもとにステッカーのビューとコントローラを構成
-        model.stickers.forEach({self.addSticker($0)})
+        boardModel.stickers.forEach({self.addSticker($0)})
         
         // ジェスチャを追加
         [UIPanGestureRecognizer.self,
@@ -66,11 +66,11 @@ class StickerBoardViewController: UIViewController {
     
     func addSticker(_ sticker: StickerModel){
         // ステッカーコントローラの構成
-        let stickerController = StickerViewController(model: sticker)
+        let stickerController = StickerViewController(stickerModel: sticker)
         stickerController.delegate = self
         
         // ボードに追加
-        model.add(sticker)
+        boardModel.add(sticker)
         controllers.append(stickerController)
         
         // 子VCとして追加
@@ -87,7 +87,7 @@ class StickerBoardViewController: UIViewController {
     private func removeSticker(_ stickerController: StickerViewController){
         guard let index = controllers.firstIndex(of: stickerController) else {return}
         stickerController.view.removeFromSuperview()
-        model.remove(at: index)
+        boardModel.remove(at: index)
         controllers.remove(at: index)
         if activeStickerController == stickerController {
             activeStickerController = nil
