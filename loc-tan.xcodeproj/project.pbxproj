@@ -27,6 +27,7 @@
 		9EE2084D2C54A9D40034A989 /* ToolbarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EE2084C2C54A9D40034A989 /* ToolbarViewController.swift */; };
 		9EE2084F2C54B38B0034A989 /* ToolbarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EE2084E2C54B38B0034A989 /* ToolbarView.swift */; };
 		9EE208512C54BBB20034A989 /* ToolbarViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EE208502C54BBB20034A989 /* ToolbarViewDelegate.swift */; };
+		9EE208572C54CF6E0034A989 /* ToolbarModelDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EE208562C54CF6E0034A989 /* ToolbarModelDelegate.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -52,6 +53,7 @@
 		9EE2084C2C54A9D40034A989 /* ToolbarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolbarViewController.swift; sourceTree = "<group>"; };
 		9EE2084E2C54B38B0034A989 /* ToolbarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolbarView.swift; sourceTree = "<group>"; };
 		9EE208502C54BBB20034A989 /* ToolbarViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolbarViewDelegate.swift; sourceTree = "<group>"; };
+		9EE208562C54CF6E0034A989 /* ToolbarModelDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ToolbarModelDelegate.swift; path = "loc-tan/ToolbarModelDelegate.swift"; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -111,10 +113,7 @@
 				9E78F1532C1D9991000EDE4A /* AppDelegate.swift */,
 				9E78F1552C1D9991000EDE4A /* SceneDelegate.swift */,
 				9E78F1572C1D9991000EDE4A /* ViewController.swift */,
-				9EE2084C2C54A9D40034A989 /* ToolbarViewController.swift */,
-				9EE2084E2C54B38B0034A989 /* ToolbarView.swift */,
-				9EE208502C54BBB20034A989 /* ToolbarViewDelegate.swift */,
-				9EE2084A2C549AA60034A989 /* ToolbarModel.swift */,
+				9EE208522C54CF2E0034A989 /* Toolbar */,
 				9E78F1592C1D9991000EDE4A /* Main.storyboard */,
 				9E54630E2C27B10D00602285 /* OldToolBar */,
 				9E7401BA2C27BD0F0036059D /* Extensions */,
@@ -123,6 +122,42 @@
 				9E78F1612C1D9993000EDE4A /* Info.plist */,
 			);
 			path = "loc-tan";
+			sourceTree = "<group>";
+		};
+		9EE208522C54CF2E0034A989 /* Toolbar */ = {
+			isa = PBXGroup;
+			children = (
+				9EE208552C54CF600034A989 /* Controller */,
+				9EE208542C54CF5C0034A989 /* View */,
+				9EE208532C54CF570034A989 /* Model */,
+			);
+			path = Toolbar;
+			sourceTree = "<group>";
+		};
+		9EE208532C54CF570034A989 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				9EE2084A2C549AA60034A989 /* ToolbarModel.swift */,
+				9EE208562C54CF6E0034A989 /* ToolbarModelDelegate.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		9EE208542C54CF5C0034A989 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				9EE2084E2C54B38B0034A989 /* ToolbarView.swift */,
+				9EE208502C54BBB20034A989 /* ToolbarViewDelegate.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		9EE208552C54CF600034A989 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				9EE2084C2C54A9D40034A989 /* ToolbarViewController.swift */,
+			);
+			path = Controller;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -212,6 +247,7 @@
 				9E7401B72C27BB4A0036059D /* OldToolBarModeSwitcher.swift in Sources */,
 				9E5463072C27073B00602285 /* OldToolBarItemType.swift in Sources */,
 				9E5463102C27B11C00602285 /* OldToolBarViewDelegate.swift in Sources */,
+				9EE208572C54CF6E0034A989 /* ToolbarModelDelegate.swift in Sources */,
 				9EE2084B2C549AA60034A989 /* ToolbarModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

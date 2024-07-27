@@ -23,12 +23,6 @@ enum ToolBarItem {
     case Add
 }
 
-protocol ToolbarModelDelegate: AnyObject {
-    
-    func toolBarModel(_ model: ToolbarModel, didSwitchMode to: ToolbarMode)
-    
-}
-
 class ToolbarModel {
     
     private(set) var currentMode: ToolbarMode

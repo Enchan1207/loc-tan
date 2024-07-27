@@ -32,6 +32,7 @@ class ToolbarView: UIView {
     private func setup(){
         topBar.setItems([topBarItem], animated: false)
         
+        self.translatesAutoresizingMaskIntoConstraints = false
         addSubview(topBar)
         topBar.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
