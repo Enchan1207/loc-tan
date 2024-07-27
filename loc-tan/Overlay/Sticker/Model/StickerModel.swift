@@ -12,6 +12,8 @@ final class StickerModel: Codable {
     
     private let id = UUID()
     
+    weak var delegate: StickerModelDelegate?
+    
     // MARK: - Properties
     
     /// ステッカーの画像を表す識別子
@@ -23,13 +25,25 @@ final class StickerModel: Codable {
     }
     
     /// 中心座標
-    var center: CGPoint
+    var center: CGPoint {
+        didSet {
+            delegate?.stickerModel(self, didMove: center)
+        }
+    }
     
     /// 幅
-    var width: CGFloat
+    var width: CGFloat {
+        didSet {
+            delegate?.stickerModel(self, didChange: width)
+        }
+    }
     
     /// 傾き
-    var angle: Angle
+    var angle: Angle {
+        didSet {
+            delegate?.stickerModel(self, didChange: angle)
+        }
+    }
     
     private enum CodingKeys: String, CodingKey {
         case imageIdentifier

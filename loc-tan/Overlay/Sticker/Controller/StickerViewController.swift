@@ -17,6 +17,8 @@ class StickerViewController: UIViewController {
     
     weak var delegate: StickerViewControllerDelegate?
     
+    var stickerView: StickerView {view as! StickerView}
+    
     // MARK: - Gesture history
     
     private var panGestureTranslation: CGPoint = .zero
@@ -30,32 +32,22 @@ class StickerViewController: UIViewController {
     init(stickerModel: StickerModel){
         self.stickerModel = stickerModel
         super.init(nibName: nil, bundle: nil)
+        self.stickerModel.delegate = self
     }
     
     required init?(coder: NSCoder) {
-        guard let model = coder.decodeObject(forKey: "model") as? StickerModel else {return nil}
-        self.stickerModel = model
-        super.init(coder: coder)
+        // NOTE: このクラス自体をNSCoder経由でインスタンス化することはないだろうという読み
+        fatalError("init(coder:) has not been implemented")
     }
-    
-    override func encode(with coder: NSCoder) {
-        super.encode(with: coder)
-        coder.encode(stickerModel, forKey: "model")
-    }
-    
-    override func encodeRestorableState(with coder: NSCoder) {
-        super.encodeRestorableState(with: coder)
-        coder.encode(stickerModel, forKey: "model")
-    }
-    
+
     // MARK: - View lifecycle
     
     override func loadView() {
         // TODO: フォールバック画像を持たせるべきか、それとも?
         let sticker = StickerView(frame: .zero, image: stickerModel.image!)
-        sticker.setWidth(stickerModel.width)
-        sticker.setCenter(stickerModel.center)
-        sticker.setAngle(stickerModel.angle)
+        sticker.updateWidth(stickerModel.width)
+        sticker.updateCenter(stickerModel.center)
+        sticker.updateAngle(stickerModel.angle)
         
         self.view = sticker
     }
@@ -72,12 +64,12 @@ class StickerViewController: UIViewController {
     // MARK: - State modification
     
     func activate() async {
-        await (self.view as! StickerView).setStatusRing(true)
+        await stickerView.setStatusRing(true)
         isActive = true
     }
     
     func deactivate() async {
-        await (self.view as! StickerView).setStatusRing(false)
+        await stickerView.setStatusRing(false)
         isActive = false
     }
     
@@ -100,7 +92,6 @@ class StickerViewController: UIViewController {
     func onPanSticker(_ gesture: UIPanGestureRecognizer){
         switch gesture.state {
         case .began:
-            print("pan: began (current:\(view.center.shortDescription))")
             panGestureTranslation = .zero
             fallthrough
             
@@ -112,8 +103,6 @@ class StickerViewController: UIViewController {
             
         case .ended:
             stickerModel.center += panGestureTranslation
-            print("pan: end (diff:\(panGestureTranslation.shortDescription) view-center:\(view.center.shortDescription) model-center:\(stickerModel.center.shortDescription)")
-            (view as! StickerView).setCenter(stickerModel.center)
             panGestureTranslation = .zero
             break
             
@@ -145,7 +134,6 @@ class StickerViewController: UIViewController {
             print(String(format: "scale: end (diff: %.2f current: %@", pinchGestureScale, view.center.shortDescription))
             view.transform = view.transform.scaledBy(x: 1.0 / pinchGestureScale, y: 1.0 / pinchGestureScale)
             stickerModel.width *= pinchGestureScale
-            (view as! StickerView).setWidth(stickerModel.width)
             pinchGestureScale = 1.0
             break
             
@@ -175,7 +163,6 @@ class StickerViewController: UIViewController {
             
         case .ended:
             stickerModel.angle += rotationGestureAngle
-            print(String(format: "rot: end (diff: %.2f, new: %.2f)", rotationGestureAngle / (2 * .pi) * 360.0, stickerModel.angle.degrees))
             rotationGestureAngle = 0.0
             break
             
@@ -198,6 +185,24 @@ class StickerViewController: UIViewController {
         interaction.presentEditMenu(with: .init(identifier: nil, sourcePoint: point))
     }
 
+}
+
+extension StickerViewController: StickerModelDelegate {
+    
+    func stickerModel(_ model: StickerModel, didMove center: CGPoint) {
+        print("pan: moved to \(center.shortDescription)")
+        stickerView.updateCenter(center)
+    }
+    
+    func stickerModel(_ model: StickerModel, didChange width: CGFloat) {
+        stickerView.updateWidth(width)
+    }
+    
+    func stickerModel(_ model: StickerModel, didChange angle: Angle) {
+        // NOTE: 回転はリアルタイムで反映されるので、ビューの更新はここでは行わない
+        print(String(format: "rot: rotate to %.2f deg", angle.degrees))
+    }
+    
 }
 
 extension StickerViewController: UIEditMenuInteractionDelegate {

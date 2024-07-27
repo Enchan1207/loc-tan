@@ -32,6 +32,7 @@
 		9ED49FC42C4BF599001A7A5B /* StickerBoardModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ED49FC32C4BF599001A7A5B /* StickerBoardModel.swift */; };
 		9ED49FC62C4BF655001A7A5B /* StickerBoardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ED49FC52C4BF655001A7A5B /* StickerBoardViewController.swift */; };
 		9ED49FC82C4BF69A001A7A5B /* StickerBoardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ED49FC72C4BF69A001A7A5B /* StickerBoardView.swift */; };
+		9EE2085F2C5530050034A989 /* StickerModelDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EE2085E2C5530050034A989 /* StickerModelDelegate.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -62,6 +63,7 @@
 		9ED49FC32C4BF599001A7A5B /* StickerBoardModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerBoardModel.swift; sourceTree = "<group>"; };
 		9ED49FC52C4BF655001A7A5B /* StickerBoardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerBoardViewController.swift; sourceTree = "<group>"; };
 		9ED49FC72C4BF69A001A7A5B /* StickerBoardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = StickerBoardView.swift; path = "loc-tan/Overlay/Board/View/StickerBoardView.swift"; sourceTree = SOURCE_ROOT; };
+		9EE2085E2C5530050034A989 /* StickerModelDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerModelDelegate.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -171,6 +173,7 @@
 			isa = PBXGroup;
 			children = (
 				9ED49FB42C4BD269001A7A5B /* StickerModel.swift */,
+				9EE2085E2C5530050034A989 /* StickerModelDelegate.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -322,6 +325,7 @@
 				9E78F1542C1D9991000EDE4A /* AppDelegate.swift in Sources */,
 				9E30C82D2C48081000B1B26A /* OldOverlayBoardModel.swift in Sources */,
 				9E7401C42C31129F0036059D /* OldOverlayObjectView.swift in Sources */,
+				9EE2085F2C5530050034A989 /* StickerModelDelegate.swift in Sources */,
 				9ED49FB92C4BE062001A7A5B /* StickerViewController.swift in Sources */,
 				9E7401C82C312FCD0036059D /* OldOverlayObjectViewDelegate.swift in Sources */,
 				9E78F1562C1D9991000EDE4A /* SceneDelegate.swift in Sources */,

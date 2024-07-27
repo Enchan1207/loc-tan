@@ -32,20 +32,8 @@ class StickerView: UIView {
     }
     
     required init?(coder: NSCoder) {
-        guard let stickerImage = coder.decodeObject(forKey: "image") as? UIImage else {return nil}
-        self.stickerImage = stickerImage
-        super.init(coder: coder)
-        setup()
-    }
-    
-    override func encode(with coder: NSCoder) {
-        super.encode(with: coder)
-        coder.encode(stickerImage, forKey: "image")
-    }
-    
-    override func encodeRestorableState(with coder: NSCoder) {
-        super.encodeRestorableState(with: coder)
-        coder.encode(stickerImage, forKey: "image")
+        // NOTE: このクラス自体をNSCoder経由でインスタンス化することはないだろうという読み
+        fatalError("init(coder:) has not been implemented")
     }
     
     private func setup(){
@@ -71,9 +59,12 @@ class StickerView: UIView {
         stickerImageView.widthAnchor.constraint(equalTo: stickerImageView.heightAnchor, multiplier: aspectRatio).isActive = true
         
         // 幅を設定する
-        setWidth(0)
+        updateWidth(0)
         
-        // 状態効果ビューの設定
+        setupStatusEffectView()
+    }
+    
+    private func setupStatusEffectView(){
         self.addSubview(statusEffectView)
         statusEffectView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
@@ -103,10 +94,10 @@ class StickerView: UIView {
         
         // 中心座標の制約を再構成する
         NSLayoutConstraint.deactivate([centerXConstraint, centerYConstraint])
-        setCenter(centerPoint)
+        updateCenter(centerPoint)
     }
     
-    func setWidth(_ width: CGFloat){
+    func updateWidth(_ width: CGFloat){
         if widthConstraint.isActive {
             widthConstraint.constant = width
         } else {
@@ -116,7 +107,7 @@ class StickerView: UIView {
         layoutIfNeeded()
     }
     
-    func setCenter(_ center: CGPoint){
+    func updateCenter(_ center: CGPoint){
         centerPoint = center
         
         // 制約が生きてるなら定数値を変えて戻る
@@ -136,9 +127,8 @@ class StickerView: UIView {
     }
     
     /// 角度を設定する
-    /// - Parameter angle: 角度
     /// - Warning: アフィン変換行列が置き換えられます。スケール等の情報は失われます。
-    func setAngle(_ angle: Angle){
+    func updateAngle(_ angle: Angle){
         transform = CGAffineTransform(rotationAngle: angle.radians)
     }
     
