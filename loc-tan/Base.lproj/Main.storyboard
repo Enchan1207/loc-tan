@@ -37,14 +37,6 @@
                                     <action selector="onTapEncode:" destination="BYZ-38-t0r" eventType="touchUpInside" id="xbo-uF-ve2"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eFd-yq-2eY">
-                                <rect key="frame" x="172.33333333333334" y="69" width="48.333333333333343" height="34.333333333333343"/>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" image="square.and.arrow.up" catalog="system"/>
-                                <connections>
-                                    <action selector="onTapDecode:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Bmf-Uv-4SS"/>
-                                </connections>
-                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -57,14 +49,12 @@
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="Snd-Bk-BxH" secondAttribute="bottom" id="JK0-be-M9L"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="evS-k1-3Ot" secondAttribute="trailing" id="Rx7-Se-emA"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="xSe-cu-NK0" secondAttribute="trailing" constant="10" id="VtJ-3x-lFs"/>
-                            <constraint firstItem="eFd-yq-2eY" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="10" id="W6Q-DU-jvF"/>
                             <constraint firstItem="xSe-cu-NK0" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="10" id="tK3-jP-KwR"/>
-                            <constraint firstItem="eFd-yq-2eY" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="uMn-dj-dAm"/>
                             <constraint firstItem="Snd-Bk-BxH" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="vgQ-o7-XdU"/>
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="boardContainer" destination="Snd-Bk-BxH" id="dg1-hO-0CQ"/>
+                        <outlet property="containerView" destination="Snd-Bk-BxH" id="dg1-hO-0CQ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -75,7 +65,6 @@
     <resources>
         <image name="plus.circle" catalog="system" width="128" height="123"/>
         <image name="square.and.arrow.down" catalog="system" width="112" height="128"/>
-        <image name="square.and.arrow.up" catalog="system" width="108" height="128"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

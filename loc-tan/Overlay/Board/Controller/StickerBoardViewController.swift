@@ -11,7 +11,7 @@ class StickerBoardViewController: UIViewController {
     
     private let boardModel: StickerBoardModel
     
-    private var controllers: [StickerViewController] = []
+    private var controllers: [StickerViewController]
     
     private var activeStickerController: StickerViewController?
     
@@ -19,37 +19,32 @@ class StickerBoardViewController: UIViewController {
     
     init(boardModel: StickerBoardModel) {
         self.boardModel = boardModel
+        
+        // ステッカーコントローラを生成しておく
+        self.controllers = boardModel.stickers.map({.init(stickerModel: $0)})
+        
         super.init(nibName: nil, bundle: nil)
+        
+        self.boardModel.delegate = self
+        self.controllers.forEach({$0.delegate = self})
     }
     
     required init?(coder: NSCoder) {
-        guard let model = coder.decodeObject(forKey: "model") as? StickerBoardModel else {return nil}
-        self.boardModel = model
-        super.init(coder: coder)
-    }
-    
-    override func encode(with coder: NSCoder) {
-        super.encode(with: coder)
-        coder.encode(boardModel, forKey: "model")
-    }
-    
-    override func encodeRestorableState(with coder: NSCoder) {
-        super.encodeRestorableState(with: coder)
-        coder.encode(boardModel, forKey: "model")
+        // NOTE: このクラス自体をNSCoder経由でインスタンス化することはないだろうという読み
+        fatalError("init(coder:) has not been implemented")
     }
     
     // MARK: - View lifecycle
     
     override func loadView() {
-        let stickerBoard = StickerBoardView(frame: .zero)
-        self.view = stickerBoard
+        self.view = StickerBoardView(frame: .zero)
+        
+        // ステッカーコントローラの持つビューをこちらに移動
+        controllers.forEach(moveStickerToBoard)
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        // モデルが持つステッカーの情報をもとにステッカーのビューとコントローラを構成
-        boardModel.stickers.forEach({self.addSticker($0)})
         
         // ジェスチャを追加
         [UIPanGestureRecognizer.self,
@@ -62,36 +57,12 @@ class StickerBoardViewController: UIViewController {
             })
     }
     
-    // MARK: - Add/remove stickers
+    // MARK: - Methods
     
-    func addSticker(_ sticker: StickerModel){
-        // ステッカーコントローラの構成
-        let stickerController = StickerViewController(stickerModel: sticker)
-        stickerController.delegate = self
-        
-        // ボードに追加
-        boardModel.add(sticker)
-        controllers.append(stickerController)
-        
-        // 子VCとして追加
-        addChild(stickerController)
-        view.addSubview(stickerController.view)
-        stickerController.didMove(toParent: self)
-        
-        // 操作対象にする
-        Task {
-            await switchActiveSticker(to: stickerController)
-        }
-    }
-    
-    private func removeSticker(_ stickerController: StickerViewController){
-        guard let index = controllers.firstIndex(of: stickerController) else {return}
-        stickerController.view.removeFromSuperview()
-        boardModel.remove(at: index)
-        controllers.remove(at: index)
-        if activeStickerController == stickerController {
-            activeStickerController = nil
-        }
+    private func moveStickerToBoard(_ controller: StickerViewController){
+        addChild(controller)
+        view.addSubview(controller.view)
+        controller.didMove(toParent: self)
     }
     
     private func switchActiveSticker(to newSticker: StickerViewController?) async {
@@ -136,6 +107,32 @@ class StickerBoardViewController: UIViewController {
     
 }
 
+extension StickerBoardViewController: StickerBoardModelDelegate {
+    
+    func stickerBoard(_ board: StickerBoardModel, didAddSticker sticker: StickerModel) {
+        let controller = StickerViewController(stickerModel: sticker)
+        controller.delegate = self
+        controllers.append(controller)
+        moveStickerToBoard(controller)
+        
+        // 操作対象を切り替える
+        Task {
+            await switchActiveSticker(to: controller)
+        }
+    }
+    
+    func stickerBoard(_ board: StickerBoardModel, didRemoveSticker sticker: StickerModel) {
+        guard let controller = controllers.first(where: {$0.stickerModel == sticker}) else {return}
+        
+        controller.view.removeFromSuperview()
+        controller.removeFromParent()
+        if activeStickerController == controller {
+            activeStickerController = nil
+        }
+    }
+    
+}
+
 extension StickerBoardViewController: StickerViewControllerDelegate {
     
     func stickerViewDidRequireActivation(_ sticker: StickerViewController) {
@@ -152,7 +149,7 @@ extension StickerBoardViewController: StickerViewControllerDelegate {
             await UIView.animate(withDuration: 0.08) {
                 sticker.view.alpha = 0.0
             }
-            removeSticker(sticker)
+            boardModel.remove(sticker.stickerModel)
         }
     }
     

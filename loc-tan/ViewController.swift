@@ -9,13 +9,31 @@ import UIKit
 
 class ViewController: UIViewController {
     
-    private let boardModel = StickerBoardModel(stickers: [])
+    private var boardModel: StickerBoardModel!
     
     private var boardController: StickerBoardViewController!
     
-    private var lastEncodedData: Data?
+    private let boardModelSaveKey = "StickerBoard"
     
-    @IBOutlet private weak var boardContainer: UIView!
+    /// ステッカーボードを配置するコンテナ
+    @IBOutlet private weak var containerView: UIView! {
+        didSet {
+            // 保存されているデータからボードモデルを再構成し、ビューコントローラを初期化
+            boardModel = restoreBoardModel() ?? .init(stickers: [])
+            boardController = .init(boardModel: boardModel)
+            
+            // StickerBoardViewControllerを子ViewControllerとして追加
+            addChild(boardController)
+            containerView.addSubview(boardController.view)
+            NSLayoutConstraint.activate([
+                containerView.topAnchor.constraint(equalTo: boardController.view.topAnchor),
+                containerView.bottomAnchor.constraint(equalTo: boardController.view.bottomAnchor),
+                containerView.leftAnchor.constraint(equalTo: boardController.view.leftAnchor),
+                containerView.rightAnchor.constraint(equalTo: boardController.view.rightAnchor),
+            ])
+            boardController.didMove(toParent: self)
+        }
+    }
     
     private let imageIdentifiers = [
         "dive_stage",
@@ -28,50 +46,26 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+    }
+    
+    private func restoreBoardModel() -> StickerBoardModel? {
+        guard let storedData = UserDefaults.standard.data(forKey: boardModelSaveKey),
+              let decodedBoard = try? JSONDecoder().decode(StickerBoardModel.self, from: storedData) else {return nil}
         
-        boardController = StickerBoardViewController(boardModel: boardModel)
-        
-        // StickerBoardViewControllerを子ViewControllerとして追加
-        addChild(boardController)
-        boardContainer.addSubview(boardController.view)
-        boardController.view.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            boardContainer.topAnchor.constraint(equalTo: boardController.view.topAnchor),
-            boardContainer.bottomAnchor.constraint(equalTo: boardController.view.bottomAnchor),
-            boardContainer.leftAnchor.constraint(equalTo: boardController.view.leftAnchor),
-            boardContainer.rightAnchor.constraint(equalTo: boardController.view.rightAnchor),
-        ])
-        boardController.didMove(toParent: self)
+        return decodedBoard
     }
     
     
     @IBAction func onTapAdd(_ sender: Any) {
         let center = CGPoint(x: (-100...100).randomElement()!, y: (-100...100).randomElement()!)
-        let sticker = StickerModel(imageIdentifier: imageIdentifiers.randomElement()!, center: center, width: 300, angle: .zero)
-        
-        print("new sticker spawn at \(center.shortDescription)")
-        boardController.addSticker(sticker)
+        print("new sticker will spawn at \(center.shortDescription)")
+        boardModel.add(.init(imageIdentifier: imageIdentifiers.randomElement()!, center: center, width: 300, angle: .zero))
     }
     
     
     @IBAction func onTapEncode(_ sender: Any) {
-        do {
-            let encodedModel = try JSONEncoder().encode(boardModel)
-            lastEncodedData = encodedModel
-        } catch {
-            print(error)
-        }
+        guard let encodedData = try? JSONEncoder().encode(boardModel) else {return}
+        UserDefaults.standard.setValue(encodedData, forKey: boardModelSaveKey)
     }
-    
-    @IBAction func onTapDecode(_ sender: Any) {
-        guard let lastEncodedData = lastEncodedData else {return}
-        do {
-            let decodedBoard = try JSONDecoder().decode(StickerBoardModel.self, from: lastEncodedData)
-            print("\(decodedBoard.stickers.count)個のステッカーをデコードしたけどこれどうやってモデルに戻すの")
-        } catch {
-            print(error)
-        }
-    }
-    
 }
 

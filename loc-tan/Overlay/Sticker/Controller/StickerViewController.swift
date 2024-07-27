@@ -9,7 +9,7 @@ import UIKit
 
 class StickerViewController: UIViewController {
     
-    private let stickerModel: StickerModel
+    let stickerModel: StickerModel
     
     private var isActive: Bool = false
     
