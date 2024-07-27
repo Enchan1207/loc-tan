@@ -11,12 +11,14 @@ class ViewController: UIViewController {
     
     private let model = ToolbarModel(mode: .Camera)
     
+    private let toolbarViewController = ToolbarViewController()
+    
     override var prefersStatusBarHidden: Bool {true}
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let toolbarViewController = ToolbarViewController(model: model)
+        toolbarViewController.model = model
         addChild(toolbarViewController)
         view.addSubview(toolbarViewController.view)
         NSLayoutConstraint.activate([

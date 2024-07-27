@@ -9,38 +9,14 @@ import UIKit
 
 class ToolbarViewController: UIViewController {
     
-    private let model: ToolbarModel
-    
-    // MARK: - Components
+    var model: ToolbarModel! {
+        didSet {
+            model.delegate = self
+            toolbarView.updateView(with: model)
+        }
+    }
     
     private var toolbarView: ToolbarView { self.view as! ToolbarView }
-    
-    // MARK: - Initializing
-    
-    init(model: ToolbarModel) {
-        self.model = model
-        super.init(nibName: nil, bundle: nil)
-        model.delegate = self
-    }
-    
-    required init?(coder: NSCoder) {
-        guard let model = coder.decodeObject(forKey: "model") as? ToolbarModel else {return nil}
-        self.model = model
-        super.init(coder: coder)
-        model.delegate = self
-    }
-    
-    override func encode(with coder: NSCoder) {
-        super.encode(with: coder)
-        coder.encode(model, forKey: "model")
-    }
-    
-    override func encodeRestorableState(with coder: NSCoder) {
-        super.encodeRestorableState(with: coder)
-        coder.encode(model, forKey: "model")
-    }
-    
-    // MARK: - View lifecycle
     
     override func loadView() {
         self.view = ToolbarView(frame: .zero)
