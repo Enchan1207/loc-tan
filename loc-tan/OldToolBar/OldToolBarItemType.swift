@@ -1,5 +1,5 @@
 //
-//  ToolBarItemType.swift
+//  OldToolBarItemType.swift
 //  loc-tan
 //
 //  Created by EnchantCode on 2024/06/22.
@@ -8,7 +8,7 @@
 import Foundation
 
 /// ツールバーボタンの種別
-enum ToolBarItemType {
+enum OldToolBarItemType {
     
     /// オブジェクト回転
     case rotate

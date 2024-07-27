@@ -1,5 +1,5 @@
 //
-//  ToolBarModeSwitcher.swift
+//  OldToolBarModeSwitcher.swift
 //  loc-tan
 //
 //  Created by EnchantCode on 2024/06/23.
@@ -8,25 +8,25 @@
 import UIKit
 
 /// ツールバーのモード切り替えボタン
-class ToolBarModeSwitcher: UIButton {
+class OldToolBarModeSwitcher: UIButton {
 
     // MARK: - Properties
     
     /// 現在のモード
-    private var currentMode: ToolBarMode = .normal
+    private var currentMode: OldToolBarMode = .normal
     
     override var buttonType: UIButton.ButtonType { .custom }
     
     // MARK: - Initializers
     
-    init(mode: ToolBarMode) {
+    init(mode: OldToolBarMode) {
         self.currentMode = mode
         super.init(frame: .null)
         setup()
     }
     
     required init?(coder: NSCoder) {
-        self.currentMode = coder.decodeObject(forKey: "mode") as? ToolBarMode ?? .normal
+        self.currentMode = coder.decodeObject(forKey: "mode") as? OldToolBarMode ?? .normal
         super.init(coder: coder)
         setup()
     }
@@ -63,7 +63,7 @@ class ToolBarModeSwitcher: UIButton {
     /// モードに対応する画像を取得
     /// - Parameter mode: モード
     /// - Returns: モードに対応する画像
-    private func image(for mode: ToolBarMode) -> UIImage? {
+    private func image(for mode: OldToolBarMode) -> UIImage? {
         let symbolName: String
         switch mode {
         case .normal:
@@ -79,7 +79,7 @@ class ToolBarModeSwitcher: UIButton {
     ///   - mode: モード
     ///   - duration: トランジション時間
     @MainActor
-    func switchMode(to mode: ToolBarMode, duration: TimeInterval) async {
+    func switchMode(to mode: OldToolBarMode, duration: TimeInterval) async {
         self.isUserInteractionEnabled = false
         await UIView.transision(with: self, duration: duration, options: .transitionCrossDissolve) {
             self.setImage(self.image(for: mode), for: .normal)

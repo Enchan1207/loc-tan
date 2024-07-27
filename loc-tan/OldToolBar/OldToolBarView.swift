@@ -1,5 +1,5 @@
 //
-//  ToolBarView.swift
+//  OldToolBarView.swift
 //  loc-tan
 //
 //  Created by EnchantCode on 2024/06/23.
@@ -8,29 +8,29 @@
 import UIKit
 
 /// 画面上端に表示されるツールバー
-class ToolBarView: UIView {
+class OldToolBarView: UIView {
     
     // MARK: - Properties
     
     /// 現在のモード
-    private var currentMode: ToolBarMode = .normal
+    private var currentMode: OldToolBarMode = .normal
     
     /// デリゲート
-    weak var delegate: ToolBarViewDelegate?
+    weak var delegate: OldToolBarViewDelegate?
     
     /// データソース
-    weak var dataSource: ToolBarViewDataSource?
+    weak var dataSource: OldToolBarViewDataSource?
     
     /// モード別ツールバーアイテムリスト
-    private var itemTypes: [ToolBarMode: [ToolBarItemType]] = [:]
+    private var itemTypes: [OldToolBarMode: [OldToolBarItemType]] = [:]
     
     // MARK: - GUI Components
     
     /// サブアイテムを配置するスタック
-    private let itemStack: ToolBarItemStack = .init(items: [])
+    private let itemStack: OldToolBarItemStack = .init(items: [])
     
     /// モードスイッチャ
-    private let modeSwitcher: ToolBarModeSwitcher = .init(mode: .normal)
+    private let modeSwitcher: OldToolBarModeSwitcher = .init(mode: .normal)
     
     
     // MARK: - Initializers
@@ -69,7 +69,7 @@ class ToolBarView: UIView {
     
     // MARK: - Gesture recognizers
     
-    @objc private func onTapModeSwitcher(_ sender: ToolBarModeSwitcher) {
+    @objc private func onTapModeSwitcher(_ sender: OldToolBarModeSwitcher) {
         currentMode = currentMode == .normal ? .edit : .normal
         let animationDuration = 0.2
         
@@ -99,7 +99,7 @@ class ToolBarView: UIView {
     /// - Parameter mode: モード
     /// - Returns: モードに対応するアイテムタイプのリスト
     /// - Note: 存在しない場合はデータソースに尋ね、応答をキャッシュします。
-    private func getItemTypes(for mode: ToolBarMode) -> [ToolBarItemType]{
+    private func getItemTypes(for mode: OldToolBarMode) -> [OldToolBarItemType]{
         // 存在するならそれを返す
         if let exisingTypes = itemTypes[mode] {
             return exisingTypes
@@ -117,9 +117,9 @@ class ToolBarView: UIView {
     
 }
 
-extension ToolBarView: ToolBarItemStackDelegate {
+extension OldToolBarView: OldToolBarItemStackDelegate {
     
-    func toolbarItemStack(_ itemStack: ToolBarItemStack, didTapItem type: ToolBarItemType) {
+    func toolbarItemStack(_ itemStack: OldToolBarItemStack, didTapItem type: OldToolBarItemType) {
         delegate?.toolbar(self, didTapItem: type)
     }
     

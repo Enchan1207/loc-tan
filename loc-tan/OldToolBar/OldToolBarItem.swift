@@ -1,5 +1,5 @@
 //
-//  ToolBarItem.swift
+//  OldToolBarItem.swift
 //  loc-tan
 //
 //  Created by EnchantCode on 2024/06/23.
@@ -8,23 +8,23 @@
 import UIKit
 
 /// ツールバー上のボタン
-class ToolBarItem: UIButton {
+class OldToolBarItem: UIButton {
     
     /// ボタンの種別
-    let itemType: ToolBarItemType
+    let itemType: OldToolBarItemType
     
     override var buttonType: UIButton.ButtonType { .custom }
     
     // MARK: - Initializers
     
-    init(itemType: ToolBarItemType){
+    init(itemType: OldToolBarItemType){
         self.itemType = itemType
         super.init(frame: .null)
         setup()
     }
     
     required init?(coder: NSCoder) {
-        self.itemType = (coder.decodeObject(forKey: "type") as? ToolBarItemType) ?? .none
+        self.itemType = (coder.decodeObject(forKey: "type") as? OldToolBarItemType) ?? .none
         super.init(coder: coder)
         setup()
     }

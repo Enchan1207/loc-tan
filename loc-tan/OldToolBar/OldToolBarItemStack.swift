@@ -1,5 +1,5 @@
 //
-//  ToolBarItemStack.swift
+//  OldToolBarItemStack.swift
 //  loc-tan
 //
 //  Created by EnchantCode on 2024/06/23.
@@ -8,25 +8,25 @@
 import UIKit
 
 /// ツールバーアイテムを配置するスタック
-class ToolBarItemStack: UIStackView {
+class OldToolBarItemStack: UIStackView {
     
     // MARK: - Properties
     
     /// ツールバーアイテムのリスト
-    private var items: [ToolBarItemType]
+    private var items: [OldToolBarItemType]
     
-    weak var delegate: ToolBarItemStackDelegate?
+    weak var delegate: OldToolBarItemStackDelegate?
     
     // MARK: - Initializers
     
-    init(items: [ToolBarItemType]){
+    init(items: [OldToolBarItemType]){
         self.items = items
         super.init(frame: .null)
         setup()
     }
     
     required init(coder: NSCoder) {
-        self.items = coder.decodeObject(forKey: "items") as? [ToolBarItemType] ?? []
+        self.items = coder.decodeObject(forKey: "items") as? [OldToolBarItemType] ?? []
         super.init(coder: coder)
         setup()
     }
@@ -51,13 +51,13 @@ class ToolBarItemStack: UIStackView {
     
     // MARK: - Methods
     
-    @objc private func onTapButton(_ sender: ToolBarItem){
+    @objc private func onTapButton(_ sender: OldToolBarItem){
         delegate?.toolbarItemStack(self, didTapItem: sender.itemType)
     }
     
     /// ツールバーアイテムを強制的に初期化
     /// - Parameter buttonTypes: 配置するボタンタイプのリスト
-    func resetButtons(_ buttonTypes: [ToolBarItemType]) {
+    func resetButtons(_ buttonTypes: [OldToolBarItemType]) {
         self.arrangedSubviews.forEach({view in
             self.removeArrangedSubview(view)
             view.removeFromSuperview()
@@ -65,7 +65,7 @@ class ToolBarItemStack: UIStackView {
         self.layoutIfNeeded()
         
         (Array(repeating: .none, count: max(2 - buttonTypes.count, 0)) + buttonTypes)
-            .map({ToolBarItem(itemType: $0)})
+            .map({OldToolBarItem(itemType: $0)})
             .forEach { item in
                 item.addTarget(self, action: #selector(onTapButton), for: .touchUpInside)
                 addArrangedSubview(item)
@@ -78,7 +78,7 @@ class ToolBarItemStack: UIStackView {
     ///   - types: 設定するボタンのタイプ
     ///   - duration: トランジション時間
     @MainActor
-    func setButtons(_ types: [ToolBarItemType], duration: TimeInterval) async {
+    func setButtons(_ types: [OldToolBarItemType], duration: TimeInterval) async {
         // アイテムスタックごとユーザインタラクションを停止し、アルファをゼロに
         self.isUserInteractionEnabled = false
         await UIView.animate(withDuration: duration / 2.0) {

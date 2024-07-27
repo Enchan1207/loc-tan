@@ -15,25 +15,9 @@
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zyN-iL-npP" customClass="ToolBarView" customModule="loc_tan" customModuleProvider="target">
-                                <rect key="frame" x="10" y="69" width="373" height="50"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="50" id="d0b-GZ-pDu"/>
-                                </constraints>
-                            </view>
-                        </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                        <constraints>
-                            <constraint firstItem="zyN-iL-npP" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="10" id="21a-YB-EBV"/>
-                            <constraint firstItem="zyN-iL-npP" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="10" id="5J5-UC-yAP"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="zyN-iL-npP" secondAttribute="trailing" constant="10" id="X4F-V9-rCZ"/>
-                        </constraints>
                     </view>
-                    <connections>
-                        <outlet property="toolbar" destination="zyN-iL-npP" id="Vn1-Pw-R6a"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
