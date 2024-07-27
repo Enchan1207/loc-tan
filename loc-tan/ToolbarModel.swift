@@ -7,11 +7,11 @@
 
 import Foundation
 
-enum Mode {
+enum ToolbarMode {
     case Camera
     case Edit
     
-    var opposite: Mode {
+    var opposite: ToolbarMode {
         self == .Camera ? .Edit : .Camera
     }
 }
@@ -25,21 +25,21 @@ enum ToolBarItem {
 
 protocol ToolbarModelDelegate: AnyObject {
     
-    func toolBarModel(_ model: ToolbarModel, didSwitchMode to: Mode)
+    func toolBarModel(_ model: ToolbarModel, didSwitchMode to: ToolbarMode)
     
 }
 
 class ToolbarModel {
     
-    private(set) var currentMode: Mode
+    private(set) var currentMode: ToolbarMode
     
     weak var delegate: ToolbarModelDelegate?
     
-    init(mode: Mode) {
+    init(mode: ToolbarMode) {
         self.currentMode = mode
     }
     
-    func switchMode(to mode: Mode){
+    func setMode(_ mode: ToolbarMode){
         self.currentMode = mode
         self.delegate?.toolBarModel(self, didSwitchMode: mode)
     }
