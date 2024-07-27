@@ -33,7 +33,9 @@ class ToolbarViewController: UIViewController {
 extension ToolbarViewController: ToolbarModelDelegate {
     
     func toolBarModel(_ model: ToolbarModel, didSwitchMode to: ToolbarMode) {
-        toolbarView.updateView(with: model)
+        Task{
+            await toolbarView.updateView(with: model, duration: 0.2)
+        }
     }
     
 }

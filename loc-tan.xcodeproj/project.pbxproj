@@ -28,6 +28,8 @@
 		9EE2084F2C54B38B0034A989 /* ToolbarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EE2084E2C54B38B0034A989 /* ToolbarView.swift */; };
 		9EE208512C54BBB20034A989 /* ToolbarViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EE208502C54BBB20034A989 /* ToolbarViewDelegate.swift */; };
 		9EE208572C54CF6E0034A989 /* ToolbarModelDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EE208562C54CF6E0034A989 /* ToolbarModelDelegate.swift */; };
+		9EE2085B2C54D7980034A989 /* ToolBarModeSwitcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EE2085A2C54D7980034A989 /* ToolBarModeSwitcher.swift */; };
+		9EE2085D2C54DB450034A989 /* ToolBarItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EE2085C2C54DB450034A989 /* ToolBarItemView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -54,6 +56,8 @@
 		9EE2084E2C54B38B0034A989 /* ToolbarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolbarView.swift; sourceTree = "<group>"; };
 		9EE208502C54BBB20034A989 /* ToolbarViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolbarViewDelegate.swift; sourceTree = "<group>"; };
 		9EE208562C54CF6E0034A989 /* ToolbarModelDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ToolbarModelDelegate.swift; path = "loc-tan/ToolbarModelDelegate.swift"; sourceTree = SOURCE_ROOT; };
+		9EE2085A2C54D7980034A989 /* ToolBarModeSwitcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolBarModeSwitcher.swift; sourceTree = "<group>"; };
+		9EE2085C2C54DB450034A989 /* ToolBarItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolBarItemView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -147,6 +151,8 @@
 			isa = PBXGroup;
 			children = (
 				9EE2084E2C54B38B0034A989 /* ToolbarView.swift */,
+				9EE2085C2C54DB450034A989 /* ToolBarItemView.swift */,
+				9EE2085A2C54D7980034A989 /* ToolBarModeSwitcher.swift */,
 				9EE208502C54BBB20034A989 /* ToolbarViewDelegate.swift */,
 			);
 			path = View;
@@ -235,6 +241,7 @@
 				9E7401B92C27BC5B0036059D /* OldToolBarMode.swift in Sources */,
 				9E54630D2C27AFA200602285 /* OldToolBarView.swift in Sources */,
 				9EE2084D2C54A9D40034A989 /* ToolbarViewController.swift in Sources */,
+				9EE2085B2C54D7980034A989 /* ToolBarModeSwitcher.swift in Sources */,
 				9E7401BC2C27BD1D0036059D /* UIViewExt.swift in Sources */,
 				9E7401C02C2860890036059D /* OldToolBarItemStackDelegate.swift in Sources */,
 				9E78F1582C1D9991000EDE4A /* ViewController.swift in Sources */,
@@ -247,6 +254,7 @@
 				9E7401B72C27BB4A0036059D /* OldToolBarModeSwitcher.swift in Sources */,
 				9E5463072C27073B00602285 /* OldToolBarItemType.swift in Sources */,
 				9E5463102C27B11C00602285 /* OldToolBarViewDelegate.swift in Sources */,
+				9EE2085D2C54DB450034A989 /* ToolBarItemView.swift in Sources */,
 				9EE208572C54CF6E0034A989 /* ToolbarModelDelegate.swift in Sources */,
 				9EE2084B2C549AA60034A989 /* ToolbarModel.swift in Sources */,
 			);

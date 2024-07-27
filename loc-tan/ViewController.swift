@@ -21,11 +21,13 @@ class ViewController: UIViewController {
         toolbarViewController.model = model
         toolbarViewController.delegate = self
         addChild(toolbarViewController)
-        view.addSubview(toolbarViewController.view)
+        let toolbarView = toolbarViewController.view!
+        view.addSubview(toolbarView)
         NSLayoutConstraint.activate([
-            view.safeAreaLayoutGuide.topAnchor.constraint(equalTo: toolbarViewController.view.topAnchor),
-            view.safeAreaLayoutGuide.leftAnchor.constraint(equalTo: toolbarViewController.view.leftAnchor),
-            view.safeAreaLayoutGuide.rightAnchor.constraint(equalTo: toolbarViewController.view.rightAnchor),
+            view.safeAreaLayoutGuide.topAnchor.constraint(equalTo: toolbarView.topAnchor),
+            view.safeAreaLayoutGuide.leftAnchor.constraint(equalTo: toolbarView.leftAnchor),
+            view.safeAreaLayoutGuide.rightAnchor.constraint(equalTo: toolbarView.rightAnchor),
+            toolbarView.heightAnchor.constraint(equalToConstant: 55)
         ])
         toolbarViewController.didMove(toParent: self)
     }

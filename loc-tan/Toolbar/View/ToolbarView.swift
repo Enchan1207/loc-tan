@@ -13,9 +13,9 @@ class ToolbarView: UIView {
     
     // MARK: - Components
     
-    private let topBar = UINavigationBar()
+    private let itemStack = UIStackView()
     
-    private let topBarItem = UINavigationItem()
+    private let modeSwitcher = ToolBarModeSwitcher()
     
     // MARK: - Initializing
     
@@ -29,101 +29,103 @@ class ToolbarView: UIView {
         setup()
     }
     
-    private func setup(){
-        topBar.setItems([topBarItem], animated: false)
-        
+    private func setup(){        
         self.translatesAutoresizingMaskIntoConstraints = false
-        addSubview(topBar)
-        topBar.translatesAutoresizingMaskIntoConstraints = false
+        let containerView = setupContainer(base: self, margin: 10)
+        setupItemStack(on: containerView)
+        setupModeSwitcher(on: containerView)
+    }
+    
+    private func setupContainer(base: UIView, margin: CGFloat) -> UIView {
+        let containerView = UIView()
+        containerView.translatesAutoresizingMaskIntoConstraints = false
+        base.addSubview(containerView)
         NSLayoutConstraint.activate([
-            topAnchor.constraint(equalTo: topBar.topAnchor),
-            bottomAnchor.constraint(equalTo: topBar.bottomAnchor),
-            leftAnchor.constraint(equalTo: topBar.leftAnchor),
-            rightAnchor.constraint(equalTo: topBar.rightAnchor),
+            containerView.topAnchor.constraint(equalTo: base.topAnchor, constant: margin),
+            containerView.bottomAnchor.constraint(equalTo: base.bottomAnchor, constant: -margin),
+            containerView.leftAnchor.constraint(equalTo: base.leftAnchor, constant: margin),
+            containerView.rightAnchor.constraint(equalTo: base.rightAnchor, constant: -margin),
+        ])
+        return containerView
+    }
+    
+    private func setupItemStack(on container: UIView){
+        itemStack.distribution = .equalSpacing
+        itemStack.translatesAutoresizingMaskIntoConstraints = false
+        container.addSubview(itemStack)
+        NSLayoutConstraint.activate([
+            itemStack.centerYAnchor.constraint(equalTo: container.centerYAnchor),
+            itemStack.widthAnchor.constraint(equalTo: container.widthAnchor, multiplier: 0.6),
+            itemStack.heightAnchor.constraint(equalTo: container.heightAnchor),
+            itemStack.rightAnchor.constraint(equalTo: container.rightAnchor)
         ])
     }
     
-    func updateView(with model: ToolbarModel){
-        topBarItem.leftBarButtonItem = .init(image: model.currentMode.symbolImage, style: .plain, target: self, action: #selector(onTapSwitch))
-        topBarItem.rightBarButtonItems = model.toolBarItems.map({item in
-            let barButtonItem = UIBarButtonItem(image: item.symbolImage, style: .plain, target: self, action: #selector(onTapItem))
-            barButtonItem.tag = item.tagValue
-            return barButtonItem
-        })
+    private func setupModeSwitcher(on container: UIView){
+        container.addSubview(modeSwitcher)
+        NSLayoutConstraint.activate([
+            modeSwitcher.centerYAnchor.constraint(equalTo: container.centerYAnchor),
+            modeSwitcher.leftAnchor.constraint(equalTo: container.leftAnchor),
+            modeSwitcher.heightAnchor.constraint(equalTo: container.heightAnchor),
+        ])
+        modeSwitcher.addTarget(self, action: #selector(onTapSwitch), for: .touchUpInside)
     }
     
-    @objc private func onTapSwitch(_ item: UIBarButtonItem){
+    // MARK: - Interface between ViewController
+    
+    func updateView(with model: ToolbarModel){
+        modeSwitcher.updateView(mode: model.currentMode)
+        setItemButtons(items: model.toolBarItems)
+        self.layoutIfNeeded()
+    }
+    
+    @MainActor
+    func updateView(with model: ToolbarModel, duration: TimeInterval) async {
+        self.modeSwitcher.isUserInteractionEnabled = false
+        await withTaskGroup(of: Void.self) {[weak self] group in
+            guard let `self` = self else {return}
+            group.addTask { await self.modeSwitcher.updateView(mode: model.currentMode, duration: duration) }
+            group.addTask { await self.updateItemStack(items: model.toolBarItems, duration: duration) }
+        }
+        self.modeSwitcher.isUserInteractionEnabled = true
+    }
+    
+    @MainActor
+    func updateItemStack(items: [ToolBarItem], duration: TimeInterval) async {
+        itemStack.isUserInteractionEnabled = false
+        await UIView.animate(withDuration: duration / 2.0) {
+            self.itemStack.alpha = 0
+        }
+        setItemButtons(items: items)
+        await UIView.animate(withDuration: duration / 2.0) {
+            self.itemStack.alpha = 1
+        }
+        itemStack.isUserInteractionEnabled = true
+    }
+    
+    private func setItemButtons(items: [ToolBarItem]){
+        let itemViewsFromModel = items.map({item in
+            let itemView = ToolBarItemView()
+            itemView.item = item
+            itemView.addTarget(self, action: #selector(onTapItem), for: .touchUpInside)
+            return itemView
+        })
+        
+        // アイテムビューが一つしかない場合は、スペーサになるビューをひとつ追加して返す
+        let itemViews = (items.count == 1 ? [ToolBarItemView()] : []) + itemViewsFromModel
+        
+        itemStack.arrangedSubviews.forEach({view in
+            itemStack.removeArrangedSubview(view)
+            view.removeFromSuperview()
+        })
+        itemViews.forEach(itemStack.addArrangedSubview)
+    }
+    
+    @objc private func onTapSwitch(){
         delegate?.toolbarViewDidTapModeSwitcher(self)
     }
     
-    @objc private func onTapItem(_ item: UIBarButtonItem){
-        guard let tappedItem = ToolBarItem(tagValue: item.tag) else {
-            print("Warning: unexpected tag value: \(item.tag)")
-            return
-        }
-        delegate?.toolbarView(self, didTapItem: tappedItem)
+    @objc private func onTapItem(_ itemView: ToolBarItemView){
+        delegate?.toolbarView(self, didTapItem: itemView.item)
     }
-}
-
-
-fileprivate extension ToolbarMode {
-    
-    var symbolImage: UIImage {
-        let symbolName: String
-        switch self {
-        case .Camera:
-            symbolName = "square.2.layers.3d.top.filled"
-        case .Edit:
-            symbolName = "square.2.layers.3d.bottom.filled"
-        }
-        return .init(systemName: symbolName)!
-    }
-    
-}
-
-fileprivate extension ToolBarItem {
-    
-    var tagValue: Int {
-        switch self {
-        case .Settings:
-            return 1
-        case .Rotate:
-            return 2
-        case .Fullsize:
-            return 3
-        case .Add:
-            return 4
-        }
-    }
-    
-    init?(tagValue: Int){
-        switch tagValue {
-        case 1:
-            self = .Settings
-        case 2:
-            self = .Rotate
-        case 3:
-            self = .Fullsize
-        case 4:
-            self = .Add
-        default:
-            return nil
-        }
-    }
-    
-    var symbolImage: UIImage {
-        let symbolName: String
-        switch self {
-        case .Settings:
-            symbolName = "gearshape"
-        case .Rotate:
-            symbolName = "rotate.right"
-        case .Fullsize:
-            symbolName = "arrow.up.left.and.arrow.down.right"
-        case .Add:
-            symbolName = "plus.circle"
-        }
-        return .init(systemName: symbolName)!
-    }
-    
 }
