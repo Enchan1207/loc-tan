@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import PhotosUI
 
 class ViewController: UIViewController {
     
@@ -48,9 +49,44 @@ class ViewController: UIViewController {
     
     
     @IBAction func onTapAdd(_ sender: Any) {
-        // TODO: PHPicker表示して画像選択、モデル生成時に一気に渡してしまう
-        let center = CGPoint(x: (-100...100).randomElement()!, y: (-100...100).randomElement()!)
-        print("new sticker will spawn at \(center.shortDescription)")
+        // ピッカーを表示
+        let config = {
+            var config = PHPickerConfiguration(photoLibrary: .shared())
+            config.filter = .images
+            config.selectionLimit = 1
+            config.preferredAssetRepresentationMode = .current
+            return config
+        }()
+        let picker = PHPickerViewController(configuration: config)
+        picker.delegate = self
+        self.present(picker, animated: true)
+    }
+    
+    private func spawnSticker(with image: UIImage){
+        // スポーン位置は画面中央 幅は画面より少し狭く
+        let width = boardController.view.bounds.width * 0.9
+        let center = CGPoint.zero
+        let sticker = StickerModel(image: image, center: center, width: width, angle: .zero)
+        boardModel.add(sticker)
     }
 }
 
+extension ViewController: PHPickerViewControllerDelegate {
+    
+    func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
+        picker.dismiss(animated: true)
+        guard let provider = results.first?.itemProvider,
+              provider.canLoadObject(ofClass: UIImage.self) else {return}
+        
+        provider.loadObject(ofClass: UIImage.self) {[weak self] item, error in
+            guard error == nil, let image = item as? UIImage else {
+                print(error!)
+                return
+            }
+            DispatchQueue.main.async {
+                self?.spawnSticker(with: image)
+            }
+        }
+    }
+    
+}
