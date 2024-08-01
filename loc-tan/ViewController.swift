@@ -9,7 +9,7 @@ import UIKit
 
 class ViewController: UIViewController {
     
-    private var boardModel: StickerBoardModel!
+    private let boardModel = StickerBoardModel(stickers: [])
     
     private var boardController: StickerBoardViewController!
     
@@ -18,8 +18,6 @@ class ViewController: UIViewController {
     /// ステッカーボードを配置するコンテナ
     @IBOutlet private weak var containerView: UIView! {
         didSet {
-            // 保存されているデータからボードモデルを再構成し、ビューコントローラを初期化
-            boardModel = restoreBoardModel() ?? .init(stickers: [])
             boardController = .init(boardModel: boardModel)
             
             // StickerBoardViewControllerを子ViewControllerとして追加
@@ -48,24 +46,11 @@ class ViewController: UIViewController {
         super.viewDidLoad()
     }
     
-    private func restoreBoardModel() -> StickerBoardModel? {
-        guard let storedData = UserDefaults.standard.data(forKey: boardModelSaveKey),
-              let decodedBoard = try? JSONDecoder().decode(StickerBoardModel.self, from: storedData) else {return nil}
-        
-        return decodedBoard
-    }
-    
     
     @IBAction func onTapAdd(_ sender: Any) {
+        // TODO: PHPicker表示して画像選択、モデル生成時に一気に渡してしまう
         let center = CGPoint(x: (-100...100).randomElement()!, y: (-100...100).randomElement()!)
         print("new sticker will spawn at \(center.shortDescription)")
-        boardModel.add(.init(imageIdentifier: imageIdentifiers.randomElement()!, center: center, width: 300, angle: .zero))
-    }
-    
-    
-    @IBAction func onTapEncode(_ sender: Any) {
-        guard let encodedData = try? JSONEncoder().encode(boardModel) else {return}
-        UserDefaults.standard.setValue(encodedData, forKey: boardModelSaveKey)
     }
 }
 

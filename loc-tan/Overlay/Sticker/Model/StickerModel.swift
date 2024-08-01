@@ -8,7 +8,7 @@
 import UIKit
 
 
-final class StickerModel: Codable {
+final class StickerModel {
     
     private let id = UUID()
     
@@ -16,13 +16,8 @@ final class StickerModel: Codable {
     
     // MARK: - Properties
     
-    /// ステッカーの画像を表す識別子
-    let imageIdentifier: String
-    
     /// ステッカーの画像
-    var image: UIImage? {
-        StickerImageProvider.shared.image(for: imageIdentifier)
-    }
+    let image: UIImage
     
     /// 中心座標
     var center: CGPoint {
@@ -46,7 +41,6 @@ final class StickerModel: Codable {
     }
     
     private enum CodingKeys: String, CodingKey {
-        case imageIdentifier
         case center
         case width
         case angle
@@ -54,29 +48,12 @@ final class StickerModel: Codable {
     
     // MARK: - Initializing
     
-    init(imageIdentifier: String, center: CGPoint, width: CGFloat, angle: Angle) {
-        self.imageIdentifier = imageIdentifier
+    init(image: UIImage, center: CGPoint, width: CGFloat, angle: Angle) {
+        self.image = image
         self.center = center
         self.width = width
         self.angle = angle
     }
-    
-    init(from decoder: any Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.imageIdentifier = try container.decode(String.self, forKey: .imageIdentifier)
-        self.center = try container.decode(CGPoint.self, forKey: .center)
-        self.width = try container.decode(CGFloat.self, forKey: .width)
-        self.angle = try container.decode(Angle.self, forKey: .angle)
-    }
-    
-    func encode(to encoder: any Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(self.imageIdentifier, forKey: .imageIdentifier)
-        try container.encode(self.center, forKey: .center)
-        try container.encode(self.width, forKey: .width)
-        try container.encode(self.angle, forKey: .angle)
-    }
-    
 }
 
 extension StickerModel: Hashable {

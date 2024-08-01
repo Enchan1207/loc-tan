@@ -31,6 +31,15 @@ class StickerView: UIView {
         setup()
     }
     
+    init(frame: CGRect, image: UIImage, center: CGPoint, width: CGFloat, angle: Angle){
+        self.stickerImage = image
+        super.init(frame: frame)
+        setup()
+        updateCenter(center)
+        updateWidth(width)
+        updateAngle(angle)
+    }
+    
     required init?(coder: NSCoder) {
         // NOTE: このクラス自体をNSCoder経由でインスタンス化することはないだろうという読み
         fatalError("init(coder:) has not been implemented")

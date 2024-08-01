@@ -39,22 +39,21 @@ class StickerViewController: UIViewController {
         // NOTE: このクラス自体をNSCoder経由でインスタンス化することはないだろうという読み
         fatalError("init(coder:) has not been implemented")
     }
-
+    
     // MARK: - View lifecycle
     
     override func loadView() {
-        // TODO: フォールバック画像を持たせるべきか、それとも?
-        let sticker = StickerView(frame: .zero, image: stickerModel.image!)
-        sticker.updateWidth(stickerModel.width)
-        sticker.updateCenter(stickerModel.center)
-        sticker.updateAngle(stickerModel.angle)
-        
-        self.view = sticker
+        self.view = StickerView(
+            frame: .zero,
+            image: stickerModel.image,
+            center:stickerModel.center,
+            width:stickerModel.width,
+            angle: stickerModel.angle)
     }
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(onTapSticker))
         self.view.addGestureRecognizer(tapGesture)
         
@@ -110,7 +109,7 @@ class StickerViewController: UIViewController {
             view.center -= panGestureTranslation
             panGestureTranslation = .zero
             break
-        
+            
         default:
             break
         }
@@ -141,7 +140,7 @@ class StickerViewController: UIViewController {
             view.center -= panGestureTranslation
             pinchGestureScale = 1.0
             break
-        
+            
         default:
             break
         }
@@ -184,7 +183,7 @@ class StickerViewController: UIViewController {
         guard self.view.becomeFirstResponder() else {return}
         interaction.presentEditMenu(with: .init(identifier: nil, sourcePoint: point))
     }
-
+    
 }
 
 extension StickerViewController: StickerModelDelegate {

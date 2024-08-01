@@ -7,7 +7,7 @@
 
 import Foundation
 
-class StickerBoardModel: Codable {
+class StickerBoardModel {
     
     // MARK: - Properties
     
@@ -15,24 +15,10 @@ class StickerBoardModel: Codable {
     
     weak var delegate: StickerBoardModelDelegate?
     
-    private enum CodingKeys: String, CodingKey {
-        case stickers
-    }
-    
     // MARK: - Initializing
     
     init(stickers: [StickerModel]) {
         self.stickers = stickers
-    }
-    
-    required init(from decoder: any Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.stickers = try container.decode([StickerModel].self, forKey: .stickers)
-    }
-    
-    func encode(to encoder: any Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(stickers, forKey: .stickers)
     }
     
     // MARK: - Operations
