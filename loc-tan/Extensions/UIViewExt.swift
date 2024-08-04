@@ -2,7 +2,11 @@
 //  UIViewExt.swift
 //  loc-tan
 //
+<<<<<<< HEAD
 //  Created by EnchantCode on 2024/06/23.
+=======
+//  Created by EnchantCode on 2024/06/30.
+>>>>>>> develop
 //
 
 import UIKit
