@@ -17,6 +17,8 @@
 		9E3417772C5F0B27006B8360 /* ToolbarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E34176F2C5F0B27006B8360 /* ToolbarView.swift */; };
 		9E3417782C5F0B27006B8360 /* ToolbarViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E3417702C5F0B27006B8360 /* ToolbarViewDelegate.swift */; };
 		9E34177A2C5F0DBB006B8360 /* ToolbarModelDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E3417792C5F0DBB006B8360 /* ToolbarModelDelegate.swift */; };
+		9E34177F2C5F3E6D006B8360 /* CameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E34177E2C5F3E6D006B8360 /* CameraView.swift */; };
+		9E3417832C5F3E83006B8360 /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E3417822C5F3E83006B8360 /* CameraViewController.swift */; };
 		9E78F1542C1D9991000EDE4A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E78F1532C1D9991000EDE4A /* AppDelegate.swift */; };
 		9E78F1562C1D9991000EDE4A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E78F1552C1D9991000EDE4A /* SceneDelegate.swift */; };
 		9E78F1582C1D9991000EDE4A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E78F1572C1D9991000EDE4A /* ViewController.swift */; };
@@ -45,6 +47,8 @@
 		9E34176F2C5F0B27006B8360 /* ToolbarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToolbarView.swift; sourceTree = "<group>"; };
 		9E3417702C5F0B27006B8360 /* ToolbarViewDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToolbarViewDelegate.swift; sourceTree = "<group>"; };
 		9E3417792C5F0DBB006B8360 /* ToolbarModelDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToolbarModelDelegate.swift; sourceTree = "<group>"; };
+		9E34177E2C5F3E6D006B8360 /* CameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraView.swift; sourceTree = "<group>"; };
+		9E3417822C5F3E83006B8360 /* CameraViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
 		9E78F1502C1D9991000EDE4A /* loc-tan.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "loc-tan.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9E78F1532C1D9991000EDE4A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9E78F1552C1D9991000EDE4A /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -123,6 +127,31 @@
 			path = Toolbar;
 			sourceTree = "<group>";
 		};
+		9E34177B2C5F3E3F006B8360 /* Camera */ = {
+			isa = PBXGroup;
+			children = (
+				9E34177D2C5F3E60006B8360 /* ViewController */,
+				9E34177C2C5F3E5C006B8360 /* View */,
+			);
+			path = Camera;
+			sourceTree = "<group>";
+		};
+		9E34177C2C5F3E5C006B8360 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				9E34177E2C5F3E6D006B8360 /* CameraView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		9E34177D2C5F3E60006B8360 /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				9E3417822C5F3E83006B8360 /* CameraViewController.swift */,
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
 		9E78F1472C1D9991000EDE4A = {
 			isa = PBXGroup;
 			children = (
@@ -142,6 +171,7 @@
 		9E78F1522C1D9991000EDE4A /* loc-tan */ = {
 			isa = PBXGroup;
 			children = (
+				9E34177B2C5F3E3F006B8360 /* Camera */,
 				9E78F1532C1D9991000EDE4A /* AppDelegate.swift */,
 				9E78F1552C1D9991000EDE4A /* SceneDelegate.swift */,
 				9E78F1572C1D9991000EDE4A /* ViewController.swift */,
@@ -312,6 +342,7 @@
 				9E1E5D182C31325D001F8EB9 /* UIViewExt.swift in Sources */,
 				9E1917542C4EA2D400ECA384 /* Angle.swift in Sources */,
 				9E3417762C5F0B27006B8360 /* ToolBarModeSwitcher.swift in Sources */,
+				9E3417832C5F3E83006B8360 /* CameraViewController.swift in Sources */,
 				9E3417742C5F0B27006B8360 /* ToolbarModel.swift in Sources */,
 				9E3417772C5F0B27006B8360 /* ToolbarView.swift in Sources */,
 				9ED49FBE2C4BF554001A7A5B /* StickerView.swift in Sources */,
@@ -325,6 +356,7 @@
 				9EE2085F2C5530050034A989 /* StickerModelDelegate.swift in Sources */,
 				9E3417782C5F0B27006B8360 /* ToolbarViewDelegate.swift in Sources */,
 				9ED49FB92C4BE062001A7A5B /* StickerViewController.swift in Sources */,
+				9E34177F2C5F3E6D006B8360 /* CameraView.swift in Sources */,
 				9E78F1562C1D9991000EDE4A /* SceneDelegate.swift in Sources */,
 				9ED49FB52C4BD269001A7A5B /* StickerModel.swift in Sources */,
 				9E7DCCD32C5115C200E78F5D /* StickerBoardModelDelegate.swift in Sources */,
