@@ -13,6 +13,8 @@ class CameraViewController: UIViewController {
     /// 現在のズーム倍率
     private(set) var currentZoomFactor: CGFloat = 1.0
     
+    var delegate: CameraViewControllerDelegate?
+    
     // MARK: - Private
     
     /// キャプチャセッション
@@ -48,9 +50,8 @@ class CameraViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        // セッション開始
-        DispatchQueue.global().async{[weak self] in
-            self?.session.startRunning()
+        Task {
+            await self.startSession()
         }
     }
     
@@ -85,7 +86,7 @@ class CameraViewController: UIViewController {
         // タップ位置をレイヤ座標系に変換し、デバイスのフォーカス位置を移動
         let viewTapPoint = gesture.location(in: cameraView)
         let layerTapPoint = cameraView.videoPreviewLayer.captureDevicePointConverted(fromLayerPoint: viewTapPoint)
-        updateDeviceFocusPoint(to: layerTapPoint)
+        updateFocusPoint(to: layerTapPoint)
         
         // プレビューViewのフォーカス位置を再設定
         cameraView.focusPoint = viewTapPoint
@@ -99,23 +100,45 @@ class CameraViewController: UIViewController {
             initialZoomFactor = device.videoZoomFactor
         }
         
-        // ジェスチャのスケールからデバイスに渡すスケールを計算し、受理可能な値にクリップする
-        // なお最大スケールに関してはやたらデカい値が許容されるので、アプリ側で最大値を設けておく
-        let minScale = device.minAvailableVideoZoomFactor
-        let maxScale = min(device.maxAvailableVideoZoomFactor, 20.0)
-        let newScale = min(max(initialZoomFactor * gesture.scale, minScale), maxScale)
-        currentZoomFactor = newScale
-        
-        // デバイスに設定を反映
-        updateDeviceZoomFactor(to: newScale)
-        
-        // TODO: Notify to parent
+        setZoomFactor(initialZoomFactor * gesture.scale)
     }
     
     // MARK: - Methods
     
-    // TODO: async?
-    private func updateDeviceFocusPoint(to point: CGPoint){
+    func startSession() async -> Bool {
+        await withCheckedContinuation {[weak self] continuation in
+            self?.session.startRunning()
+            continuation.resume(returning: self?.session.isRunning ?? false)
+        }
+    }
+    
+    func stopSession() async {
+        await withCheckedContinuation {[weak self]  continuation in
+            self?.session.stopRunning()
+            continuation.resume()
+        }
+    }
+    
+    func capturePhoto(with settings: AVCapturePhotoSettings? = nil) {
+        self.photoOutput.capturePhoto(with: settings ?? .init(), delegate: self)
+    }
+    
+    func setZoomFactor(_ scale: CGFloat) {
+        guard let device = currentInputDevice else {return}
+        
+        // ジェスチャのスケールからデバイスに渡すスケールを計算し、受理可能な値にクリップする
+        // なお最大スケールに関してはやたらデカい値が許容されるので、アプリ側で最大値を設けておく
+        let minScale = device.minAvailableVideoZoomFactor
+        let maxScale = min(device.maxAvailableVideoZoomFactor, 20.0)
+        let newScale = min(max(scale, minScale), maxScale)
+        currentZoomFactor = newScale
+        
+        // デバイスに設定を反映
+        updateDeviceZoomFactor(to: newScale)
+        delegate?.cameraView(self, didChangeZoomFactor: newScale)
+    }
+    
+    private func updateFocusPoint(to point: CGPoint) {
         guard let device = currentInputDevice else {return}
         do {
             try device.lockForConfiguration()
@@ -133,8 +156,7 @@ class CameraViewController: UIViewController {
         }
     }
     
-    // TODO: async?
-    private func updateDeviceZoomFactor(to scale: CGFloat){
+    private func updateDeviceZoomFactor(to scale: CGFloat) {
         guard let device = currentInputDevice else {return}
         do {
             try device.lockForConfiguration()
@@ -143,6 +165,21 @@ class CameraViewController: UIViewController {
         } catch {
             print("Failed to zoom: \(error)")
         }
+    }
+    
+}
+
+extension CameraViewController: AVCapturePhotoCaptureDelegate {
+    
+    func photoOutput(_ output: AVCapturePhotoOutput, didFinishProcessingPhoto photo: AVCapturePhoto, error: (any Error)?) {
+        guard error == nil,
+              let photoData = photo.fileDataRepresentation(),
+              let capturedImage = UIImage(data: photoData) else {
+            delegate?.cameraView(self, didFailCapture: error)
+            return
+        }
+        
+        delegate?.cameraView(self, didCapture: capturedImage)
     }
     
 }

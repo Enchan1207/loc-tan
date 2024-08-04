@@ -20,10 +20,26 @@
                                 <rect key="frame" x="0.0" y="59" width="393" height="759"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ixc-sQ-TO2">
+                                <rect key="frame" x="147" y="699" width="99" height="99"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="ixc-sQ-TO2" secondAttribute="height" multiplier="1:1" id="TCi-gb-Sw2"/>
+                                </constraints>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" image="circle.inset.filled" catalog="system">
+                                    <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage" configurationType="pointSize" pointSize="50"/>
+                                </buttonConfiguration>
+                                <connections>
+                                    <action selector="onTapCapture:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Tay-7j-xIg"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
+                            <constraint firstItem="ixc-sQ-TO2" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="0H1-5V-wJz"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="ixc-sQ-TO2" secondAttribute="bottom" constant="20" id="Emu-Md-z4i"/>
                             <constraint firstItem="x5k-pc-na3" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="KbY-iH-EGR"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="x5k-pc-na3" secondAttribute="trailing" id="M17-rG-XOX"/>
                             <constraint firstItem="x5k-pc-na3" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="VXI-eV-2lH"/>
@@ -40,6 +56,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="circle.inset.filled" catalog="system" width="128" height="123"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
