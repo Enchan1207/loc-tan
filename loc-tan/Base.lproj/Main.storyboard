@@ -17,8 +17,11 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="x5k-pc-na3">
-                                <rect key="frame" x="0.0" y="59" width="393" height="759"/>
+                                <rect key="frame" x="0.0" y="242" width="393" height="393"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="x5k-pc-na3" secondAttribute="height" multiplier="1:1" id="HKe-4Q-Xud"/>
+                                </constraints>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ixc-sQ-TO2">
                                 <rect key="frame" x="147" y="699" width="99" height="99"/>
@@ -39,11 +42,10 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="ixc-sQ-TO2" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="0H1-5V-wJz"/>
+                            <constraint firstItem="x5k-pc-na3" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" id="5cI-6b-5db"/>
+                            <constraint firstItem="x5k-pc-na3" firstAttribute="centerY" secondItem="6Tk-OE-BBY" secondAttribute="centerY" id="BNv-Ec-ca7"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="ixc-sQ-TO2" secondAttribute="bottom" constant="20" id="Emu-Md-z4i"/>
-                            <constraint firstItem="x5k-pc-na3" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="KbY-iH-EGR"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="x5k-pc-na3" secondAttribute="trailing" id="M17-rG-XOX"/>
-                            <constraint firstItem="x5k-pc-na3" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="VXI-eV-2lH"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="x5k-pc-na3" secondAttribute="bottom" id="h1h-lV-VaY"/>
+                            <constraint firstItem="x5k-pc-na3" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="zSq-f9-NuX"/>
                         </constraints>
                     </view>
                     <connections>

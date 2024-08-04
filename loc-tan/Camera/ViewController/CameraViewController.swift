@@ -29,6 +29,8 @@ class CameraViewController: UIViewController {
     /// ズーム開始時の倍率
     private var initialZoomFactor: CGFloat = 1.0
     
+    private let ciContext = CIContext()
+    
     private var cameraView: CameraView { view as! CameraView }
     
     // MARK: - View lifecycles
@@ -167,19 +169,44 @@ class CameraViewController: UIViewController {
         }
     }
     
+    /// デバイスの向きから生成する画像の向きを取得
+    /// - Parameter deviceOrientation: デバイスの向き
+    /// - Returns: 画像の向き
+    private func imageOrientation(_ deviceOrientation: UIDeviceOrientation = UIDevice.current.orientation) -> UIImage.Orientation {
+        switch deviceOrientation {
+        case .portrait:
+            return .right
+        case .portraitUpsideDown:
+            return .left
+        case .landscapeLeft:
+            return .up
+        case .landscapeRight:
+            return .down
+        default:
+            return .right
+        }
+    }
 }
 
 extension CameraViewController: AVCapturePhotoCaptureDelegate {
     
     func photoOutput(_ output: AVCapturePhotoOutput, didFinishProcessingPhoto photo: AVCapturePhoto, error: (any Error)?) {
         guard error == nil,
-              let photoData = photo.fileDataRepresentation(),
-              let capturedImage = UIImage(data: photoData) else {
+              let cgImage = photo.cgImageRepresentation() else {
             delegate?.cameraView(self, didFailCapture: error)
             return
         }
-        
-        delegate?.cameraView(self, didCapture: capturedImage)
+        let ciImage = CIImage(cgImage: cgImage)
+        let videoPreviewLayer = cameraView.videoPreviewLayer
+        let layerRect = videoPreviewLayer.metadataOutputRectConverted(fromLayerRect: videoPreviewLayer.visibleRect)
+        let convertedLayerRect = layerRect.mapped(to: ciImage.extent.size)
+        let croppedCIImage = ciImage.cropped(to: convertedLayerRect)
+        guard let croppedCGImage = ciContext.createCGImage(croppedCIImage, from: croppedCIImage.extent) else {
+            delegate?.cameraView(self, didFailCapture: nil)
+            return
+        }
+        let croppedImage = UIImage(cgImage: croppedCGImage, scale: 1.0, orientation: imageOrientation())
+        delegate?.cameraView(self, didCapture: croppedImage)
     }
     
 }

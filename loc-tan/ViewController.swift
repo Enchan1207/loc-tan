@@ -52,6 +52,29 @@ class ViewController: UIViewController {
         cameraViewController.capturePhoto()
     }
     
+    /// フォトライブラリに写真を保存する
+    /// - Parameter image: 保存する画像
+    private func saveImageToPhotoLibrary(_ image: UIImage){
+        // TODO: クロージャじゃなくてｴｲｼﾝｸとか使う?
+        PHPhotoLibrary.requestAuthorization(for: .addOnly) { status in
+            guard status == .authorized else {
+                print("Photo library access denied")
+                return
+            }
+            
+            // 写真を保存
+            PHPhotoLibrary.shared().performChanges({
+                PHAssetChangeRequest.creationRequestForAsset(from: image)
+            }) { success, error in
+                if(success){
+                    print("Photo saved")
+                }else {
+                    print("error: \(error!)")
+                }
+            }
+        }
+    }
+    
 }
 
 extension ViewController: CameraViewControllerDelegate {
@@ -61,7 +84,7 @@ extension ViewController: CameraViewControllerDelegate {
     }
     
     func cameraView(_ viewController: CameraViewController, didCapture image: UIImage) {
-        print(image.size)
+        saveImageToPhotoLibrary(image)
     }
     
     func cameraView(_ viewController: CameraViewController, didFailCapture error: (any Error)?) {
