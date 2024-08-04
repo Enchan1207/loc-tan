@@ -10,6 +10,20 @@ import PhotosUI
 
 class ViewController: UIViewController {
     
+    /// ステータスバーを隠す
+    override var prefersStatusBarHidden: Bool {true}
+    
+    /// キャンバス上端からセーフエリアへの制約
+    @IBOutlet private weak var canvasTopConstraintToSafeArea: NSLayoutConstraint!
+    
+    /// キャンバス上端からトップバー下端への制約
+    @IBOutlet private weak var canvasTopConstraintToTopbar: NSLayoutConstraint!
+    
+    /// デバイスがノッチを持つかどうか
+    private var hasNotch: Bool {
+        return view.safeAreaInsets.bottom > 0
+    }
+    
     private let boardModel = StickerBoardModel(stickers: [])
     
     private var boardController: StickerBoardViewController!
@@ -46,6 +60,15 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
     }
+
+    override func updateViewConstraints() {
+        // ノッチがあるならキャンバスをトップビューまで、なければセーフエリアまで広げる
+        canvasTopConstraintToSafeArea.priority = hasNotch ? .defaultLow : .defaultHigh
+        canvasTopConstraintToTopbar.priority = hasNotch ? .defaultHigh : .defaultLow
+        
+        super.updateViewConstraints()
+    }
+
     
     
     @IBAction func onTapAdd(_ sender: Any) {

@@ -16,6 +16,7 @@
 		9E3417762C5F0B27006B8360 /* ToolBarModeSwitcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E34176E2C5F0B27006B8360 /* ToolBarModeSwitcher.swift */; };
 		9E3417772C5F0B27006B8360 /* ToolbarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E34176F2C5F0B27006B8360 /* ToolbarView.swift */; };
 		9E3417782C5F0B27006B8360 /* ToolbarViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E3417702C5F0B27006B8360 /* ToolbarViewDelegate.swift */; };
+		9E34177A2C5F0DBB006B8360 /* ToolbarModelDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E3417792C5F0DBB006B8360 /* ToolbarModelDelegate.swift */; };
 		9E78F1542C1D9991000EDE4A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E78F1532C1D9991000EDE4A /* AppDelegate.swift */; };
 		9E78F1562C1D9991000EDE4A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E78F1552C1D9991000EDE4A /* SceneDelegate.swift */; };
 		9E78F1582C1D9991000EDE4A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E78F1572C1D9991000EDE4A /* ViewController.swift */; };
@@ -43,6 +44,7 @@
 		9E34176E2C5F0B27006B8360 /* ToolBarModeSwitcher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToolBarModeSwitcher.swift; sourceTree = "<group>"; };
 		9E34176F2C5F0B27006B8360 /* ToolbarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToolbarView.swift; sourceTree = "<group>"; };
 		9E3417702C5F0B27006B8360 /* ToolbarViewDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToolbarViewDelegate.swift; sourceTree = "<group>"; };
+		9E3417792C5F0DBB006B8360 /* ToolbarModelDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToolbarModelDelegate.swift; sourceTree = "<group>"; };
 		9E78F1502C1D9991000EDE4A /* loc-tan.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "loc-tan.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9E78F1532C1D9991000EDE4A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9E78F1552C1D9991000EDE4A /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -95,6 +97,7 @@
 			isa = PBXGroup;
 			children = (
 				9E34176B2C5F0B27006B8360 /* ToolbarModel.swift */,
+				9E3417792C5F0DBB006B8360 /* ToolbarModelDelegate.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -312,6 +315,7 @@
 				9E3417742C5F0B27006B8360 /* ToolbarModel.swift in Sources */,
 				9E3417772C5F0B27006B8360 /* ToolbarView.swift in Sources */,
 				9ED49FBE2C4BF554001A7A5B /* StickerView.swift in Sources */,
+				9E34177A2C5F0DBB006B8360 /* ToolbarModelDelegate.swift in Sources */,
 				9ED49FC82C4BF69A001A7A5B /* StickerBoardView.swift in Sources */,
 				9ED49FBB2C4BEE1C001A7A5B /* StickerViewControllerDelegate.swift in Sources */,
 				9E78F1582C1D9991000EDE4A /* ViewController.swift in Sources */,
