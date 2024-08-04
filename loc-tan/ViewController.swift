@@ -38,14 +38,31 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(appDidEnterBackground), name: UIApplication.didEnterBackgroundNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(appDidBecomeActive), name: UIApplication.didBecomeActiveNotification, object: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        Task {
-            await self.cameraViewController.startSession()
-        }
+        self.cameraViewController.startSession()
     }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+    
+    // MARK: - Notifications
+    
+    @objc private func appDidEnterBackground(){
+        self.cameraViewController.stopSession()
+    }
+    
+    @objc private func appDidBecomeActive(){
+        self.cameraViewController.startSession()
+    }
+    
+    // MARK: - GUI event
     
     
     @IBAction func onTapCapture(_ sender: Any) {

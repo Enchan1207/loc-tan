@@ -50,13 +50,7 @@ class CameraViewController: UIViewController {
         configureCaptureSession(session)
         cameraView.session = session
     }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        Task {
-            await self.startSession()
-        }
-    }
-    
+
     /// キャプチャセッションを構成
     private func configureCaptureSession(_ session: AVCaptureSession){
         session.beginConfiguration()
@@ -107,17 +101,17 @@ class CameraViewController: UIViewController {
     
     // MARK: - Methods
     
-    func startSession() async -> Bool {
-        await withCheckedContinuation {[weak self] continuation in
+    func startSession() {
+        guard !self.session.isRunning else {return}
+        
+        DispatchQueue.global().async {[weak self] in
             self?.session.startRunning()
-            continuation.resume(returning: self?.session.isRunning ?? false)
         }
     }
     
-    func stopSession() async {
-        await withCheckedContinuation {[weak self]  continuation in
+    func stopSession() {
+        DispatchQueue.global().async {[weak self] in
             self?.session.stopRunning()
-            continuation.resume()
         }
     }
     
