@@ -515,6 +515,7 @@
 				DEVELOPMENT_TEAM = 9JTFXT4CWH;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "loc-tan/Info.plist";
+				INFOPLIST_KEY_NSCameraUsageDescription = "This app uses camera.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -543,6 +544,7 @@
 				DEVELOPMENT_TEAM = 9JTFXT4CWH;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "loc-tan/Info.plist";
+				INFOPLIST_KEY_NSCameraUsageDescription = "This app uses camera.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
