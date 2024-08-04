@@ -13,103 +13,99 @@ class ViewController: UIViewController {
     /// ステータスバーを隠す
     override var prefersStatusBarHidden: Bool {true}
     
-    /// キャンバス上端からセーフエリアへの制約
-    @IBOutlet private weak var canvasTopConstraintToSafeArea: NSLayoutConstraint!
-    
-    /// キャンバス上端からトップバー下端への制約
-    @IBOutlet private weak var canvasTopConstraintToTopbar: NSLayoutConstraint!
-    
-    /// デバイスがノッチを持つかどうか
-    private var hasNotch: Bool {
-        return view.safeAreaInsets.bottom > 0
-    }
-    
-    private let boardModel = StickerBoardModel(stickers: [])
-    
-    private var boardController: StickerBoardViewController!
-    
-    private let boardModelSaveKey = "StickerBoard"
+    private var cameraViewController: CameraViewController!
     
     /// ステッカーボードを配置するコンテナ
     @IBOutlet private weak var containerView: UIView! {
         didSet {
-            boardController = .init(boardModel: boardModel)
+            cameraViewController = .init(nibName: nil, bundle: nil)
+            cameraViewController.delegate = self
             
-            // StickerBoardViewControllerを子ViewControllerとして追加
-            addChild(boardController)
-            containerView.addSubview(boardController.view)
+            // CameraViewControllerを子ViewControllerとして追加
+            addChild(cameraViewController)
+            containerView.addSubview(cameraViewController.view)
             NSLayoutConstraint.activate([
-                containerView.topAnchor.constraint(equalTo: boardController.view.topAnchor),
-                containerView.bottomAnchor.constraint(equalTo: boardController.view.bottomAnchor),
-                containerView.leftAnchor.constraint(equalTo: boardController.view.leftAnchor),
-                containerView.rightAnchor.constraint(equalTo: boardController.view.rightAnchor),
+                containerView.topAnchor.constraint(equalTo: cameraViewController.view.topAnchor),
+                containerView.bottomAnchor.constraint(equalTo: cameraViewController.view.bottomAnchor),
+                containerView.leftAnchor.constraint(equalTo: cameraViewController.view.leftAnchor),
+                containerView.rightAnchor.constraint(equalTo: cameraViewController.view.rightAnchor),
             ])
-            boardController.didMove(toParent: self)
+            cameraViewController.didMove(toParent: self)
         }
     }
-    
-    private let imageIdentifiers = [
-        "dive_stage",
-        "rainbow_bridge_night",
-        "rainbow_bridge_noon",
-        "tokyo_skytree"
-    ]
     
     // MARK: - View lifecycles
     
     override func viewDidLoad() {
         super.viewDidLoad()
-    }
-
-    override func updateViewConstraints() {
-        // ノッチがあるならキャンバスをトップビューまで、なければセーフエリアまで広げる
-        canvasTopConstraintToSafeArea.priority = hasNotch ? .defaultLow : .defaultHigh
-        canvasTopConstraintToTopbar.priority = hasNotch ? .defaultHigh : .defaultLow
         
-        super.updateViewConstraints()
-    }
-
-    
-    
-    @IBAction func onTapAdd(_ sender: Any) {
-        // ピッカーを表示
-        let config = {
-            var config = PHPickerConfiguration(photoLibrary: .shared())
-            config.filter = .images
-            config.selectionLimit = 1
-            config.preferredAssetRepresentationMode = .current
-            return config
-        }()
-        let picker = PHPickerViewController(configuration: config)
-        picker.delegate = self
-        self.present(picker, animated: true)
+        NotificationCenter.default.addObserver(self, selector: #selector(appDidEnterBackground), name: UIApplication.didEnterBackgroundNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(appDidBecomeActive), name: UIApplication.didBecomeActiveNotification, object: nil)
     }
     
-    private func spawnSticker(with image: UIImage){
-        // スポーン位置は画面中央 幅は画面より少し狭く
-        let width = boardController.view.bounds.width * 0.9
-        let center = CGPoint.zero
-        let sticker = StickerModel(image: image, center: center, width: width, angle: .zero)
-        boardModel.add(sticker)
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.cameraViewController.startSession()
     }
-}
-
-extension ViewController: PHPickerViewControllerDelegate {
     
-    func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
-        picker.dismiss(animated: true)
-        guard let provider = results.first?.itemProvider,
-              provider.canLoadObject(ofClass: UIImage.self) else {return}
-        
-        provider.loadObject(ofClass: UIImage.self) {[weak self] item, error in
-            guard error == nil, let image = item as? UIImage else {
-                print(error!)
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+    
+    // MARK: - Notifications
+    
+    @objc private func appDidEnterBackground(){
+        self.cameraViewController.stopSession()
+    }
+    
+    @objc private func appDidBecomeActive(){
+        self.cameraViewController.startSession()
+    }
+    
+    // MARK: - GUI event
+    
+    
+    @IBAction func onTapCapture(_ sender: Any) {
+        cameraViewController.capturePhoto()
+    }
+    
+    /// フォトライブラリに写真を保存する
+    /// - Parameter image: 保存する画像
+    private func saveImageToPhotoLibrary(_ image: UIImage){
+        // TODO: クロージャじゃなくてｴｲｼﾝｸとか使う?
+        PHPhotoLibrary.requestAuthorization(for: .addOnly) { status in
+            guard status == .authorized else {
+                print("Photo library access denied")
                 return
             }
-            DispatchQueue.main.async {
-                self?.spawnSticker(with: image)
+            
+            // 写真を保存
+            PHPhotoLibrary.shared().performChanges({
+                PHAssetChangeRequest.creationRequestForAsset(from: image)
+            }) { success, error in
+                if(success){
+                    print("Photo saved")
+                }else {
+                    print("error: \(error!)")
+                }
             }
         }
+    }
+    
+}
+
+extension ViewController: CameraViewControllerDelegate {
+    
+    func cameraView(_ viewController: CameraViewController, didChangeZoomFactor scale: CGFloat) {
+        print("zoom: \(scale)")
+    }
+    
+    func cameraView(_ viewController: CameraViewController, didCapture image: UIImage) {
+        saveImageToPhotoLibrary(image)
+    }
+    
+    func cameraView(_ viewController: CameraViewController, didFailCapture error: (any Error)?) {
+        print(error)
     }
     
 }
