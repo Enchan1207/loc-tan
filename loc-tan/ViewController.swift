@@ -10,31 +10,84 @@ import PhotosUI
 
 class ViewController: UIViewController {
     
-    /// ステータスバーを隠す
-    override var prefersStatusBarHidden: Bool {true}
+    // MARK: - GUI Components
     
-    private var cameraViewController: CameraViewController!
+    /// キャンバス上端からセーフエリアへの制約
+    @IBOutlet private weak var canvasTopConstraintToSafeArea: NSLayoutConstraint!
     
-    /// ステッカーボードを配置するコンテナ
-    @IBOutlet private weak var containerView: UIView! {
+    /// キャンバス上端からトップバー下端への制約
+    @IBOutlet weak var canvasTopConstraintToTopbar: NSLayoutConstraint!
+    
+    /// ツールバーを配置するコンテナ
+    @IBOutlet private weak var toolbarContainer: UIView! {
+        didSet {
+            toolbarViewController = .init(nibName: nil, bundle: nil)
+            toolbarViewController.delegate = self
+            toolbarViewController.model = toolbarModel
+            
+            addChild(toolbarViewController)
+            toolbarContainer.addSubview(toolbarViewController.view)
+            NSLayoutConstraint.activate([
+                toolbarContainer.topAnchor.constraint(equalTo: toolbarViewController.view.topAnchor),
+                toolbarContainer.bottomAnchor.constraint(equalTo: toolbarViewController.view.bottomAnchor),
+                toolbarContainer.leftAnchor.constraint(equalTo: toolbarViewController.view.leftAnchor),
+                toolbarContainer.rightAnchor.constraint(equalTo: toolbarViewController.view.rightAnchor),
+            ])
+            toolbarViewController.didMove(toParent: self)
+        }
+    }
+    
+    /// ステッカーボード、カメラビューを配置するコンテナ
+    @IBOutlet private weak var canvasContainer: UIView! {
         didSet {
             cameraViewController = .init(nibName: nil, bundle: nil)
             cameraViewController.delegate = self
             
-            // CameraViewControllerを子ViewControllerとして追加
             addChild(cameraViewController)
-            containerView.addSubview(cameraViewController.view)
+            canvasContainer.addSubview(cameraViewController.view)
             NSLayoutConstraint.activate([
-                containerView.topAnchor.constraint(equalTo: cameraViewController.view.topAnchor),
-                containerView.bottomAnchor.constraint(equalTo: cameraViewController.view.bottomAnchor),
-                containerView.leftAnchor.constraint(equalTo: cameraViewController.view.leftAnchor),
-                containerView.rightAnchor.constraint(equalTo: cameraViewController.view.rightAnchor),
+                canvasContainer.topAnchor.constraint(equalTo: cameraViewController.view.topAnchor),
+                canvasContainer.bottomAnchor.constraint(equalTo: cameraViewController.view.bottomAnchor),
+                canvasContainer.leftAnchor.constraint(equalTo: cameraViewController.view.leftAnchor),
+                canvasContainer.rightAnchor.constraint(equalTo: cameraViewController.view.rightAnchor),
             ])
             cameraViewController.didMove(toParent: self)
+            
+            stickerBoardViewController = .init(boardModel: stickerBoardModel)
+            
+            addChild(stickerBoardViewController)
+            canvasContainer.addSubview(stickerBoardViewController.view)
+            NSLayoutConstraint.activate([
+                canvasContainer.topAnchor.constraint(equalTo: stickerBoardViewController.view.topAnchor),
+                canvasContainer.bottomAnchor.constraint(equalTo: stickerBoardViewController.view.bottomAnchor),
+                canvasContainer.leftAnchor.constraint(equalTo: stickerBoardViewController.view.leftAnchor),
+                canvasContainer.rightAnchor.constraint(equalTo: stickerBoardViewController.view.rightAnchor),
+            ])
+            stickerBoardViewController.didMove(toParent: self)
         }
     }
     
-    // MARK: - View lifecycles
+    // MARK: - ViewControllers
+    
+    private var cameraViewController: CameraViewController!
+    
+    private var stickerBoardViewController: StickerBoardViewController!
+    
+    private var toolbarViewController: ToolbarViewController!
+    
+    // MARK: - Properties
+    
+    private let stickerBoardModel = StickerBoardModel(stickers: [])
+    
+    private let toolbarModel = ToolbarModel(mode: .Camera)
+    
+    /// ステータスバーを隠す
+    override var prefersStatusBarHidden: Bool {true}
+    
+    /// デバイスがノッチを持つかどうか
+    private var hasNotch: Bool { view.safeAreaInsets.bottom > 0 }
+    
+    // MARK: - View lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -45,7 +98,16 @@ class ViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        toolbarContainer.backgroundColor = hasNotch ? .black : .clear
         self.cameraViewController.startSession()
+    }
+    
+    override func updateViewConstraints() {
+        // ノッチがあるならキャンバスをトップビューまで、なければセーフエリアまで広げる
+        canvasTopConstraintToSafeArea.priority = hasNotch ? .defaultLow : .defaultHigh
+        canvasTopConstraintToTopbar.priority = hasNotch ? .defaultHigh : .defaultLow
+        
+        super.updateViewConstraints()
     }
     
     deinit {
@@ -94,6 +156,25 @@ class ViewController: UIViewController {
     
 }
 
+extension ViewController: ToolbarViewDelegate {
+    
+    func toolbarView(_ view: ToolbarView, didTapItem item: ToolBarItem) {
+        // TODO: アイテムの種類で分岐
+        print(item)
+    }
+    
+    func toolbarViewDidTapModeSwitcher(_ view: ToolbarView) {
+        let nextMode = toolbarModel.currentMode.opposite
+        toolbarModel.setMode(nextMode)
+        
+        // 編集モードのときはステッカーボード、撮影モードの時はカメラビューのユーザ操作を受け付ける
+        let isSwitchToEdit = nextMode == .Edit
+        stickerBoardViewController.view.isUserInteractionEnabled = isSwitchToEdit
+        cameraViewController.view.isUserInteractionEnabled = !isSwitchToEdit
+    }
+    
+}
+
 extension ViewController: CameraViewControllerDelegate {
     
     func cameraView(_ viewController: CameraViewController, didChangeZoomFactor scale: CGFloat) {
@@ -105,7 +186,6 @@ extension ViewController: CameraViewControllerDelegate {
     }
     
     func cameraView(_ viewController: CameraViewController, didFailCapture error: (any Error)?) {
-        print(error)
     }
     
 }

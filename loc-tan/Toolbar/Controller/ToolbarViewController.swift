@@ -9,10 +9,10 @@ import UIKit
 
 class ToolbarViewController: UIViewController {
     
-    var model: ToolbarModel! {
+    var model: ToolbarModel? {
         didSet {
-            model.delegate = self
-            toolbarView.updateView(with: model)
+            model!.delegate = self
+            toolbarView.updateView(with: model!)
         }
     }
     
@@ -25,7 +25,9 @@ class ToolbarViewController: UIViewController {
     
     override func loadView() {
         self.view = ToolbarView(frame: .zero)
-        toolbarView.updateView(with: model)
+        if let model = self.model{
+            toolbarView.updateView(with: model)
+        }
     }
     
 }
