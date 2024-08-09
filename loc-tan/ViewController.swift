@@ -154,13 +154,122 @@ class ViewController: UIViewController {
         }
     }
     
+    /// 画像ピッカーを構成して表示する
+    private func presentPhotoPicker(){
+        let config = {
+            var config = PHPickerConfiguration(photoLibrary: .shared())
+            config.filter = .images
+            config.selectionLimit = 1
+            config.preferredAssetRepresentationMode = .current
+            return config
+        }()
+        let picker = PHPickerViewController(configuration: config)
+        picker.delegate = self
+        self.present(picker, animated: true)
+    }
+    
+    /// 与えられた画像のステッカーを追加する
+    /// - Parameter image: ステッカーの画像
+    /// - Note: ステッカーはビュー中心に生成されます。
+    private func spawnSticker(with image: UIImage){
+        let width = stickerBoardViewController.view.bounds.width
+        let sticker = StickerModel(image: image, center: .zero, width: width, angle: .zero)
+        stickerBoardModel.add(sticker)
+    }
+    
+    private func extendSticker(){
+        // 選択中のステッカーモデルを取得
+        guard let activeStickerModel = stickerBoardViewController.activeStickerController?.stickerModel else {return}
+        
+        // ステッカーの角度をスナップする
+        let newAngle: Angle = ({ angle in
+            if angle.degrees > 0 {
+                if angle.degrees > 135 {
+                    return .init(degrees: 180)
+                }
+                if angle.degrees > 45 {
+                    return .init(degrees: 90)
+                }
+            } else {
+                if angle.degrees < -135 {
+                    return .init(degrees: -180)
+                }
+                if angle.degrees < -45 {
+                    return .init(degrees: -90)
+                }
+            }
+            return .zero
+        })(activeStickerModel.angle)
+        activeStickerModel.angle = newAngle
+        
+        // 中心に移動
+        // TODO: センターに戻すボタンが欲しいかも?
+        activeStickerModel.center = .zero
+        
+        // 回転角度を考慮したステッカーのアスペクト比を計算し、
+        let isRotated = abs(newAngle.degrees) > 5
+        let stickerImageSize = activeStickerModel.image.size
+        let stickerAspectRatioOnScreen = isRotated ? stickerImageSize.height / stickerImageSize.width : stickerImageSize.width / stickerImageSize.height
+        
+        // ビューをはみ出ない最大サイズを取得
+        let maxStickerSizeOnScreen: CGSize = ({viewSize, aspectRatio in
+            // 幅基準
+            let sizeForWidth = CGSize(width: viewSize.width, height: viewSize.width / aspectRatio)            
+            // 高さ基準
+            let sizeForHeight = CGSize(width: viewSize.height * aspectRatio, height: viewSize.height)
+            return sizeForWidth.height <= viewSize.height ? sizeForWidth : sizeForHeight
+        })(stickerBoardViewController.view.bounds, stickerAspectRatioOnScreen)
+        
+        // 設定
+        activeStickerModel.width = isRotated ? maxStickerSizeOnScreen.height : maxStickerSizeOnScreen.width
+    }
+    
+    private func rotateSticker(){
+        // 選択中のステッカーモデルを取得
+        guard let activeStickerModel = stickerBoardViewController.activeStickerController?.stickerModel else {return}
+        
+        // 角度を取得
+        let stickerAngle = activeStickerModel.angle
+        
+        // FIXME: ここなんかおかしい
+        // 次に回す角度を計算・割り当て
+        let newAngle: Angle = ({ angle in
+            if angle.degrees > 0 {
+                if angle.degrees > 135 {
+                    return .init(degrees: -90)
+                }
+                if angle.degrees > 45 {
+                    return .init(degrees: 180)
+                }
+                return .init(degrees: 90)
+            } else {
+                if angle.degrees < -135 {
+                    return .init(degrees: 90)
+                }
+                if angle.degrees < -45 {
+                    return .init(degrees: -180)
+                }
+                return .init(degrees: -90)
+            }
+        })(stickerAngle)
+        activeStickerModel.angle = newAngle
+    }
+    
 }
 
 extension ViewController: ToolbarViewDelegate {
     
     func toolbarView(_ view: ToolbarView, didTapItem item: ToolBarItem) {
-        // TODO: アイテムの種類で分岐
-        print(item)
+        switch item {
+        case .Settings:
+            print("settings")
+        case .Rotate:
+            rotateSticker()
+        case .Fullsize:
+            extendSticker()
+        case .Add:
+            presentPhotoPicker()
+        }
     }
     
     func toolbarViewDidTapModeSwitcher(_ view: ToolbarView) {
@@ -186,6 +295,26 @@ extension ViewController: CameraViewControllerDelegate {
     }
     
     func cameraView(_ viewController: CameraViewController, didFailCapture error: (any Error)?) {
+    }
+    
+}
+
+extension ViewController: PHPickerViewControllerDelegate {
+    
+    func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
+        picker.dismiss(animated: true)
+        guard let provider = results.first?.itemProvider,
+              provider.canLoadObject(ofClass: UIImage.self) else {return}
+        
+        provider.loadObject(ofClass: UIImage.self) {[weak self] item, error in
+            guard error == nil, let image = item as? UIImage else {
+                print(error!)
+                return
+            }
+            DispatchQueue.main.async {
+                self?.spawnSticker(with: image)
+            }
+        }
     }
     
 }
