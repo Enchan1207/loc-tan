@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22685"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -17,7 +18,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="x5k-pc-na3">
-                                <rect key="frame" x="0.0" y="119" width="393" height="698.66666666666652"/>
+                                <rect key="frame" x="0.0" y="59" width="393" height="698.66666666666663"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="x5k-pc-na3" secondAttribute="height" multiplier="9:16" id="OMO-ET-FFI"/>
@@ -53,15 +54,15 @@
                             <constraint firstItem="xQ4-xg-jeY" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="6te-Vi-nNt"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="xQ4-xg-jeY" secondAttribute="trailing" id="DlI-jX-YKG"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="ixc-sQ-TO2" secondAttribute="bottom" constant="20" id="Emu-Md-z4i"/>
+                            <constraint firstItem="x5k-pc-na3" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="Fmx-wE-SL9"/>
                             <constraint firstItem="x5k-pc-na3" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="b1Y-M7-Rxq"/>
                             <constraint firstItem="x5k-pc-na3" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" priority="250" id="j7O-A7-P8r"/>
-                            <constraint firstItem="x5k-pc-na3" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="bottom" constant="-699" id="sf4-mF-h6l"/>
                             <constraint firstItem="x5k-pc-na3" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" id="tqZ-oc-IBS"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="canvasContainer" destination="x5k-pc-na3" id="vLB-ok-u7p"/>
-                        <outlet property="canvasTopConstraintToSafeArea" destination="sf4-mF-h6l" id="z7k-BP-d0V"/>
+                        <outlet property="canvasTopConstraintToSafeArea" destination="Fmx-wE-SL9" id="wX7-GM-BK0"/>
                         <outlet property="canvasTopConstraintToTopbar" destination="j7O-A7-P8r" id="fnc-JF-Wfx"/>
                         <outlet property="toolbarContainer" destination="xQ4-xg-jeY" id="ErF-tt-NiK"/>
                     </connections>
