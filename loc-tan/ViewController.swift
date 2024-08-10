@@ -194,36 +194,14 @@ class ViewController: UIViewController {
     }
     
     private func expandStickerToFullScreen(){
-        // 選択中のステッカーモデルを取得
         guard let activeStickerModel = stickerBoardViewController.activeStickerController?.stickerModel else {return}
         
-        // ステッカーの角度をスナップする
-        let newAngle: Angle = ({ angle in
-            if angle.degrees > 0 {
-                if angle.degrees > 135 {
-                    return .init(degrees: 180)
-                }
-                if angle.degrees > 45 {
-                    return .init(degrees: 90)
-                }
-            } else {
-                if angle.degrees < -135 {
-                    return .init(degrees: -180)
-                }
-                if angle.degrees < -45 {
-                    return .init(degrees: -90)
-                }
-            }
-            return .zero
-        })(activeStickerModel.angle)
-        activeStickerModel.angle = newAngle
-        
-        // 中心に移動
-        // TODO: センターに戻すボタンが欲しいかも?
+        // 角度をスナップして中央に移動
+        activeStickerModel.angle = activeStickerModel.angle.snapedToCross
         activeStickerModel.center = .zero
         
-        // 回転角度を考慮したステッカーのアスペクト比を計算し、
-        let isRotated = abs(newAngle.degrees) > 5
+        // 回転角度を考慮したステッカーのアスペクト比を計算
+        let isRotated = (45...135).contains(abs(activeStickerModel.angle.degrees))
         let stickerImageSize = activeStickerModel.image.size
         let stickerAspectRatioOnScreen = isRotated ? stickerImageSize.height / stickerImageSize.width : stickerImageSize.width / stickerImageSize.height
         
@@ -241,34 +219,8 @@ class ViewController: UIViewController {
     }
     
     private func rotateSticker(){
-        // 選択中のステッカーモデルを取得
         guard let activeStickerModel = stickerBoardViewController.activeStickerController?.stickerModel else {return}
-        
-        // 角度を取得
-        let stickerAngle = activeStickerModel.angle
-        
-        // FIXME: ここなんかおかしい
-        // 次に回す角度を計算・割り当て
-        let newAngle: Angle = ({ angle in
-            if angle.degrees > 0 {
-                if angle.degrees > 135 {
-                    return .init(degrees: -90)
-                }
-                if angle.degrees > 45 {
-                    return .init(degrees: 180)
-                }
-                return .init(degrees: 90)
-            } else {
-                if angle.degrees < -135 {
-                    return .init(degrees: 90)
-                }
-                if angle.degrees < -45 {
-                    return .init(degrees: -180)
-                }
-                return .init(degrees: -90)
-            }
-        })(stickerAngle)
-        activeStickerModel.angle = newAngle
+        activeStickerModel.angle = activeStickerModel.angle.snapedToCross + .init(degrees: 90)
     }
     
 }
