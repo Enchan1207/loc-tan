@@ -190,37 +190,6 @@ class ViewController: UIViewController {
         let sticker = StickerModel(image: image, center: .zero, width: width, angle: .zero)
         stickerBoardModel.add(sticker)
     }
-    
-    private func expandStickerToFullScreen(){
-        guard let activeStickerModel = stickerBoardViewController.activeStickerController?.stickerModel else {return}
-        
-        // 角度をスナップして中央に移動
-        activeStickerModel.angle = activeStickerModel.angle.snapedToCross
-        activeStickerModel.center = .zero
-        
-        // 回転角度を考慮したステッカーのアスペクト比を計算
-        let isRotated = (45...135).contains(abs(activeStickerModel.angle.degrees))
-        let stickerImageSize = activeStickerModel.image.size
-        let stickerAspectRatioOnScreen = isRotated ? stickerImageSize.height / stickerImageSize.width : stickerImageSize.width / stickerImageSize.height
-        
-        // ビューをはみ出ない最大サイズを取得
-        let maxStickerSizeOnScreen: CGSize = ({viewSize, aspectRatio in
-            // 幅基準
-            let sizeForWidth = CGSize(width: viewSize.width, height: viewSize.width / aspectRatio)            
-            // 高さ基準
-            let sizeForHeight = CGSize(width: viewSize.height * aspectRatio, height: viewSize.height)
-            return sizeForWidth.height <= viewSize.height ? sizeForWidth : sizeForHeight
-        })(stickerBoardViewController.view.bounds, stickerAspectRatioOnScreen)
-        
-        // 設定
-        activeStickerModel.width = isRotated ? maxStickerSizeOnScreen.height : maxStickerSizeOnScreen.width
-    }
-    
-    private func rotateSticker(){
-        guard let activeStickerModel = stickerBoardViewController.activeStickerController?.stickerModel else {return}
-        activeStickerModel.angle = activeStickerModel.angle.snapedToCross + .init(degrees: 90)
-    }
-    
 }
 
 extension ViewController: ToolbarViewDelegate {
@@ -231,9 +200,9 @@ extension ViewController: ToolbarViewDelegate {
             // TODO: カメラ設定の実装
             print("settings")
         case .Rotate:
-            rotateSticker()
+            stickerBoardViewController.rotateCurrentSticker(diff: .init(degrees: 90))
         case .Fullsize:
-            expandStickerToFullScreen()
+            stickerBoardViewController.expandCurrentStickerToFullScreen()
         case .Add:
             presentPhotoPicker()
         }

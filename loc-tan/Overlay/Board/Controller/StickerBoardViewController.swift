@@ -86,13 +86,47 @@ class StickerBoardViewController: UIViewController {
         activeStickerController = newSticker
     }
     
+    /// アクティブなステッカーを全画面に拡大する
+    func expandCurrentStickerToFullScreen(){
+        guard let activeStickerModel = activeStickerController?.stickerModel else {return}
+        
+        // 角度をスナップして中央に移動
+        activeStickerModel.angle = activeStickerModel.angle.snapedToCross
+        activeStickerModel.center = .zero
+        
+        // 回転角度を考慮したステッカーのアスペクト比を計算
+        let isRotated = (45...135).contains(abs(activeStickerModel.angle.degrees))
+        let stickerImageSize = activeStickerModel.image.size
+        let stickerAspectRatioOnScreen = isRotated ? stickerImageSize.height / stickerImageSize.width : stickerImageSize.width / stickerImageSize.height
+        
+        // ビューをはみ出ない最大サイズを取得
+        let maxStickerSizeOnScreen: CGSize = ({viewSize, aspectRatio in
+            // 幅を固定した場合の高さがビュー自体の高さを上回るなら、ビューの高さから幅を再計算する
+            // そうでなければ、アスペクト比に従って幅から高さを計算する
+            if (viewSize.width / aspectRatio) > viewSize.height {
+                .init(width: viewSize.height * aspectRatio, height: viewSize.height)
+            } else {
+                .init(width: viewSize.width, height: viewSize.height / aspectRatio)
+            }
+        })(view.bounds.size, stickerAspectRatioOnScreen)
+        
+        // 設定
+        activeStickerModel.width = isRotated ? maxStickerSizeOnScreen.height : maxStickerSizeOnScreen.width
+    }
+    
+    /// ステッカーを十字方向にスナップさせ、さらに回転させる
+    /// - Parameter diff: 変化量
+    func rotateCurrentSticker(diff: Angle){
+        guard let activeStickerModel = activeStickerController?.stickerModel else {return}
+        activeStickerModel.angle = activeStickerModel.angle.snapedToCross + diff
+    }
+    
     // MARK: - Gestures
     
     @objc private func handleGesture(_ gesture: UIGestureRecognizer){
         switch gesture {
         case let pan as UIPanGestureRecognizer:
             activeStickerController?.onPanSticker(pan)
-            break
             
         case let pinch as UIPinchGestureRecognizer:
             activeStickerController?.onPinchSticker(pinch)
