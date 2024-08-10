@@ -20,6 +20,26 @@ struct Angle: Equatable, CustomStringConvertible, Codable {
     
     var description: String { .init(format: "Angle(%.2f deg, %.2f rad)", degrees, radians) }
     
+    /// 垂直・水平方向に角度をスナップする
+    var snapedToCross: Angle {
+        if self.degrees > 0 {
+            if self.degrees > 135 {
+                return .init(degrees: 180)
+            }
+            if self.degrees > 45 {
+                return .init(degrees: 90)
+            }
+        } else {
+            if self.degrees < -135 {
+                return .init(degrees: -180)
+            }
+            if self.degrees < -45 {
+                return .init(degrees: -90)
+            }
+        }
+        return .zero
+    }
+    
     init(radians: CGFloat) {
         // 一旦0~2πの範囲に丸める
         let roundedAngle = radians.truncatingRemainder(dividingBy: 2 * .pi)

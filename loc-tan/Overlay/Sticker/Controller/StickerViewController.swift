@@ -194,12 +194,13 @@ extension StickerViewController: StickerModelDelegate {
     }
     
     func stickerModel(_ model: StickerModel, didChange width: CGFloat) {
+        print(String(format: "pinch: scaled to %.2f px width", width))
         stickerView.updateWidth(width)
     }
     
     func stickerModel(_ model: StickerModel, didChange angle: Angle) {
-        // NOTE: 回転はリアルタイムで反映されるので、ビューの更新はここでは行わない
-        print(String(format: "rot: rotate to %.2f deg", angle.degrees))
+        print(String(format: "rot: rotated to %.2f deg", angle.degrees))
+        stickerView.updateAngle(angle)
     }
     
 }

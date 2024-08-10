@@ -64,7 +64,7 @@ fileprivate extension ToolbarMode {
         case .Edit:
             symbolName = "square.2.layers.3d.top.filled"
         }
-        return .init(systemName: symbolName)!
+        return .init(systemName: symbolName)!.withTintColor(.white, renderingMode: .alwaysOriginal)
     }
     
 }

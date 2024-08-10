@@ -58,6 +58,9 @@ class StickerView: UIView {
             rightAnchor.constraint(equalTo: stickerImageView.rightAnchor),
         ])
         
+        // TODO: 透明度変更ノブつける
+        stickerImageView.layer.opacity = 0.8
+        
         // アスペクト比を固定する
         let aspectRatio: CGFloat
         if let imageSize = stickerImageView.image?.size {

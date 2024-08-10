@@ -13,7 +13,7 @@ class StickerBoardViewController: UIViewController {
     
     private var controllers: [StickerViewController]
     
-    private var activeStickerController: StickerViewController?
+    private(set) var activeStickerController: StickerViewController?
     
     // MARK: - Initializing
     

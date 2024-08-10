@@ -87,7 +87,7 @@ fileprivate extension ToolBarItem {
         case .Add:
             symbolName = "plus.circle"
         }
-        return .init(systemName: symbolName)!
+        return .init(systemName: symbolName)!.withTintColor(.white, renderingMode: .alwaysOriginal)
     }
     
 }

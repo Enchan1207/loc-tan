@@ -10,34 +10,99 @@ import PhotosUI
 
 class ViewController: UIViewController {
     
-    /// ステータスバーを隠す
-    override var prefersStatusBarHidden: Bool {true}
+    // MARK: - GUI Components
     
-    private var cameraViewController: CameraViewController!
+    /// キャンバス上端からセーフエリアへの制約
+    @IBOutlet private weak var canvasTopConstraintToSafeArea: NSLayoutConstraint!
     
-    /// ステッカーボードを配置するコンテナ
-    @IBOutlet private weak var containerView: UIView! {
+    /// キャンバス上端からトップバー下端への制約
+    @IBOutlet weak var canvasTopConstraintToTopbar: NSLayoutConstraint!
+    
+    /// ツールバーを配置するコンテナ
+    @IBOutlet private weak var toolbarContainer: UIView! {
         didSet {
-            cameraViewController = .init(nibName: nil, bundle: nil)
-            cameraViewController.delegate = self
+            toolbarContainer.backgroundColor = .clear
+            toolbarViewController = .init(nibName: nil, bundle: nil)
+            toolbarViewController.delegate = self
+            toolbarViewController.model = toolbarModel
             
-            // CameraViewControllerを子ViewControllerとして追加
-            addChild(cameraViewController)
-            containerView.addSubview(cameraViewController.view)
+            addChild(toolbarViewController)
+            let toolbarView = toolbarViewController.view!
+            toolbarContainer.addSubview(toolbarView)
             NSLayoutConstraint.activate([
-                containerView.topAnchor.constraint(equalTo: cameraViewController.view.topAnchor),
-                containerView.bottomAnchor.constraint(equalTo: cameraViewController.view.bottomAnchor),
-                containerView.leftAnchor.constraint(equalTo: cameraViewController.view.leftAnchor),
-                containerView.rightAnchor.constraint(equalTo: cameraViewController.view.rightAnchor),
+                toolbarView.topAnchor.constraint(equalTo: toolbarContainer.topAnchor, constant: 5),
+                toolbarView.bottomAnchor.constraint(equalTo: toolbarContainer.bottomAnchor, constant: -5),
+                toolbarView.leftAnchor.constraint(equalTo: toolbarContainer.leftAnchor, constant: 5),
+                toolbarView.rightAnchor.constraint(equalTo: toolbarContainer.rightAnchor, constant: -5),
             ])
-            cameraViewController.didMove(toParent: self)
+            toolbarViewController.didMove(toParent: self)
         }
     }
     
-    // MARK: - View lifecycles
+    /// ステッカーボード、カメラビューを配置するコンテナ
+    @IBOutlet private weak var canvasContainer: UIView! {
+        didSet {
+            canvasContainer.backgroundColor = .clear
+            cameraViewController = .init(nibName: nil, bundle: nil)
+            cameraViewController.delegate = self
+            
+            addChild(cameraViewController)
+            let cameraView = cameraViewController.view!
+            canvasContainer.addSubview(cameraView)
+            NSLayoutConstraint.activate([
+                cameraView.topAnchor.constraint(equalTo: canvasContainer.topAnchor),
+                cameraView.bottomAnchor.constraint(equalTo: canvasContainer.bottomAnchor),
+                cameraView.leftAnchor.constraint(equalTo: canvasContainer.leftAnchor),
+                cameraView.rightAnchor.constraint(equalTo: canvasContainer.rightAnchor),
+            ])
+            cameraViewController.didMove(toParent: self)
+            
+            stickerBoardViewController = .init(boardModel: stickerBoardModel)
+            
+            addChild(stickerBoardViewController)
+            let stickerBoardView = stickerBoardViewController.view!
+            canvasContainer.addSubview(stickerBoardView)
+            NSLayoutConstraint.activate([
+                stickerBoardView.topAnchor.constraint(equalTo: canvasContainer.topAnchor),
+                stickerBoardView.bottomAnchor.constraint(equalTo: canvasContainer.bottomAnchor),
+                stickerBoardView.leftAnchor.constraint(equalTo: canvasContainer.leftAnchor),
+                stickerBoardView.rightAnchor.constraint(equalTo: canvasContainer.rightAnchor),
+            ])
+            stickerBoardViewController.didMove(toParent: self)
+        }
+    }
+    
+    // MARK: - ViewControllers
+    
+    private var cameraViewController: CameraViewController!
+    
+    private var stickerBoardViewController: StickerBoardViewController!
+    
+    private var toolbarViewController: ToolbarViewController!
+    
+    private var photoPickerViewController: PHPickerViewController!
+    
+    // MARK: - Properties
+    
+    private let stickerBoardModel = StickerBoardModel(stickers: [])
+    
+    private let toolbarModel = ToolbarModel(mode: .Camera)
+    
+    /// ステータスバーを隠す
+    override var prefersStatusBarHidden: Bool {true}
+    
+    /// デバイスがノッチを持つかどうか
+    private var hasNotch: Bool { view.safeAreaInsets.bottom > 0 }
+    
+    // MARK: - View lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // フォトピッカーを準備しておく
+        configurePhotoPicker()
+        
+        view.backgroundColor = .black
         
         NotificationCenter.default.addObserver(self, selector: #selector(appDidEnterBackground), name: UIApplication.didEnterBackgroundNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(appDidBecomeActive), name: UIApplication.didBecomeActiveNotification, object: nil)
@@ -45,7 +110,16 @@ class ViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        toolbarContainer.backgroundColor = hasNotch ? .black : .clear
         self.cameraViewController.startSession()
+    }
+    
+    override func updateViewConstraints() {
+        // ノッチがあるならキャンバスをトップビューまで、なければセーフエリアまで広げる
+        canvasTopConstraintToSafeArea.priority = hasNotch ? .defaultLow : .defaultHigh
+        canvasTopConstraintToTopbar.priority = hasNotch ? .defaultHigh : .defaultLow
+        
+        super.updateViewConstraints()
     }
     
     deinit {
@@ -64,9 +138,22 @@ class ViewController: UIViewController {
     
     // MARK: - GUI event
     
-    
     @IBAction func onTapCapture(_ sender: Any) {
         cameraViewController.capturePhoto()
+    }
+    
+    // MARK: - Methods
+    
+    private func configurePhotoPicker(){
+        let config = {
+            var config = PHPickerConfiguration(photoLibrary: .shared())
+            config.filter = .images
+            config.selectionLimit = 1
+            config.preferredAssetRepresentationMode = .current
+            return config
+        }()
+        photoPickerViewController = .init(configuration: config)
+        photoPickerViewController.delegate = self
     }
     
     /// フォトライブラリに写真を保存する
@@ -92,11 +179,84 @@ class ViewController: UIViewController {
         }
     }
     
+    /// 画像ピッカーを表示する
+    private func presentPhotoPicker(){
+        self.present(photoPickerViewController, animated: true)
+    }
+    
+    /// 与えられた画像のステッカーを追加する
+    /// - Parameter image: ステッカーの画像
+    /// - Note: ステッカーはビュー中心に生成されます。
+    private func spawnSticker(with image: UIImage){
+        let width = stickerBoardViewController.view.bounds.width
+        let sticker = StickerModel(image: image, center: .zero, width: width, angle: .zero)
+        stickerBoardModel.add(sticker)
+    }
+    
+    private func expandStickerToFullScreen(){
+        guard let activeStickerModel = stickerBoardViewController.activeStickerController?.stickerModel else {return}
+        
+        // 角度をスナップして中央に移動
+        activeStickerModel.angle = activeStickerModel.angle.snapedToCross
+        activeStickerModel.center = .zero
+        
+        // 回転角度を考慮したステッカーのアスペクト比を計算
+        let isRotated = (45...135).contains(abs(activeStickerModel.angle.degrees))
+        let stickerImageSize = activeStickerModel.image.size
+        let stickerAspectRatioOnScreen = isRotated ? stickerImageSize.height / stickerImageSize.width : stickerImageSize.width / stickerImageSize.height
+        
+        // ビューをはみ出ない最大サイズを取得
+        let maxStickerSizeOnScreen: CGSize = ({viewSize, aspectRatio in
+            // 幅基準
+            let sizeForWidth = CGSize(width: viewSize.width, height: viewSize.width / aspectRatio)            
+            // 高さ基準
+            let sizeForHeight = CGSize(width: viewSize.height * aspectRatio, height: viewSize.height)
+            return sizeForWidth.height <= viewSize.height ? sizeForWidth : sizeForHeight
+        })(stickerBoardViewController.view.bounds, stickerAspectRatioOnScreen)
+        
+        // 設定
+        activeStickerModel.width = isRotated ? maxStickerSizeOnScreen.height : maxStickerSizeOnScreen.width
+    }
+    
+    private func rotateSticker(){
+        guard let activeStickerModel = stickerBoardViewController.activeStickerController?.stickerModel else {return}
+        activeStickerModel.angle = activeStickerModel.angle.snapedToCross + .init(degrees: 90)
+    }
+    
+}
+
+extension ViewController: ToolbarViewDelegate {
+    
+    func toolbarView(_ view: ToolbarView, didTapItem item: ToolBarItem) {
+        switch item {
+        case .Settings:
+            // TODO: カメラ設定の実装
+            print("settings")
+        case .Rotate:
+            rotateSticker()
+        case .Fullsize:
+            expandStickerToFullScreen()
+        case .Add:
+            presentPhotoPicker()
+        }
+    }
+    
+    func toolbarViewDidTapModeSwitcher(_ view: ToolbarView) {
+        let nextMode = toolbarModel.currentMode.opposite
+        toolbarModel.setMode(nextMode)
+        
+        // 編集モードのときはステッカーボード、撮影モードの時はカメラビューのユーザ操作を受け付ける
+        let isSwitchToEdit = nextMode == .Edit
+        stickerBoardViewController.view.isUserInteractionEnabled = isSwitchToEdit
+        cameraViewController.view.isUserInteractionEnabled = !isSwitchToEdit
+    }
+    
 }
 
 extension ViewController: CameraViewControllerDelegate {
     
     func cameraView(_ viewController: CameraViewController, didChangeZoomFactor scale: CGFloat) {
+        // TODO: ズーム倍率コントローラの実装
         print("zoom: \(scale)")
     }
     
@@ -105,7 +265,27 @@ extension ViewController: CameraViewControllerDelegate {
     }
     
     func cameraView(_ viewController: CameraViewController, didFailCapture error: (any Error)?) {
-        print(error)
+        // TODO: 撮影エラー時の処理
+    }
+    
+}
+
+extension ViewController: PHPickerViewControllerDelegate {
+    
+    func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
+        picker.dismiss(animated: true)
+        guard let provider = results.first?.itemProvider,
+              provider.canLoadObject(ofClass: UIImage.self) else {return}
+        
+        provider.loadObject(ofClass: UIImage.self) {[weak self] item, error in
+            guard error == nil, let image = item as? UIImage else {
+                print(error!)
+                return
+            }
+            DispatchQueue.main.async {
+                self?.spawnSticker(with: image)
+            }
+        }
     }
     
 }
