@@ -80,8 +80,6 @@ class ViewController: UIViewController {
     
     private var toolbarViewController: ToolbarViewController!
     
-    private var photoPickerViewController: PHPickerViewController!
-    
     // MARK: - Properties
     
     private let stickerBoardModel = StickerBoardModel(stickers: [])
@@ -98,9 +96,6 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        // フォトピッカーを準備しておく
-        configurePhotoPicker()
         
         view.backgroundColor = .black
         
@@ -144,18 +139,6 @@ class ViewController: UIViewController {
     
     // MARK: - Methods
     
-    private func configurePhotoPicker(){
-        let config = {
-            var config = PHPickerConfiguration(photoLibrary: .shared())
-            config.filter = .images
-            config.selectionLimit = 1
-            config.preferredAssetRepresentationMode = .current
-            return config
-        }()
-        photoPickerViewController = .init(configuration: config)
-        photoPickerViewController.delegate = self
-    }
-    
     /// フォトライブラリに写真を保存する
     /// - Parameter image: 保存する画像
     private func saveImageToPhotoLibrary(_ image: UIImage){
@@ -181,7 +164,22 @@ class ViewController: UIViewController {
     
     /// 画像ピッカーを表示する
     private func presentPhotoPicker(){
-        self.present(photoPickerViewController, animated: true)
+        let config = {
+            var config = PHPickerConfiguration(photoLibrary: .shared())
+            config.filter = .images
+            config.selectionLimit = 1
+            config.preferredAssetRepresentationMode = .current
+            return config
+        }()
+        
+        let picker = PHPickerViewController(configuration: config)
+        picker.delegate = self
+        if let sheet = picker.sheetPresentationController {
+            sheet.detents = [.medium(), .large()]
+            sheet.prefersScrollingExpandsWhenScrolledToEdge = false
+            sheet.prefersGrabberVisible = true
+        }
+        self.present(picker, animated: true)
     }
     
     /// 与えられた画像のステッカーを追加する
