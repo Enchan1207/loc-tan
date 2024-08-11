@@ -59,6 +59,7 @@ final class StickerModel {
     /// ターゲット状態を表示に反映すべきか
     var shouldIndicateState: Bool {
         didSet {
+            guard oldValue != shouldIndicateState else {return}
             delegate?.stickerModel(self, didChangeIndication: shouldIndicateState)
         }
     }

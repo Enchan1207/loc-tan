@@ -148,7 +148,7 @@ class ViewController: UIViewController {
     }
     
     @IBAction func onChangeOpacitySlider(_ sender: Any) {
-        stickerBoardModel.setOpacity(opacitySlider.value, animated: false)
+        stickerBoardModel.setStickersOpacity(opacitySlider.value, animated: false)
     }
     
     // MARK: - Methods
@@ -201,7 +201,14 @@ class ViewController: UIViewController {
     /// - Note: ステッカーはビュー中心に生成されます。
     private func spawnSticker(with image: UIImage){
         let width = stickerBoardViewController.view.bounds.width
-        let sticker = StickerModel(image: image, center: .zero, width: width, angle: .zero, isTargetted: false, opacity: opacitySlider.value, shouldIndicateState: shouldIndicateState)
+        let sticker = StickerModel(
+            image: image,
+            center: .zero,
+            width: width,
+            angle: .zero,
+            isTargetted: false,
+            opacity: stickerBoardModel.stickersOpacity,
+            shouldIndicateState: stickerBoardModel.shouldIndicateState)
         stickerBoardModel.add(sticker)
     }
 }
@@ -227,7 +234,7 @@ extension ViewController: ToolbarViewDelegate {
         toolbarModel.setMode(nextMode)
         
         // 編集モードのときはステッカーのハイライトを有効にする
-        stickerBoardModel.setIndicationState(nextMode == .Edit)
+        stickerBoardModel.shouldIndicateState = nextMode == .Edit
         
         // 編集モードのときはステッカーボード、撮影モードの時はカメラビューのユーザ操作を受け付ける
         let isSwitchToEdit = nextMode == .Edit

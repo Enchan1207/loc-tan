@@ -15,10 +15,20 @@ class StickerBoardModel {
     
     weak var delegate: StickerBoardModelDelegate?
     
+    private (set) var stickersOpacity: Float
+    
+    var shouldIndicateState: Bool {
+        didSet {
+            stickers.forEach({$0.shouldIndicateState = shouldIndicateState})
+        }
+    }
+    
     // MARK: - Initializing
     
-    init(stickers: [StickerModel]) {
+    init(stickers: [StickerModel], opacity: Float = 0.8, shouldIndicateState: Bool = true) {
         self.stickers = stickers
+        self.stickersOpacity = opacity
+        self.shouldIndicateState = shouldIndicateState
     }
     
     // MARK: - Operations
@@ -38,17 +48,14 @@ class StickerBoardModel {
         delegate?.stickerBoard(self, didRemoveSticker: target)
     }
     
-    func setOpacity(_ opacity: Float, animated: Bool) {
+    func setStickersOpacity(_ opacity: Float, animated: Bool) {
+        stickersOpacity = opacity
         stickers.forEach({$0.setOpacity(to: opacity, animated: animated)})
     }
     
     func switchTarget(to: StickerModel){
         guard stickers.contains(to) else {return}
         stickers.forEach({$0.isTargetted = $0 == to})
-    }
-    
-    func setIndicationState(_ shouldIndicateState: Bool){
-        stickers.forEach({$0.shouldIndicateState = shouldIndicateState})
     }
     
 }
