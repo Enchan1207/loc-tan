@@ -9,7 +9,7 @@ import UIKit
 
 class StickerView: UIView {
     
-    let stickerImage: UIImage
+    private let stickerImageView: UIImageView
     
     private let statusEffectView = UIView()
     
@@ -26,15 +26,13 @@ class StickerView: UIView {
     // MARK: - Initializing
     
     init(frame: CGRect, image: UIImage){
-        self.stickerImage = image
+        self.stickerImageView = .init(image: image)
         super.init(frame: frame)
         setup()
     }
     
-    init(frame: CGRect, image: UIImage, center: CGPoint, width: CGFloat, angle: Angle){
-        self.stickerImage = image
-        super.init(frame: frame)
-        setup()
+    convenience init(frame: CGRect, image: UIImage, center: CGPoint, width: CGFloat, angle: Angle){
+        self.init(frame: frame, image: image)
         updateCenter(center)
         updateWidth(width)
         updateAngle(angle)
@@ -47,7 +45,6 @@ class StickerView: UIView {
     
     private func setup(){
         // 画像ビューの設定
-        let stickerImageView = UIImageView(image: stickerImage)
         self.translatesAutoresizingMaskIntoConstraints = false
         self.addSubview(stickerImageView)
         stickerImageView.translatesAutoresizingMaskIntoConstraints = false
@@ -58,16 +55,9 @@ class StickerView: UIView {
             rightAnchor.constraint(equalTo: stickerImageView.rightAnchor),
         ])
         
-        // TODO: 透明度変更ノブつける
-        stickerImageView.layer.opacity = 0.8
-        
         // アスペクト比を固定する
-        let aspectRatio: CGFloat
-        if let imageSize = stickerImageView.image?.size {
-            aspectRatio = imageSize.width / imageSize.height
-        }else{
-            aspectRatio = 1.0
-        }
+        let imageSize = stickerImageView.image!.size
+        let aspectRatio = imageSize.width / imageSize.height
         stickerImageView.widthAnchor.constraint(equalTo: stickerImageView.heightAnchor, multiplier: aspectRatio).isActive = true
         
         // 幅を設定する
@@ -85,17 +75,25 @@ class StickerView: UIView {
             leftAnchor.constraint(equalTo: statusEffectView.leftAnchor),
             rightAnchor.constraint(equalTo: statusEffectView.rightAnchor),
         ])
-        statusEffectView.backgroundColor = .systemBackground.withAlphaComponent(0.5)
+        statusEffectView.backgroundColor = .black.withAlphaComponent(0.5)
         statusEffectView.alpha = 0.0
     }
     
     // MARK: - Status modification
     
-    @MainActor
-    func setStatusRing(_ isActive: Bool) async {
+    /// ハイライト状態を切り替える
+    @MainActor func updateHighlightedState(_ isHighlighted: Bool) async {
         let duration = 0.15
         await UIView.animate(withDuration: duration) {
-            self.statusEffectView.alpha = isActive ? 0.0 : 1.0
+            // 内部では逆のことをやっている (ハイライトされていなければ、隠すためのビューを表示する)
+            self.statusEffectView.alpha = isHighlighted ? 0.0 : 1.0
+        }
+    }
+    
+    @MainActor func updateOpacity(_ opacity: Float) async {
+        let duration = 0.15
+        await UIView.animate(withDuration: duration) {
+            self.stickerImageView.layer.opacity = opacity
         }
     }
     

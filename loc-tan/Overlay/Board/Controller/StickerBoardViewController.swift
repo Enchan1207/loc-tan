@@ -165,6 +165,30 @@ extension StickerBoardViewController: StickerBoardModelDelegate {
         }
     }
     
+    func stickerBoard(_ board: StickerBoardModel, didChangeHighlightState shouldHighlight: Bool) {
+        // ステッカーのハイライトが有効なら、アクティブなステッカーをハイライトし、そうでないものを非ハイライトする
+        // そうでなければ、すべてのステッカーをハイライトする
+        Task {
+            await withTaskGroup(of: Void.self) { group in
+                let tasks: [@Sendable () async -> Void] = controllers.map({controller in
+                    {await controller.updateHighlightedState(shouldHighlight ? controller == self.activeStickerController : true)}
+                })
+                tasks.forEach({group.addTask(operation: $0)})
+            }
+        }
+    }
+    
+    func stickerBoard(_ board: StickerBoardModel, didChangeStickersOpacity opacity: Float) {
+        Task {
+            await withTaskGroup(of: Void.self) { group in
+                let tasks: [@Sendable () async -> Void] = controllers.map({controller in
+                    {await controller.updateOpacity(opacity)}
+                })
+                tasks.forEach({group.addTask(operation: $0)})
+            }
+        }
+    }
+    
 }
 
 extension StickerBoardViewController: StickerViewControllerDelegate {

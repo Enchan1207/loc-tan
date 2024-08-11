@@ -13,6 +13,20 @@ class StickerBoardModel {
     
     private (set) public var stickers: [StickerModel] = []
     
+    /// アクティブなステッカーをハイライトすべきか
+    var shouldHighLightActiveSticker: Bool = true {
+        didSet {
+            delegate?.stickerBoard(self, didChangeHighlightState: shouldHighLightActiveSticker)
+        }
+    }
+    
+    /// ステッカーの透明度
+    var stickersOpacity: Float = 0.8 {
+        didSet {
+            delegate?.stickerBoard(self, didChangeStickersOpacity: stickersOpacity)
+        }
+    }
+    
     weak var delegate: StickerBoardModelDelegate?
     
     // MARK: - Initializing

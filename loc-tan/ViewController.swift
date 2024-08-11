@@ -212,6 +212,11 @@ extension ViewController: ToolbarViewDelegate {
         let nextMode = toolbarModel.currentMode.opposite
         toolbarModel.setMode(nextMode)
         
+        // 編集モードのときはステッカーのハイライトを有効にし、透明度を固定値にする
+        stickerBoardModel.shouldHighLightActiveSticker = nextMode == .Edit
+        // TODO: カメラモードのときは透明度スライダで変更できるようにする
+        stickerBoardModel.stickersOpacity = nextMode == .Edit ? 0.9 : 0.5
+        
         // 編集モードのときはステッカーボード、撮影モードの時はカメラビューのユーザ操作を受け付ける
         let isSwitchToEdit = nextMode == .Edit
         stickerBoardViewController.view.isUserInteractionEnabled = isSwitchToEdit
