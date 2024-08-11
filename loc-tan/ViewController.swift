@@ -75,7 +75,7 @@ class ViewController: UIViewController {
     /// オブジェクト透明度スライダ
     @IBOutlet weak var opacitySlider: UISlider! {
         didSet {
-            opacitySlider.value = opacitySlider.maximumValue
+            opacitySlider.value = stickerBoardModel.stickersOpacity
         }
     }
     
