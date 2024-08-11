@@ -62,7 +62,7 @@ class StickerViewController: UIViewController {
     // MARK: - State modification
     
     func updateHighlightedState(_ isHighlighted: Bool) async {
-        await stickerView.updateHighlightedState(isHighlighted)
+        await stickerView.setGrayedOut(isHighlighted)
     }
     
     func updateVisibility(_ isVisible: Bool) async{
@@ -202,7 +202,7 @@ extension StickerViewController: StickerModelDelegate {
     
     func stickerModel(_ model: StickerModel, didChange isTargetted: Bool) {
         Task {
-            await stickerView.updateHighlightedState(isTargetted)
+            await stickerView.setGrayedOut(!model.isTargetted && model.shouldIndicateState)
         }
     }
     
@@ -214,6 +214,12 @@ extension StickerViewController: StickerModelDelegate {
         
         Task {
             await stickerView.updateOpacity(opacity)
+        }
+    }
+    
+    func stickerModel(_ model: StickerModel, didChangeIndication shouldIndicateState: Bool) {
+        Task {
+            await stickerView.setGrayedOut(!model.isTargetted && model.shouldIndicateState)
         }
     }
     

@@ -99,6 +99,9 @@ class ViewController: UIViewController {
     /// デバイスがノッチを持つかどうか
     private var hasNotch: Bool { view.safeAreaInsets.bottom > 0 }
     
+    /// ステッカーの状態を表示すべきかどうか
+    private var shouldIndicateState: Bool { toolbarModel.currentMode == .Edit }
+    
     // MARK: - View lifecycle
     
     override func viewDidLoad() {
@@ -198,7 +201,7 @@ class ViewController: UIViewController {
     /// - Note: ステッカーはビュー中心に生成されます。
     private func spawnSticker(with image: UIImage){
         let width = stickerBoardViewController.view.bounds.width
-        let sticker = StickerModel(image: image, center: .zero, width: width, angle: .zero, isTargetted: false, opacity: opacitySlider.value)
+        let sticker = StickerModel(image: image, center: .zero, width: width, angle: .zero, isTargetted: false, opacity: opacitySlider.value, shouldIndicateState: shouldIndicateState)
         stickerBoardModel.add(sticker)
     }
 }
@@ -224,7 +227,7 @@ extension ViewController: ToolbarViewDelegate {
         toolbarModel.setMode(nextMode)
         
         // 編集モードのときはステッカーのハイライトを有効にする
-        stickerBoardModel.shouldHighLightActiveSticker = nextMode == .Edit
+        stickerBoardModel.setIndicationState(nextMode == .Edit)
         
         // 編集モードのときはステッカーボード、撮影モードの時はカメラビューのユーザ操作を受け付ける
         let isSwitchToEdit = nextMode == .Edit

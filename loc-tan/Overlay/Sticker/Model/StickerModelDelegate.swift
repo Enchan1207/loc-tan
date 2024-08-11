@@ -19,4 +19,6 @@ protocol StickerModelDelegate: AnyObject {
     
     func stickerModel(_ model: StickerModel, didChange opacity: Float, animated: Bool)
     
+    func stickerModel(_ model: StickerModel, didChangeIndication shouldIndicateState: Bool)
+    
 }

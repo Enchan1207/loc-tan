@@ -13,6 +13,4 @@ protocol StickerBoardModelDelegate: AnyObject {
     
     func stickerBoard(_ board: StickerBoardModel, didRemoveSticker sticker: StickerModel)
     
-    func stickerBoard(_ board: StickerBoardModel, didChangeHighlightState shouldHighlight: Bool)
-    
 }

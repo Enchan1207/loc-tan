@@ -56,15 +56,23 @@ final class StickerModel {
         self.delegate?.stickerModel(self, didChange: opacity, animated: animated)
     }
     
+    /// ターゲット状態を表示に反映すべきか
+    var shouldIndicateState: Bool {
+        didSet {
+            delegate?.stickerModel(self, didChangeIndication: shouldIndicateState)
+        }
+    }
+    
     // MARK: - Initializing
     
-    init(image: UIImage, center: CGPoint, width: CGFloat, angle: Angle, isTargetted: Bool, opacity: Float) {
+    init(image: UIImage, center: CGPoint, width: CGFloat, angle: Angle, isTargetted: Bool, opacity: Float, shouldIndicateState: Bool) {
         self.image = image
         self.center = center
         self.width = width
         self.angle = angle
         self.isTargetted = isTargetted
         self.opacity = opacity
+        self.shouldIndicateState = shouldIndicateState
     }
 }
 

@@ -13,13 +13,6 @@ class StickerBoardModel {
     
     private (set) public var stickers: [StickerModel] = []
     
-    /// アクティブなステッカーをハイライトすべきか
-    var shouldHighLightActiveSticker: Bool = true {
-        didSet {
-            delegate?.stickerBoard(self, didChangeHighlightState: shouldHighLightActiveSticker)
-        }
-    }
-    
     weak var delegate: StickerBoardModelDelegate?
     
     // MARK: - Initializing
@@ -52,6 +45,10 @@ class StickerBoardModel {
     func switchTarget(to: StickerModel){
         guard stickers.contains(to) else {return}
         stickers.forEach({$0.isTargetted = $0 == to})
+    }
+    
+    func setIndicationState(_ shouldIndicateState: Bool){
+        stickers.forEach({$0.shouldIndicateState = shouldIndicateState})
     }
     
 }
