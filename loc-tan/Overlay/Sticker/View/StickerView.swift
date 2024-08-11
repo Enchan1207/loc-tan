@@ -97,6 +97,10 @@ class StickerView: UIView {
         }
     }
     
+    @MainActor func updateOpacity(_ opacity: Float) {
+        self.stickerImageView.layer.opacity = opacity
+    }
+    
     // MARK: - View geometry
     
     override func didMoveToSuperview() {

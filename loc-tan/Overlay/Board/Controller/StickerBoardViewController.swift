@@ -178,7 +178,13 @@ extension StickerBoardViewController: StickerBoardModelDelegate {
         }
     }
     
-    func stickerBoard(_ board: StickerBoardModel, didChangeStickersOpacity opacity: Float) {
+    func stickerBoard(_ board: StickerBoardModel, didChangeStickersOpacity opacity: Float, animated: Bool) {
+        // アニメーションがいらないなら簡単なんですよ
+        guard animated else {
+            controllers.forEach({$0.updateOpacity(opacity)})
+            return
+        }
+        
         Task {
             await withTaskGroup(of: Void.self) { group in
                 let tasks: [@Sendable () async -> Void] = controllers.map({controller in

@@ -80,6 +80,10 @@ class StickerViewController: UIViewController {
         await stickerView.updateOpacity(opacity)
     }
     
+    func updateOpacity(_ opacity: Float) {
+        stickerView.updateOpacity(opacity)
+    }
+    
     // MARK: - Gestures
     
     @objc private func onTapSticker(_ gesture: UITapGestureRecognizer){

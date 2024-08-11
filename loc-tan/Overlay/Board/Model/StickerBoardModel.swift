@@ -21,11 +21,7 @@ class StickerBoardModel {
     }
     
     /// ステッカーの透明度
-    var stickersOpacity: Float = 0.8 {
-        didSet {
-            delegate?.stickerBoard(self, didChangeStickersOpacity: stickersOpacity)
-        }
-    }
+    private (set) var stickersOpacity: Float = 0.8
     
     weak var delegate: StickerBoardModelDelegate?
     
@@ -50,6 +46,11 @@ class StickerBoardModel {
     func remove(at index: Int){
         let target = stickers.remove(at: index)
         delegate?.stickerBoard(self, didRemoveSticker: target)
+    }
+    
+    func set(opacity: Float, animated: Bool = true) {
+        stickersOpacity = opacity
+        delegate?.stickerBoard(self, didChangeStickersOpacity: stickersOpacity, animated: animated)
     }
     
 }
