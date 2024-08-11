@@ -48,14 +48,23 @@ final class StickerModel {
         }
     }
     
+    /// ステッカーの透明度
+    private (set) var opacity: Float
+    
+    func setOpacity(to opacity: Float, animated: Bool) {
+        self.opacity = opacity
+        self.delegate?.stickerModel(self, didChange: opacity, animated: animated)
+    }
+    
     // MARK: - Initializing
     
-    init(image: UIImage, center: CGPoint, width: CGFloat, angle: Angle, isActive: Bool) {
+    init(image: UIImage, center: CGPoint, width: CGFloat, angle: Angle, isTargetted: Bool, opacity: Float) {
         self.image = image
         self.center = center
         self.width = width
         self.angle = angle
-        self.isTargetted = isActive
+        self.isTargetted = isTargetted
+        self.opacity = opacity
     }
 }
 

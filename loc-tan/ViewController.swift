@@ -75,7 +75,7 @@ class ViewController: UIViewController {
     /// オブジェクト透明度スライダ
     @IBOutlet weak var opacitySlider: UISlider! {
         didSet {
-            opacitySlider.value = stickerBoardModel.stickersOpacity
+            opacitySlider.value = opacitySlider.maximumValue
         }
     }
     
@@ -198,7 +198,7 @@ class ViewController: UIViewController {
     /// - Note: ステッカーはビュー中心に生成されます。
     private func spawnSticker(with image: UIImage){
         let width = stickerBoardViewController.view.bounds.width
-        let sticker = StickerModel(image: image, center: .zero, width: width, angle: .zero, isActive: false)
+        let sticker = StickerModel(image: image, center: .zero, width: width, angle: .zero, isTargetted: false, opacity: opacitySlider.value)
         stickerBoardModel.add(sticker)
     }
 }

@@ -20,9 +20,6 @@ class StickerBoardModel {
         }
     }
     
-    /// ステッカーの透明度
-    private (set) var stickersOpacity: Float = 0.8
-    
     weak var delegate: StickerBoardModelDelegate?
     
     // MARK: - Initializing
@@ -48,9 +45,8 @@ class StickerBoardModel {
         delegate?.stickerBoard(self, didRemoveSticker: target)
     }
     
-    func setOpacity(_ opacity: Float, animated: Bool = true) {
-        stickersOpacity = opacity
-        delegate?.stickerBoard(self, didChangeStickersOpacity: stickersOpacity, animated: animated)
+    func setOpacity(_ opacity: Float, animated: Bool) {
+        stickers.forEach({$0.setOpacity(to: opacity, animated: animated)})
     }
     
     func switchTarget(to: StickerModel){

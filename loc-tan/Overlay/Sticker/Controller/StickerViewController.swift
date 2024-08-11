@@ -44,9 +44,10 @@ class StickerViewController: UIViewController {
         self.view = StickerView(
             frame: .zero,
             image: stickerModel.image,
-            center:stickerModel.center,
-            width:stickerModel.width,
-            angle: stickerModel.angle)
+            center: stickerModel.center,
+            width: stickerModel.width,
+            angle: stickerModel.angle,
+            opacity: stickerModel.opacity)
     }
     
     override func viewDidLoad() {
@@ -66,14 +67,6 @@ class StickerViewController: UIViewController {
     
     func updateVisibility(_ isVisible: Bool) async{
         await stickerView.updateVisibility(isVisible)
-    }
-    
-    func updateOpacity(_ opacity: Float) async {
-        await stickerView.updateOpacity(opacity)
-    }
-    
-    func updateOpacity(_ opacity: Float) {
-        stickerView.updateOpacity(opacity)
     }
     
     // MARK: - Gestures
@@ -210,6 +203,17 @@ extension StickerViewController: StickerModelDelegate {
     func stickerModel(_ model: StickerModel, didChange isTargetted: Bool) {
         Task {
             await stickerView.updateHighlightedState(isTargetted)
+        }
+    }
+    
+    func stickerModel(_ model: StickerModel, didChange opacity: Float, animated: Bool) {
+        guard animated else {
+            stickerView.updateOpacity(opacity)
+            return
+        }
+        
+        Task {
+            await stickerView.updateOpacity(opacity)
         }
     }
     
