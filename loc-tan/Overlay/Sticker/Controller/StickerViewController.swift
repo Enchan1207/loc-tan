@@ -62,14 +62,26 @@ class StickerViewController: UIViewController {
     
     // MARK: - State modification
     
+    func updateHighlightedState(_ isHighlighted: Bool) async {
+        await stickerView.updateHighlightedState(isHighlighted)
+    }
+    
     func activate() async {
-        await stickerView.setStatusRing(true)
+        await updateHighlightedState(true)
         isActive = true
     }
     
     func deactivate() async {
-        await stickerView.setStatusRing(false)
+        await updateHighlightedState(false)
         isActive = false
+    }
+    
+    func updateOpacity(_ opacity: Float) async {
+        await stickerView.updateOpacity(opacity)
+    }
+    
+    func updateOpacity(_ opacity: Float) {
+        stickerView.updateOpacity(opacity)
     }
     
     // MARK: - Gestures

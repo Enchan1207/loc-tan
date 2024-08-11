@@ -72,6 +72,13 @@ class ViewController: UIViewController {
         }
     }
     
+    /// オブジェクト透明度スライダ
+    @IBOutlet weak var opacitySlider: UISlider! {
+        didSet {
+            opacitySlider.value = stickerBoardModel.stickersOpacity
+        }
+    }
+    
     // MARK: - ViewControllers
     
     private var cameraViewController: CameraViewController!
@@ -135,6 +142,10 @@ class ViewController: UIViewController {
     
     @IBAction func onTapCapture(_ sender: Any) {
         cameraViewController.capturePhoto()
+    }
+    
+    @IBAction func onChangeOpacitySlider(_ sender: Any) {
+        stickerBoardModel.set(opacity: opacitySlider.value, animated: false)
     }
     
     // MARK: - Methods
@@ -211,6 +222,9 @@ extension ViewController: ToolbarViewDelegate {
     func toolbarViewDidTapModeSwitcher(_ view: ToolbarView) {
         let nextMode = toolbarModel.currentMode.opposite
         toolbarModel.setMode(nextMode)
+        
+        // 編集モードのときはステッカーのハイライトを有効にする
+        stickerBoardModel.shouldHighLightActiveSticker = nextMode == .Edit
         
         // 編集モードのときはステッカーボード、撮影モードの時はカメラビューのユーザ操作を受け付ける
         let isSwitchToEdit = nextMode == .Edit
