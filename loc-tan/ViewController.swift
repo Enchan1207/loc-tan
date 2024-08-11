@@ -145,7 +145,7 @@ class ViewController: UIViewController {
     }
     
     @IBAction func onChangeOpacitySlider(_ sender: Any) {
-        stickerBoardModel.set(opacity: opacitySlider.value, animated: false)
+        stickerBoardModel.setOpacity(opacitySlider.value, animated: false)
     }
     
     // MARK: - Methods
@@ -198,7 +198,7 @@ class ViewController: UIViewController {
     /// - Note: ステッカーはビュー中心に生成されます。
     private func spawnSticker(with image: UIImage){
         let width = stickerBoardViewController.view.bounds.width
-        let sticker = StickerModel(image: image, center: .zero, width: width, angle: .zero)
+        let sticker = StickerModel(image: image, center: .zero, width: width, angle: .zero, isActive: false)
         stickerBoardModel.add(sticker)
     }
 }

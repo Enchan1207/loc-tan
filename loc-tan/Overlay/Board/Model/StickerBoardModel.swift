@@ -48,9 +48,14 @@ class StickerBoardModel {
         delegate?.stickerBoard(self, didRemoveSticker: target)
     }
     
-    func set(opacity: Float, animated: Bool = true) {
+    func setOpacity(_ opacity: Float, animated: Bool = true) {
         stickersOpacity = opacity
         delegate?.stickerBoard(self, didChangeStickersOpacity: stickersOpacity, animated: animated)
+    }
+    
+    func switchTarget(to: StickerModel){
+        guard stickers.contains(to) else {return}
+        stickers.forEach({$0.isActive = $0 == to})
     }
     
 }

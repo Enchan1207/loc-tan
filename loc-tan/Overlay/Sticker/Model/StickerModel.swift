@@ -40,19 +40,21 @@ final class StickerModel {
         }
     }
     
-    private enum CodingKeys: String, CodingKey {
-        case center
-        case width
-        case angle
+    /// アクティブ(操作対象) かどうか
+    var isActive: Bool {
+        didSet {
+            delegate?.stickerModel(self, didChange: isActive)
+        }
     }
     
     // MARK: - Initializing
     
-    init(image: UIImage, center: CGPoint, width: CGFloat, angle: Angle) {
+    init(image: UIImage, center: CGPoint, width: CGFloat, angle: Angle, isActive: Bool) {
         self.image = image
         self.center = center
         self.width = width
         self.angle = angle
+        self.isActive = isActive
     }
 }
 

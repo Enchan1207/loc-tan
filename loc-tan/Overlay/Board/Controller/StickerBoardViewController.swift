@@ -65,21 +65,11 @@ class StickerBoardViewController: UIViewController {
         controller.didMove(toParent: self)
     }
     
-    private func switchActiveSticker(to newSticker: StickerViewController?) async {
-        // 制御を引き継ぐ方のステッカーを上に持ってくる
+    @MainActor private func switchActiveSticker(to newSticker: StickerViewController?) {
         if let newSticker = newSticker {
             view.bringSubviewToFront(newSticker.view)
+            boardModel.switchTarget(to: newSticker.stickerModel)
         }
-        
-        // 既存のステッカーを非活性化し、新たなステッカーを活性化
-        await withTaskGroup(of: Void.self) { group in
-            let tasks: [@Sendable () async -> Void] = controllers.map({controller in
-                {await controller == newSticker ? controller.activate() : controller.deactivate()}
-            })
-            tasks.forEach({group.addTask(operation: $0)})
-        }
-        
-        // 制御を置き換える
         activeStickerController = newSticker
     }
     
@@ -147,9 +137,7 @@ extension StickerBoardViewController: StickerBoardModelDelegate {
         moveStickerToBoard(controller)
         
         // 操作対象を切り替える
-        Task {
-            await switchActiveSticker(to: controller)
-        }
+        switchActiveSticker(to: controller)
     }
     
     func stickerBoard(_ board: StickerBoardModel, didRemoveSticker sticker: StickerModel) {
@@ -168,7 +156,7 @@ extension StickerBoardViewController: StickerBoardModelDelegate {
         Task {
             await withTaskGroup(of: Void.self) { group in
                 let tasks: [@Sendable () async -> Void] = controllers.map({controller in
-                    {await controller.updateHighlightedState(shouldHighlight ? controller == self.activeStickerController : true)}
+                    {await controller.updateHighlightedState(shouldHighlight ? controller.stickerModel.isActive : true)}
                 })
                 tasks.forEach({group.addTask(operation: $0)})
             }
@@ -197,10 +185,7 @@ extension StickerBoardViewController: StickerBoardModelDelegate {
 extension StickerBoardViewController: StickerViewControllerDelegate {
     
     func stickerViewDidRequireActivation(_ sticker: StickerViewController) {
-        // FIXME: 終わっていないうちから別のステッカーに切り替えるのは危険では?
-        Task {
-            await switchActiveSticker(to: sticker)
-        }
+        switchActiveSticker(to: sticker)
     }
     
     func stickerViewDidRequireDeletion(_ sticker: StickerViewController){
