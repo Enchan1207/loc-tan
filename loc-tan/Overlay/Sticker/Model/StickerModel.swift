@@ -40,11 +40,11 @@ final class StickerModel {
         }
     }
     
-    /// アクティブ(操作対象) かどうか
-    var isActive: Bool {
+    /// 操作対象になっているかどうか
+    var isTargetted: Bool {
         didSet {
-            guard oldValue != isActive else {return}
-            delegate?.stickerModel(self, didChange: isActive)
+            guard oldValue != isTargetted else {return}
+            delegate?.stickerModel(self, didChange: isTargetted)
         }
     }
     
@@ -55,7 +55,7 @@ final class StickerModel {
         self.center = center
         self.width = width
         self.angle = angle
-        self.isActive = isActive
+        self.isTargetted = isActive
     }
 }
 

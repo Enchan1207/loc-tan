@@ -55,7 +55,7 @@ class StickerBoardModel {
     
     func switchTarget(to: StickerModel){
         guard stickers.contains(to) else {return}
-        stickers.forEach({$0.isActive = $0 == to})
+        stickers.forEach({$0.isTargetted = $0 == to})
     }
     
 }

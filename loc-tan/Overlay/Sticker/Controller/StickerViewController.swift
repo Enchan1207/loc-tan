@@ -80,10 +80,10 @@ class StickerViewController: UIViewController {
     
     @objc private func onTapSticker(_ gesture: UITapGestureRecognizer){
         // モデルの情報をデバッグ表示
-        print(String(format: "Sticker at:%@ size:%.2f angle:%.2f state:%@", stickerModel.center.shortDescription, stickerModel.width, stickerModel.angle.degrees, stickerModel.isActive ? "active" : "inactive"))
+        print(String(format: "Sticker at:%@ size:%.2f angle:%.2f state:%@", stickerModel.center.shortDescription, stickerModel.width, stickerModel.angle.degrees, stickerModel.isTargetted ? "active" : "inactive"))
         
         // 活性化されていないなら要求する
-        if !stickerModel.isActive {
+        if !stickerModel.isTargetted {
             delegate?.stickerViewDidRequireActivation(self)
             return
         }
@@ -207,9 +207,9 @@ extension StickerViewController: StickerModelDelegate {
         stickerView.updateAngle(angle)
     }
     
-    func stickerModel(_ model: StickerModel, didChange activationState: Bool) {
+    func stickerModel(_ model: StickerModel, didChange isTargetted: Bool) {
         Task {
-            await stickerView.updateHighlightedState(activationState)
+            await stickerView.updateHighlightedState(isTargetted)
         }
     }
     

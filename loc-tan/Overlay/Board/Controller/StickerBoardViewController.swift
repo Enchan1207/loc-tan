@@ -156,7 +156,7 @@ extension StickerBoardViewController: StickerBoardModelDelegate {
         Task {
             await withTaskGroup(of: Void.self) { group in
                 let tasks: [@Sendable () async -> Void] = controllers.map({controller in
-                    {await controller.updateHighlightedState(shouldHighlight ? controller.stickerModel.isActive : true)}
+                    {await controller.updateHighlightedState(shouldHighlight ? controller.stickerModel.isTargetted : true)}
                 })
                 tasks.forEach({group.addTask(operation: $0)})
             }
