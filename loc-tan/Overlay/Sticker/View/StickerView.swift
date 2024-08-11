@@ -83,7 +83,7 @@ class StickerView: UIView {
     
     /// ハイライト状態を切り替える
     @MainActor func updateHighlightedState(_ isHighlighted: Bool) async {
-        let duration = 0.15
+        let duration = 0.5
         await UIView.animate(withDuration: duration) {
             // 内部では逆のことをやっている (ハイライトされていなければ、隠すためのビューを表示する)
             self.statusEffectView.alpha = isHighlighted ? 0.0 : 1.0

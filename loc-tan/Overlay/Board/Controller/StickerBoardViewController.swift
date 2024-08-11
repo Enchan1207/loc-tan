@@ -73,13 +73,10 @@ class StickerBoardViewController: UIViewController {
         
         // 既存のステッカーを非活性化し、新たなステッカーを活性化
         await withTaskGroup(of: Void.self) { group in
-            group.addTask {
-                await self.activeStickerController?.deactivate()
-            }
-            
-            group.addTask {
-                await newSticker?.activate()
-            }
+            let tasks: [@Sendable () async -> Void] = controllers.map({controller in
+                {await controller == newSticker ? controller.activate() : controller.deactivate()}
+            })
+            tasks.forEach({group.addTask(operation: $0)})
         }
         
         // 制御を置き換える

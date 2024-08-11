@@ -88,7 +88,7 @@ class StickerViewController: UIViewController {
     
     @objc private func onTapSticker(_ gesture: UITapGestureRecognizer){
         // モデルの情報をデバッグ表示
-        print(String(format: "Sticker at:%@ size:%.2f angle:%.2f", stickerModel.center.shortDescription, stickerModel.width, stickerModel.angle.degrees))
+        print(String(format: "Sticker at:%@ size:%.2f angle:%.2f state:%@", stickerModel.center.shortDescription, stickerModel.width, stickerModel.angle.degrees, isActive ? "active" : "inactive"))
         
         // 活性化されていないなら要求する
         if !isActive {
