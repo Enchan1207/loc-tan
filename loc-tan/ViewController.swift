@@ -75,7 +75,7 @@ class ViewController: UIViewController {
     /// オブジェクト透明度スライダ
     @IBOutlet weak var opacitySlider: UISlider! {
         didSet {
-            opacitySlider.value = stickerBoardModel.stickersOpacity
+            opacitySlider.value = opacitySlider.maximumValue
         }
     }
     
@@ -98,6 +98,9 @@ class ViewController: UIViewController {
     
     /// デバイスがノッチを持つかどうか
     private var hasNotch: Bool { view.safeAreaInsets.bottom > 0 }
+    
+    /// ステッカーの状態を表示すべきかどうか
+    private var shouldIndicateState: Bool { toolbarModel.currentMode == .Edit }
     
     // MARK: - View lifecycle
     
@@ -145,7 +148,7 @@ class ViewController: UIViewController {
     }
     
     @IBAction func onChangeOpacitySlider(_ sender: Any) {
-        stickerBoardModel.setOpacity(opacitySlider.value, animated: false)
+        stickerBoardModel.setStickersOpacity(opacitySlider.value, animated: false)
     }
     
     // MARK: - Methods
@@ -198,7 +201,14 @@ class ViewController: UIViewController {
     /// - Note: ステッカーはビュー中心に生成されます。
     private func spawnSticker(with image: UIImage){
         let width = stickerBoardViewController.view.bounds.width
-        let sticker = StickerModel(image: image, center: .zero, width: width, angle: .zero, isActive: false)
+        let sticker = StickerModel(
+            image: image,
+            center: .zero,
+            width: width,
+            angle: .zero,
+            isTargetted: false,
+            opacity: stickerBoardModel.stickersOpacity,
+            shouldIndicateState: stickerBoardModel.shouldIndicateState)
         stickerBoardModel.add(sticker)
     }
 }
@@ -224,7 +234,7 @@ extension ViewController: ToolbarViewDelegate {
         toolbarModel.setMode(nextMode)
         
         // 編集モードのときはステッカーのハイライトを有効にする
-        stickerBoardModel.shouldHighLightActiveSticker = nextMode == .Edit
+        stickerBoardModel.shouldIndicateState = nextMode == .Edit
         
         // 編集モードのときはステッカーボード、撮影モードの時はカメラビューのユーザ操作を受け付ける
         let isSwitchToEdit = nextMode == .Edit

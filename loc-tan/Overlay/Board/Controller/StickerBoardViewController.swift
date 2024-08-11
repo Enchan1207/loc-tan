@@ -150,36 +150,6 @@ extension StickerBoardViewController: StickerBoardModelDelegate {
         }
     }
     
-    func stickerBoard(_ board: StickerBoardModel, didChangeHighlightState shouldHighlight: Bool) {
-        // ステッカーのハイライトが有効なら、アクティブなステッカーをハイライトし、そうでないものを非ハイライトする
-        // そうでなければ、すべてのステッカーをハイライトする
-        Task {
-            await withTaskGroup(of: Void.self) { group in
-                let tasks: [@Sendable () async -> Void] = controllers.map({controller in
-                    {await controller.updateHighlightedState(shouldHighlight ? controller.stickerModel.isActive : true)}
-                })
-                tasks.forEach({group.addTask(operation: $0)})
-            }
-        }
-    }
-    
-    func stickerBoard(_ board: StickerBoardModel, didChangeStickersOpacity opacity: Float, animated: Bool) {
-        // アニメーションがいらないなら簡単なんですよ
-        guard animated else {
-            controllers.forEach({$0.updateOpacity(opacity)})
-            return
-        }
-        
-        Task {
-            await withTaskGroup(of: Void.self) { group in
-                let tasks: [@Sendable () async -> Void] = controllers.map({controller in
-                    {await controller.updateOpacity(opacity)}
-                })
-                tasks.forEach({group.addTask(operation: $0)})
-            }
-        }
-    }
-    
 }
 
 extension StickerBoardViewController: StickerViewControllerDelegate {
@@ -190,7 +160,6 @@ extension StickerBoardViewController: StickerViewControllerDelegate {
     
     func stickerViewDidRequireDeletion(_ sticker: StickerViewController){
         Task {
-            sticker.view.isUserInteractionEnabled = false
             await sticker.updateVisibility(false)
             boardModel.remove(sticker.stickerModel)
         }

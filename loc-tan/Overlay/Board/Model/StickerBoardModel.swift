@@ -13,22 +13,22 @@ class StickerBoardModel {
     
     private (set) public var stickers: [StickerModel] = []
     
-    /// アクティブなステッカーをハイライトすべきか
-    var shouldHighLightActiveSticker: Bool = true {
+    weak var delegate: StickerBoardModelDelegate?
+    
+    private (set) var stickersOpacity: Float
+    
+    var shouldIndicateState: Bool {
         didSet {
-            delegate?.stickerBoard(self, didChangeHighlightState: shouldHighLightActiveSticker)
+            stickers.forEach({$0.shouldIndicateState = shouldIndicateState})
         }
     }
     
-    /// ステッカーの透明度
-    private (set) var stickersOpacity: Float = 0.8
-    
-    weak var delegate: StickerBoardModelDelegate?
-    
     // MARK: - Initializing
     
-    init(stickers: [StickerModel]) {
+    init(stickers: [StickerModel], opacity: Float = 0.8, shouldIndicateState: Bool = true) {
         self.stickers = stickers
+        self.stickersOpacity = opacity
+        self.shouldIndicateState = shouldIndicateState
     }
     
     // MARK: - Operations
@@ -48,14 +48,14 @@ class StickerBoardModel {
         delegate?.stickerBoard(self, didRemoveSticker: target)
     }
     
-    func setOpacity(_ opacity: Float, animated: Bool = true) {
+    func setStickersOpacity(_ opacity: Float, animated: Bool) {
         stickersOpacity = opacity
-        delegate?.stickerBoard(self, didChangeStickersOpacity: stickersOpacity, animated: animated)
+        stickers.forEach({$0.setOpacity(to: opacity, animated: animated)})
     }
     
     func switchTarget(to: StickerModel){
         guard stickers.contains(to) else {return}
-        stickers.forEach({$0.isActive = $0 == to})
+        stickers.forEach({$0.isTargetted = $0 == to})
     }
     
 }

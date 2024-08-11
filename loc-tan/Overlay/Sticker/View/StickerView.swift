@@ -11,6 +11,7 @@ class StickerView: UIView {
     
     private let stickerImageView: UIImageView
     
+    /// 操作対象でないときに、ステッカーをグレーアウトさせるためのView
     private let statusEffectView = UIView()
     
     private var centerPoint: CGPoint = .zero
@@ -31,11 +32,12 @@ class StickerView: UIView {
         setup()
     }
     
-    convenience init(frame: CGRect, image: UIImage, center: CGPoint, width: CGFloat, angle: Angle){
+    convenience init(frame: CGRect, image: UIImage, center: CGPoint, width: CGFloat, angle: Angle, opacity: Float){
         self.init(frame: frame, image: image)
         updateCenter(center)
         updateWidth(width)
         updateAngle(angle)
+        updateOpacity(opacity)
     }
     
     required init?(coder: NSCoder) {
@@ -44,8 +46,14 @@ class StickerView: UIView {
     }
     
     private func setup(){
-        // 画像ビューの設定
         self.translatesAutoresizingMaskIntoConstraints = false
+        updateWidth(0)
+        
+        setupImageView()
+        setupStatusEffectView()
+    }
+    
+    private func setupImageView(){
         self.addSubview(stickerImageView)
         stickerImageView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
@@ -59,11 +67,6 @@ class StickerView: UIView {
         let imageSize = stickerImageView.image!.size
         let aspectRatio = imageSize.width / imageSize.height
         stickerImageView.widthAnchor.constraint(equalTo: stickerImageView.heightAnchor, multiplier: aspectRatio).isActive = true
-        
-        // 幅を設定する
-        updateWidth(0)
-        
-        setupStatusEffectView()
     }
     
     private func setupStatusEffectView(){
@@ -81,22 +84,26 @@ class StickerView: UIView {
     
     // MARK: - Status modification
     
+    /// ステッカーの表示状態を切り替える
+    /// - Parameter isVisible: 表示・非表示
     @MainActor func updateVisibility(_ isVisible: Bool) async {
         let duration = 0.15
         await UIView.animate(withDuration: duration) {
+            self.isUserInteractionEnabled = isVisible
             self.alpha = isVisible ? 1.0 : 0.0
         }
     }
     
     /// ハイライト状態を切り替える
-    @MainActor func updateHighlightedState(_ isHighlighted: Bool) async {
+    @MainActor func setGrayedOut(_ isGrayedOut: Bool) async {
         let duration = 0.15
         await UIView.animate(withDuration: duration) {
-            // 内部では逆のことをやっている (ハイライトされていなければ、隠すためのビューを表示する)
-            self.statusEffectView.alpha = isHighlighted ? 0.0 : 1.0
+            self.statusEffectView.alpha = isGrayedOut ? 1.0 : 0.0
         }
     }
     
+    /// 透明度を設定する
+    /// - Parameter opacity: 透明度
     @MainActor func updateOpacity(_ opacity: Float) async {
         let duration = 0.15
         await UIView.animate(withDuration: duration) {
@@ -104,6 +111,8 @@ class StickerView: UIView {
         }
     }
     
+    /// 透明度を設定する
+    /// - Parameter opacity: 透明度
     @MainActor func updateOpacity(_ opacity: Float) {
         self.stickerImageView.layer.opacity = opacity
     }

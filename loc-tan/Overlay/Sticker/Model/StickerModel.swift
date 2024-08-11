@@ -40,22 +40,40 @@ final class StickerModel {
         }
     }
     
-    /// アクティブ(操作対象) かどうか
-    var isActive: Bool {
+    /// 操作対象になっているかどうか
+    var isTargetted: Bool {
         didSet {
-            guard oldValue != isActive else {return}
-            delegate?.stickerModel(self, didChange: isActive)
+            guard oldValue != isTargetted else {return}
+            delegate?.stickerModel(self, didChange: isTargetted)
+        }
+    }
+    
+    /// ステッカーの透明度
+    private (set) var opacity: Float
+    
+    func setOpacity(to opacity: Float, animated: Bool) {
+        self.opacity = opacity
+        self.delegate?.stickerModel(self, didChange: opacity, animated: animated)
+    }
+    
+    /// ターゲット状態を表示に反映すべきか
+    var shouldIndicateState: Bool {
+        didSet {
+            guard oldValue != shouldIndicateState else {return}
+            delegate?.stickerModel(self, didChangeIndication: shouldIndicateState)
         }
     }
     
     // MARK: - Initializing
     
-    init(image: UIImage, center: CGPoint, width: CGFloat, angle: Angle, isActive: Bool) {
+    init(image: UIImage, center: CGPoint, width: CGFloat, angle: Angle, isTargetted: Bool, opacity: Float, shouldIndicateState: Bool) {
         self.image = image
         self.center = center
         self.width = width
         self.angle = angle
-        self.isActive = isActive
+        self.isTargetted = isTargetted
+        self.opacity = opacity
+        self.shouldIndicateState = shouldIndicateState
     }
 }
 

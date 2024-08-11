@@ -15,6 +15,10 @@ protocol StickerModelDelegate: AnyObject {
     
     func stickerModel(_ model: StickerModel, didChange angle: Angle)
     
-    func stickerModel(_ model: StickerModel, didChange activationState: Bool)
+    func stickerModel(_ model: StickerModel, didChange isTargetted: Bool)
+    
+    func stickerModel(_ model: StickerModel, didChange opacity: Float, animated: Bool)
+    
+    func stickerModel(_ model: StickerModel, didChangeIndication shouldIndicateState: Bool)
     
 }
