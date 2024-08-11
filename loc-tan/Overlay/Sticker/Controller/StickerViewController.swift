@@ -64,6 +64,10 @@ class StickerViewController: UIViewController {
         await stickerView.updateHighlightedState(isHighlighted)
     }
     
+    func updateVisibility(_ isVisible: Bool) async{
+        await stickerView.updateVisibility(isVisible)
+    }
+    
     func updateOpacity(_ opacity: Float) async {
         await stickerView.updateOpacity(opacity)
     }

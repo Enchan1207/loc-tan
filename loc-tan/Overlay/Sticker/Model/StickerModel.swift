@@ -43,6 +43,7 @@ final class StickerModel {
     /// アクティブ(操作対象) かどうか
     var isActive: Bool {
         didSet {
+            guard oldValue != isActive else {return}
             delegate?.stickerModel(self, didChange: isActive)
         }
     }
