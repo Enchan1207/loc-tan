@@ -11,13 +11,11 @@ class StickerViewController: UIViewController {
     
     let stickerModel: StickerModel
     
-    private var isActive: Bool = false
-    
     private lazy var interaction = UIEditMenuInteraction(delegate: self)
     
     weak var delegate: StickerViewControllerDelegate?
     
-    var stickerView: StickerView {view as! StickerView}
+    private var stickerView: StickerView {view as! StickerView}
     
     // MARK: - Gesture history
     
@@ -66,14 +64,8 @@ class StickerViewController: UIViewController {
         await stickerView.updateHighlightedState(isHighlighted)
     }
     
-    func activate() async {
-        await updateHighlightedState(true)
-        isActive = true
-    }
-    
-    func deactivate() async {
-        await updateHighlightedState(false)
-        isActive = false
+    func updateVisibility(_ isVisible: Bool) async{
+        await stickerView.updateVisibility(isVisible)
     }
     
     func updateOpacity(_ opacity: Float) async {
@@ -88,10 +80,10 @@ class StickerViewController: UIViewController {
     
     @objc private func onTapSticker(_ gesture: UITapGestureRecognizer){
         // モデルの情報をデバッグ表示
-        print(String(format: "Sticker at:%@ size:%.2f angle:%.2f", stickerModel.center.shortDescription, stickerModel.width, stickerModel.angle.degrees))
+        print(String(format: "Sticker at:%@ size:%.2f angle:%.2f state:%@", stickerModel.center.shortDescription, stickerModel.width, stickerModel.angle.degrees, stickerModel.isActive ? "active" : "inactive"))
         
         // 活性化されていないなら要求する
-        if !isActive {
+        if !stickerModel.isActive {
             delegate?.stickerViewDidRequireActivation(self)
             return
         }
@@ -213,6 +205,12 @@ extension StickerViewController: StickerModelDelegate {
     func stickerModel(_ model: StickerModel, didChange angle: Angle) {
         print(String(format: "rot: rotated to %.2f deg", angle.degrees))
         stickerView.updateAngle(angle)
+    }
+    
+    func stickerModel(_ model: StickerModel, didChange activationState: Bool) {
+        Task {
+            await stickerView.updateHighlightedState(activationState)
+        }
     }
     
 }

@@ -81,6 +81,13 @@ class StickerView: UIView {
     
     // MARK: - Status modification
     
+    @MainActor func updateVisibility(_ isVisible: Bool) async {
+        let duration = 0.15
+        await UIView.animate(withDuration: duration) {
+            self.alpha = isVisible ? 1.0 : 0.0
+        }
+    }
+    
     /// ハイライト状態を切り替える
     @MainActor func updateHighlightedState(_ isHighlighted: Bool) async {
         let duration = 0.15

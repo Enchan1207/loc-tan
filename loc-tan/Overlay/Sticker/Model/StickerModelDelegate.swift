@@ -11,8 +11,10 @@ protocol StickerModelDelegate: AnyObject {
     
     func stickerModel(_ model: StickerModel, didMove to: CGPoint)
     
-    func stickerModel(_ model: StickerModel, didChange to: CGFloat)
+    func stickerModel(_ model: StickerModel, didChange width: CGFloat)
     
-    func stickerModel(_ model: StickerModel, didChange to: Angle)
+    func stickerModel(_ model: StickerModel, didChange angle: Angle)
+    
+    func stickerModel(_ model: StickerModel, didChange activationState: Bool)
     
 }
