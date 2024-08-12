@@ -10,11 +10,8 @@ import AVKit
 
 class CameraViewController: UIViewController {
     
-    /// 現在のズーム倍率
-    private(set) var currentZoomFactor: CGFloat = 1.0
-    
     /// ズーム倍率文字列
-    var zoomFactorDescription: String { .init(format: "%.1fx", currentZoomFactor) }
+    var zoomFactorDescription: String { .init(format: "%.1fx", (currentInputDevice?.videoZoomFactor ?? 1.0) / zoomFactorUnit) }
     
     var delegate: CameraViewControllerDelegate?
     
@@ -29,8 +26,20 @@ class CameraViewController: UIViewController {
     /// 現在の入力デバイス
     private var currentInputDevice: AVCaptureDevice? { (session.inputs.first as? AVCaptureDeviceInput)?.device }
     
+    /// 現在の入力デバイスが持つズーム倍率の単位
+    ///
+    /// ズーム倍率 (`AVCaptureDevice.videoZoomFactor`) 自体は常に `1.0` 以上の値を取るため、
+    /// 超広角レンズ (いわゆる`0.5x`) を持つ機種では**この値と実際のズーム倍率が一致しない。**
+    ///
+    /// そこで、デバイスがレンズを切り替える閾値リスト (`virtualDeviceSwitchOverVideoZoomFactors`) の最小値、
+    /// すなわち**超広角レンズから広角レンズ(すべてのiPhoneが共通してもつレンズ)に切り替わる閾値となる`videoZoomFactor`**を取得し、その値でズーム倍率を除する。
+    ///
+    /// たとえば `0.5x` のレンズを持つiPhone 11の場合、このリストは `[2, 6]` となるため、`videoZoomFactor` が `1.0` の際は `1.0 / 2 = 0.5` となり、
+    /// 純正カメラアプリと同じ倍率表示が実現できる。
+    private var zoomFactorUnit: CGFloat { .init(currentInputDevice?.virtualDeviceSwitchOverVideoZoomFactors.first?.floatValue ?? 1.0) }
+    
     /// ズーム開始時の倍率
-    private var initialZoomFactor: CGFloat = 1.0
+    private var initialZoomFactor: CGFloat = 0.0
     
     private let ciContext = CIContext()
     
@@ -52,6 +61,9 @@ class CameraViewController: UIViewController {
         // セッションを構成
         configureCaptureSession(session)
         cameraView.session = session
+        
+        // 広角レンズ(すべてのiPhoneが共通してもつレンズ)を使用するよう、ズーム倍率を設定しておく
+        updateDeviceZoomFactor(to: zoomFactorUnit)
     }
 
     /// キャプチャセッションを構成
@@ -141,7 +153,6 @@ class CameraViewController: UIViewController {
         let minScale = device.minAvailableVideoZoomFactor
         let maxScale = min(device.maxAvailableVideoZoomFactor, 20.0)
         let newScale = min(max(scale, minScale), maxScale)
-        currentZoomFactor = newScale
         
         // デバイスに設定を反映
         updateDeviceZoomFactor(to: newScale)
