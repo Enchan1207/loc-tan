@@ -13,6 +13,9 @@ class CameraViewController: UIViewController {
     /// 現在のズーム倍率
     private(set) var currentZoomFactor: CGFloat = 1.0
     
+    /// ズーム倍率文字列
+    var zoomFactorDescription: String { .init(format: "%.1fx", currentZoomFactor) }
+    
     var delegate: CameraViewControllerDelegate?
     
     // MARK: - Private
