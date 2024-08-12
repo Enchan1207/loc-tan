@@ -81,6 +81,13 @@ class ViewController: UIViewController {
         }
     }
     
+    /// ズーム倍率ボタン
+    @IBOutlet weak var zoomFactorButton: UIButton! {
+        didSet {
+            zoomFactorButton.setTitle(cameraViewController.zoomFactorDescription, for: .normal)
+        }
+    }
+    
     // MARK: - ViewControllers
     
     private var cameraViewController: CameraViewController!
@@ -151,6 +158,10 @@ class ViewController: UIViewController {
     
     @IBAction func onChangeOpacitySlider(_ sender: Any) {
         stickerBoardModel.setStickersOpacity(opacitySlider.value, animated: false)
+    }
+    
+    @IBAction func onTapZoom(_ sender: Any) {
+        cameraViewController.snapZoomFactor()
     }
     
     // MARK: - Methods
@@ -253,8 +264,7 @@ extension ViewController: ToolbarViewDelegate {
 extension ViewController: CameraViewControllerDelegate {
     
     func cameraView(_ viewController: CameraViewController, didChangeZoomFactor scale: CGFloat) {
-        // TODO: ズーム倍率コントローラの実装
-        print("zoom: \(scale)")
+        zoomFactorButton.setTitle(cameraViewController.zoomFactorDescription, for: .normal)
     }
     
     func cameraView(_ viewController: CameraViewController, didCapture image: UIImage) {

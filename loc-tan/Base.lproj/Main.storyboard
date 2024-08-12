@@ -47,6 +47,25 @@
                                     <action selector="onChangeOpacitySlider:" destination="BYZ-38-t0r" eventType="valueChanged" id="lQa-j6-7nx"/>
                                 </connections>
                             </slider>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3Aa-H9-Rtm">
+                                <rect key="frame" x="261" y="730.66666666666663" width="80" height="36"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="36" id="YXZ-rz-exr"/>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="80" id="kaY-5d-eay"/>
+                                </constraints>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="8.8x" cornerStyle="capsule">
+                                    <backgroundConfiguration key="background">
+                                        <color key="backgroundColor" red="0.4756349325" green="0.47564673419999998" blue="0.47564041610000002" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="strokeColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </backgroundConfiguration>
+                                </buttonConfiguration>
+                                <connections>
+                                    <action selector="onTapZoom:" destination="BYZ-38-t0r" eventType="touchUpInside" id="6vF-BO-75n"/>
+                                </connections>
+                            </button>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xQ4-xg-jeY">
                                 <rect key="frame" x="0.0" y="59" width="393" height="60"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -59,12 +78,15 @@
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="ixc-sQ-TO2" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="0H1-5V-wJz"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="3Aa-H9-Rtm" secondAttribute="trailing" id="0ho-ob-An4"/>
                             <constraint firstItem="ixc-sQ-TO2" firstAttribute="top" secondItem="7uB-fc-8qa" secondAttribute="bottom" constant="30" id="3e2-0Y-z2x"/>
                             <constraint firstItem="xQ4-xg-jeY" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="5yz-6f-lRL"/>
                             <constraint firstItem="xQ4-xg-jeY" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="6te-Vi-nNt"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="xQ4-xg-jeY" secondAttribute="trailing" id="DlI-jX-YKG"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="ixc-sQ-TO2" secondAttribute="bottom" constant="20" id="Emu-Md-z4i"/>
                             <constraint firstItem="7uB-fc-8qa" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="F7o-Y3-34a"/>
+                            <constraint firstItem="3Aa-H9-Rtm" firstAttribute="leading" secondItem="ixc-sQ-TO2" secondAttribute="trailing" constant="15" id="LNM-hM-bUi"/>
+                            <constraint firstItem="3Aa-H9-Rtm" firstAttribute="centerY" secondItem="ixc-sQ-TO2" secondAttribute="centerY" id="OM8-fK-d8q"/>
                             <constraint firstItem="x5k-pc-na3" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="UGj-oW-c8r"/>
                             <constraint firstItem="x5k-pc-na3" firstAttribute="top" secondItem="xQ4-xg-jeY" secondAttribute="bottom" priority="250" id="Zwb-fm-FCB"/>
                             <constraint firstItem="x5k-pc-na3" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="b1Y-M7-Rxq"/>
@@ -78,6 +100,7 @@
                         <outlet property="canvasTopConstraintToTopbar" destination="Zwb-fm-FCB" id="Itn-dZ-4B2"/>
                         <outlet property="opacitySlider" destination="7uB-fc-8qa" id="8mW-dv-cR1"/>
                         <outlet property="toolbarContainer" destination="xQ4-xg-jeY" id="ErF-tt-NiK"/>
+                        <outlet property="zoomFactorButton" destination="3Aa-H9-Rtm" id="mGS-K6-fbu"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
