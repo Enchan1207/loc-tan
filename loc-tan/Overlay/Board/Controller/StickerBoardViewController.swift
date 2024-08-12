@@ -88,13 +88,9 @@ class StickerBoardViewController: UIViewController {
         
         // ビューをはみ出ない最大サイズを取得
         let maxStickerSizeOnScreen: CGSize = ({viewSize, aspectRatio in
-            // 幅を固定した場合の高さがビュー自体の高さを上回るなら、ビューの高さから幅を再計算する
-            // そうでなければ、アスペクト比に従って幅から高さを計算する
-            if (viewSize.width / aspectRatio) > viewSize.height {
-                .init(width: viewSize.height * aspectRatio, height: viewSize.height)
-            } else {
-                .init(width: viewSize.width, height: viewSize.height / aspectRatio)
-            }
+            let widthBasedSize = CGSize(width: viewSize.width, height: viewSize.width / aspectRatio)
+            let heightBasedSize = CGSize(width: viewSize.height * aspectRatio, height: viewSize.height)
+            return widthBasedSize.height <= viewSize.height ? widthBasedSize : heightBasedSize
         })(view.bounds.size, stickerAspectRatioOnScreen)
         
         // 設定
