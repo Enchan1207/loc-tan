@@ -161,7 +161,7 @@ class ViewController: UIViewController {
     }
     
     @IBAction func onTapZoom(_ sender: Any) {
-        // TODO: ズーム倍率ボタンタップ時の挙動を実装
+        cameraViewController.snapZoomFactor()
     }
     
     // MARK: - Methods

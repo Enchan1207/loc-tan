@@ -45,6 +45,8 @@ class CameraViewController: UIViewController {
     
     private var cameraView: CameraView { view as! CameraView }
     
+    private var zoomRampingObserver: NSKeyValueObservation?
+    
     // MARK: - View lifecycles
     
     override func loadView() {
@@ -133,9 +135,17 @@ class CameraViewController: UIViewController {
         DispatchQueue.global().async {[weak self] in
             self?.session.startRunning()
         }
+        
+        zoomRampingObserver = currentInputDevice?.observe(\.isRampingVideoZoom, changeHandler: { [weak self] _, _ in
+            guard let `self` = self,
+                  let currentZoomFactor = currentInputDevice?.videoZoomFactor else {return}
+            self.delegate?.cameraView(self, didChangeZoomFactor: currentZoomFactor)
+        })
     }
     
     func stopSession() {
+        zoomRampingObserver?.invalidate()
+        
         DispatchQueue.global().async {[weak self] in
             self?.session.stopRunning()
         }
@@ -145,7 +155,12 @@ class CameraViewController: UIViewController {
         self.photoOutput.capturePhoto(with: settings ?? .init(), delegate: self)
     }
     
-    func setZoomFactor(_ scale: CGFloat) {
+    /// デバイスのズーム倍率を変更する
+    /// - Parameters:
+    ///   - scale: 設定する倍率
+    ///   - rate: 倍率変更速度
+    /// - Note: rateに値を設定すると、その速度でズームします。
+    func setZoomFactor(_ scale: CGFloat, rate: Float? = nil) {
         guard let device = currentInputDevice else {return}
         
         // ジェスチャのスケールからデバイスに渡すスケールを計算し、受理可能な値にクリップする
@@ -155,8 +170,22 @@ class CameraViewController: UIViewController {
         let newScale = min(max(scale, minScale), maxScale)
         
         // デバイスに設定を反映
-        updateDeviceZoomFactor(to: newScale)
+        updateDeviceZoomFactor(to: newScale, rate: rate)
         delegate?.cameraView(self, didChangeZoomFactor: newScale)
+    }
+    
+    /// ズーム倍率を切り替える
+    func snapZoomFactor() {
+        // 最小倍率を含むズーム閾値の配列
+        let thresholdZoomFactors: [CGFloat] = ([1.0] +  (currentInputDevice?.virtualDeviceSwitchOverVideoZoomFactors.map({.init($0.floatValue)}) ?? [])).sorted()
+        
+        // 現在の倍率を下回る最大の倍率を取得
+        let currentZoomFactor = currentInputDevice?.videoZoomFactor ?? 1.0
+        let candidates = thresholdZoomFactors.filter({$0 < currentZoomFactor})
+        guard let nextZoomFactor = candidates.last ?? thresholdZoomFactors.last else {return}
+        
+        // デバイスに設定を反映
+        setZoomFactor(nextZoomFactor, rate: 50.0)
     }
     
     private func updateFocusPoint(to point: CGPoint) {
@@ -177,11 +206,16 @@ class CameraViewController: UIViewController {
         }
     }
     
-    private func updateDeviceZoomFactor(to scale: CGFloat) {
+    private func updateDeviceZoomFactor(to scale: CGFloat, rate: Float? = nil) {
         guard let device = currentInputDevice else {return}
         do {
             try device.lockForConfiguration()
-            device.videoZoomFactor = scale
+            
+            if let rate = rate {
+                device.ramp(toVideoZoomFactor: scale, withRate: rate)
+            } else {
+                device.videoZoomFactor = scale
+            }
             device.unlockForConfiguration()
         } catch {
             print("Failed to zoom: \(error)")
