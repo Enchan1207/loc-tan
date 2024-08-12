@@ -30,10 +30,10 @@ class ViewController: UIViewController {
             let toolbarView = toolbarViewController.view!
             toolbarContainer.addSubview(toolbarView)
             NSLayoutConstraint.activate([
-                toolbarView.topAnchor.constraint(equalTo: toolbarContainer.topAnchor, constant: 5),
-                toolbarView.bottomAnchor.constraint(equalTo: toolbarContainer.bottomAnchor, constant: -5),
-                toolbarView.leftAnchor.constraint(equalTo: toolbarContainer.leftAnchor, constant: 5),
-                toolbarView.rightAnchor.constraint(equalTo: toolbarContainer.rightAnchor, constant: -5),
+                toolbarView.topAnchor.constraint(equalTo: toolbarContainer.topAnchor),
+                toolbarView.bottomAnchor.constraint(equalTo: toolbarContainer.bottomAnchor),
+                toolbarView.leftAnchor.constraint(equalTo: toolbarContainer.leftAnchor),
+                toolbarView.rightAnchor.constraint(equalTo: toolbarContainer.rightAnchor),
             ])
             toolbarViewController.didMove(toParent: self)
         }

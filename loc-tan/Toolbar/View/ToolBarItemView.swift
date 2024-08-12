@@ -36,10 +36,10 @@ class ToolBarItemView: UIButton {
         
         NSLayoutConstraint.activate([
             widthAnchor.constraint(equalTo: heightAnchor),
-            imageView!.centerXAnchor.constraint(equalTo: centerXAnchor),
-            imageView!.centerYAnchor.constraint(equalTo: centerYAnchor),
-            imageView!.widthAnchor.constraint(equalTo: widthAnchor),
-            imageView!.heightAnchor.constraint(equalTo: heightAnchor)
+            imageView!.topAnchor.constraint(equalTo: topAnchor, constant: 5),
+            imageView!.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -5),
+            imageView!.leftAnchor.constraint(equalTo: leftAnchor, constant: 5),
+            imageView!.rightAnchor.constraint(equalTo: rightAnchor, constant: -5),
         ])
     }
 
