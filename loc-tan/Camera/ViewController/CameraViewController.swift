@@ -62,7 +62,7 @@ class CameraViewController: UIViewController {
         session.sessionPreset = .hd4K3840x2160
         
         // デフォルトのキャプチャデバイスを取得
-        guard let device = AVCaptureDevice.default(for: .video),
+        guard let device = queryMostSuitableCamera(),
               let deviceInput = try? AVCaptureDeviceInput(device: device) else {
             session.commitConfiguration()
             return
@@ -77,6 +77,17 @@ class CameraViewController: UIViewController {
         }
         
         session.commitConfiguration()
+    }
+    
+    /// デバイスの持つ最適なカメラデバイスを返す
+    private func queryMostSuitableCamera() -> AVCaptureDevice? {
+        let deviceTypes: [AVCaptureDevice.DeviceType] = [
+            .builtInTripleCamera,
+            .builtInDualWideCamera,
+            .builtInDualCamera,
+            .builtInWideAngleCamera
+        ]
+        return deviceTypes.compactMap({AVCaptureDevice.default($0, for: .video, position: .back)}).first
     }
     
     // MARK: - Gestures
