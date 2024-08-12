@@ -69,6 +69,8 @@ class ViewController: UIViewController {
                 stickerBoardView.rightAnchor.constraint(equalTo: canvasContainer.rightAnchor),
             ])
             stickerBoardViewController.didMove(toParent: self)
+            
+            updateCanvasInteractionState()
         }
     }
     
@@ -211,6 +213,14 @@ class ViewController: UIViewController {
             shouldIndicateState: stickerBoardModel.shouldIndicateState)
         stickerBoardModel.add(sticker)
     }
+    
+    /// キャンバスビュー内のインタラクション状態を更新する
+    private func updateCanvasInteractionState(){
+        // 編集モードのときはステッカーボード、撮影モードの時はカメラビューのユーザ操作を受け付ける
+        let isEditMode = toolbarModel.currentMode == .Edit
+        stickerBoardViewController.view.isUserInteractionEnabled = isEditMode
+        cameraViewController.view.isUserInteractionEnabled = !isEditMode
+    }
 }
 
 extension ViewController: ToolbarViewDelegate {
@@ -235,11 +245,7 @@ extension ViewController: ToolbarViewDelegate {
         
         // 編集モードのときはステッカーのハイライトを有効にする
         stickerBoardModel.shouldIndicateState = nextMode == .Edit
-        
-        // 編集モードのときはステッカーボード、撮影モードの時はカメラビューのユーザ操作を受け付ける
-        let isSwitchToEdit = nextMode == .Edit
-        stickerBoardViewController.view.isUserInteractionEnabled = isSwitchToEdit
-        cameraViewController.view.isUserInteractionEnabled = !isSwitchToEdit
+        updateCanvasInteractionState()
     }
     
 }
