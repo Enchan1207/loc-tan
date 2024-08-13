@@ -88,7 +88,12 @@ class MainViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        UIDevice.current.beginGeneratingDeviceOrientationNotifications()
         self.cameraViewController.startSession()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        UIDevice.current.endGeneratingDeviceOrientationNotifications()
     }
     
     deinit {

@@ -35,6 +35,7 @@
 		9E8DD3972C6B972C0015A96B /* CameraModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E8DD3962C6B972C0015A96B /* CameraModel.swift */; };
 		9E8DD3992C6B97510015A96B /* CameraModelDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E8DD3982C6B97510015A96B /* CameraModelDelegate.swift */; };
 		9E8DD39B2C6B9DDF0015A96B /* CGSizeExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E8DD39A2C6B9DDF0015A96B /* CGSizeExt.swift */; };
+		9E8DD38E2C6B39310015A96B /* UIDeviceOrientationExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E8DD38D2C6B39310015A96B /* UIDeviceOrientationExt.swift */; };
 		9ED49FB52C4BD269001A7A5B /* StickerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ED49FB42C4BD269001A7A5B /* StickerModel.swift */; };
 		9ED49FB92C4BE062001A7A5B /* StickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ED49FB82C4BE062001A7A5B /* StickerViewController.swift */; };
 		9ED49FBB2C4BEE1C001A7A5B /* StickerViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ED49FBA2C4BEE1C001A7A5B /* StickerViewControllerDelegate.swift */; };
@@ -76,6 +77,7 @@
 		9E8DD3962C6B972C0015A96B /* CameraModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraModel.swift; sourceTree = "<group>"; };
 		9E8DD3982C6B97510015A96B /* CameraModelDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraModelDelegate.swift; sourceTree = "<group>"; };
 		9E8DD39A2C6B9DDF0015A96B /* CGSizeExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGSizeExt.swift; sourceTree = "<group>"; };
+		9E8DD38D2C6B39310015A96B /* UIDeviceOrientationExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIDeviceOrientationExt.swift; sourceTree = "<group>"; };
 		9ED49FB42C4BD269001A7A5B /* StickerModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerModel.swift; sourceTree = "<group>"; };
 		9ED49FB82C4BE062001A7A5B /* StickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerViewController.swift; sourceTree = "<group>"; };
 		9ED49FBA2C4BEE1C001A7A5B /* StickerViewControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerViewControllerDelegate.swift; sourceTree = "<group>"; };
@@ -105,6 +107,7 @@
 				9E1917532C4EA2D400ECA384 /* Angle.swift */,
 				9E3417882C5F7B8B006B8360 /* CGRectExt.swift */,
 				9E8DD39A2C6B9DDF0015A96B /* CGSizeExt.swift */,
+				9E8DD38D2C6B39310015A96B /* UIDeviceOrientationExt.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -424,6 +427,7 @@
 				9E3417782C5F0B27006B8360 /* ToolbarViewDelegate.swift in Sources */,
 				9E3417872C5F66A0006B8360 /* CameraViewControllerDelegate.swift in Sources */,
 				9ED49FB92C4BE062001A7A5B /* StickerViewController.swift in Sources */,
+				9E8DD38E2C6B39310015A96B /* UIDeviceOrientationExt.swift in Sources */,
 				9E34177F2C5F3E6D006B8360 /* CameraView.swift in Sources */,
 				9E78F1562C1D9991000EDE4A /* SceneDelegate.swift in Sources */,
 				9ED49FB52C4BD269001A7A5B /* StickerModel.swift in Sources */,

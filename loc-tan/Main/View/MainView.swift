@@ -54,6 +54,10 @@ class MainView: UIView {
         setup()
     }
     
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+    
     // MARK: - Components setup
     
     private func setup(){
@@ -64,6 +68,8 @@ class MainView: UIView {
         setupCaptureButton()
         setupZoomFactorButton()
         setupOpacitySlider()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(onDeviceOrientationChange), name: UIDevice.orientationDidChangeNotification, object: nil)
     }
     
     private func setupContainers(){
@@ -197,6 +203,13 @@ class MainView: UIView {
         
         // ツールバーコンテナの背景色を再設定
         toolbarContainer.backgroundColor = hasNotch ? .black : .clear
+    }
+    
+    @objc private func onDeviceOrientationChange(){
+        let angle = UIDevice.current.orientation.rotationAngle
+        UIView.animate(withDuration: 0.2) {[weak self] in
+            self?.zoomFactorButton.transform = .init(rotationAngle: angle)
+        }
     }
 
 }

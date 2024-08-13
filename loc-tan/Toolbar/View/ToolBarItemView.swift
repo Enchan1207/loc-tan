@@ -33,6 +33,7 @@ class ToolBarItemView: UIButton {
         self.translatesAutoresizingMaskIntoConstraints = false
         self.imageView!.translatesAutoresizingMaskIntoConstraints = false
         self.imageView!.contentMode = .scaleAspectFit
+        self.transform = .init(rotationAngle: UIDevice.current.orientation.rotationAngle)
         
         NSLayoutConstraint.activate([
             widthAnchor.constraint(equalTo: heightAnchor),
@@ -41,6 +42,18 @@ class ToolBarItemView: UIButton {
             imageView!.leftAnchor.constraint(equalTo: leftAnchor, constant: 5),
             imageView!.rightAnchor.constraint(equalTo: rightAnchor, constant: -5),
         ])
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(onDeviceOrientationChange), name: UIDevice.orientationDidChangeNotification, object: nil)
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+    
+    @objc private func onDeviceOrientationChange(){
+        UIView.animate(withDuration: 0.2) {[weak self] in
+            self?.transform = .init(rotationAngle: UIDevice.current.orientation.rotationAngle)
+        }
     }
 
 }
