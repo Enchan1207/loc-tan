@@ -92,9 +92,6 @@ class MainView: UIView {
         canvasTopConstraintToTopbar = canvasContainer.topAnchor.constraint(equalTo: toolbarContainer.bottomAnchor)
         NSLayoutConstraint.activate([canvasTopConstraintToSafeArea, canvasTopConstraintToTopbar])
         updateCanvasTopConstraints()
-        
-        // キャンバス縦横比の制約
-        updateCanvasAspectRatio(.wide)
     }
     
     private func setupCaptureButton(){
@@ -176,17 +173,6 @@ class MainView: UIView {
     private func updateCanvasTopConstraints(){
         canvasTopConstraintToSafeArea.priority = hasNotch ? .defaultLow : .defaultHigh
         canvasTopConstraintToTopbar.priority = hasNotch ? .defaultHigh : .defaultLow
-    }
-    
-    // MARK: - Public interfaces
-    
-    /// キャンバスのアスペクト比を変更する
-    /// - Parameter ratio: 設定するアスペクト比
-    func updateCanvasAspectRatio(_ ratio: AspectRatio){
-        canvasAspectRatioConstraint.isActive = false
-        canvasAspectRatioConstraint = canvasContainer.heightAnchor.constraint(equalTo: canvasContainer.widthAnchor, multiplier: ratio.rawValue)
-        canvasAspectRatioConstraint.isActive = true
-        setNeedsLayout()
     }
     
     // MARK: - GUI Events

@@ -32,6 +32,9 @@
 		9E8DD38C2C6B278B0015A96B /* AspectRatio.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E8DD38B2C6B278B0015A96B /* AspectRatio.swift */; };
 		9E8DD3902C6B3F250015A96B /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 9E8DD38F2C6B3F250015A96B /* Localizable.xcstrings */; };
 		9E8DD3942C6B402C0015A96B /* InfoPlist.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 9E8DD3932C6B402C0015A96B /* InfoPlist.xcstrings */; };
+		9E8DD3972C6B972C0015A96B /* CameraModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E8DD3962C6B972C0015A96B /* CameraModel.swift */; };
+		9E8DD3992C6B97510015A96B /* CameraModelDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E8DD3982C6B97510015A96B /* CameraModelDelegate.swift */; };
+		9E8DD39B2C6B9DDF0015A96B /* CGSizeExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E8DD39A2C6B9DDF0015A96B /* CGSizeExt.swift */; };
 		9ED49FB52C4BD269001A7A5B /* StickerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ED49FB42C4BD269001A7A5B /* StickerModel.swift */; };
 		9ED49FB92C4BE062001A7A5B /* StickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ED49FB82C4BE062001A7A5B /* StickerViewController.swift */; };
 		9ED49FBB2C4BEE1C001A7A5B /* StickerViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ED49FBA2C4BEE1C001A7A5B /* StickerViewControllerDelegate.swift */; };
@@ -70,6 +73,9 @@
 		9E8DD38B2C6B278B0015A96B /* AspectRatio.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AspectRatio.swift; sourceTree = "<group>"; };
 		9E8DD38F2C6B3F250015A96B /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		9E8DD3932C6B402C0015A96B /* InfoPlist.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = InfoPlist.xcstrings; sourceTree = "<group>"; };
+		9E8DD3962C6B972C0015A96B /* CameraModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraModel.swift; sourceTree = "<group>"; };
+		9E8DD3982C6B97510015A96B /* CameraModelDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraModelDelegate.swift; sourceTree = "<group>"; };
+		9E8DD39A2C6B9DDF0015A96B /* CGSizeExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGSizeExt.swift; sourceTree = "<group>"; };
 		9ED49FB42C4BD269001A7A5B /* StickerModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerModel.swift; sourceTree = "<group>"; };
 		9ED49FB82C4BE062001A7A5B /* StickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerViewController.swift; sourceTree = "<group>"; };
 		9ED49FBA2C4BEE1C001A7A5B /* StickerViewControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerViewControllerDelegate.swift; sourceTree = "<group>"; };
@@ -98,6 +104,7 @@
 				9E1E5D192C3193C0001F8EB9 /* CGPointExt.swift */,
 				9E1917532C4EA2D400ECA384 /* Angle.swift */,
 				9E3417882C5F7B8B006B8360 /* CGRectExt.swift */,
+				9E8DD39A2C6B9DDF0015A96B /* CGSizeExt.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -143,6 +150,7 @@
 		9E34177B2C5F3E3F006B8360 /* Camera */ = {
 			isa = PBXGroup;
 			children = (
+				9E8DD3952C6B97250015A96B /* Model */,
 				9E34177D2C5F3E60006B8360 /* ViewController */,
 				9E34177C2C5F3E5C006B8360 /* View */,
 			);
@@ -226,6 +234,15 @@
 				9E8DD3852C6A4B540015A96B /* MainViewController.swift */,
 			);
 			path = ViewController;
+			sourceTree = "<group>";
+		};
+		9E8DD3952C6B97250015A96B /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				9E8DD3962C6B972C0015A96B /* CameraModel.swift */,
+				9E8DD3982C6B97510015A96B /* CameraModelDelegate.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 		9ED49FB02C4BC3A3001A7A5B /* Sticker */ = {
@@ -381,8 +398,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9E8DD39B2C6B9DDF0015A96B /* CGSizeExt.swift in Sources */,
+				9E8DD3992C6B97510015A96B /* CameraModelDelegate.swift in Sources */,
 				9E8DD38C2C6B278B0015A96B /* AspectRatio.swift in Sources */,
 				9ED49FC42C4BF599001A7A5B /* StickerBoardModel.swift in Sources */,
+				9E8DD3972C6B972C0015A96B /* CameraModel.swift in Sources */,
 				9E8DD3882C6A4B5E0015A96B /* MainView.swift in Sources */,
 				9E1E5D1A2C3193C0001F8EB9 /* CGPointExt.swift in Sources */,
 				9E1E5D182C31325D001F8EB9 /* UIViewExt.swift in Sources */,

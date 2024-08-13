@@ -10,6 +10,8 @@ import AVKit
 
 class CameraViewController: UIViewController {
     
+    let model: CameraModel
+    
     /// ズーム倍率文字列
     var zoomFactorDescription: String { .init(format: "%.1fx", (currentInputDevice?.videoZoomFactor ?? 1.0) / zoomFactorUnit) }
     
@@ -47,10 +49,23 @@ class CameraViewController: UIViewController {
     
     private var zoomRampingObserver: NSKeyValueObservation?
     
+    // MARK: - Initializing
+    
+    init(cameraModel: CameraModel) {
+        self.model = cameraModel
+        super.init(nibName: nil, bundle: nil)
+        self.model.delegate = self
+    }
+    
+    required init?(coder: NSCoder) {
+        // NOTE: このクラス自体をNSCoder経由でインスタンス化することはないだろうという読み
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     // MARK: - View lifecycles
     
     override func loadView() {
-        self.view = CameraView(frame: .zero)
+        self.view = CameraView(frame: .zero, aspectRatio: model.aspectRatio)
     }
     
     override func viewDidLoad() {
@@ -241,6 +256,14 @@ class CameraViewController: UIViewController {
     }
 }
 
+extension CameraViewController: CameraModelDelegate {
+    
+    func cameraModel(_ model: CameraModel, didChangeAspectRatio aspectRatio: AspectRatio) {
+        cameraView.aspectRatio = aspectRatio
+    }
+    
+}
+
 extension CameraViewController: AVCapturePhotoCaptureDelegate {
     
     func photoOutput(_ output: AVCapturePhotoOutput, didFinishProcessingPhoto photo: AVCapturePhoto, error: (any Error)?) {
@@ -250,10 +273,11 @@ extension CameraViewController: AVCapturePhotoCaptureDelegate {
             return
         }
         let ciImage = CIImage(cgImage: cgImage)
-        let videoPreviewLayer = cameraView.videoPreviewLayer
-        let layerRect = videoPreviewLayer.metadataOutputRectConverted(fromLayerRect: videoPreviewLayer.visibleRect)
-        let convertedLayerRect = layerRect.mapped(to: ciImage.extent.size)
-        let croppedCIImage = ciImage.cropped(to: convertedLayerRect)
+        let imageSize = ciImage.extent.size
+        let cropSize = imageSize.maxFitSize(at: model.aspectRatio)
+        let cropOrigin = CGPoint(x: (imageSize.width - cropSize.width) / 2.0, y: (imageSize.height - cropSize.height) / 2.0)
+        print("Raw size: \(imageSize) -> \(cropSize)@\(cropOrigin)")
+        let croppedCIImage = ciImage.cropped(to: .init(origin: cropOrigin, size: cropSize))
         guard let croppedCGImage = ciContext.createCGImage(croppedCIImage, from: croppedCIImage.extent) else {
             delegate?.cameraView(self, didFailCapture: nil)
             return
