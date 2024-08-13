@@ -17,7 +17,7 @@ enum ToolbarMode {
 }
 
 enum ToolBarItem {
-    case Settings
+    case AspectRatio
     case Rotate
     case Fullsize
     case Add
@@ -41,7 +41,7 @@ class ToolbarModel {
     var toolBarItems: [ToolBarItem] {
         switch currentMode {
         case .Camera:
-            return [.Settings]
+            return [.AspectRatio]
         case .Edit:
             return [.Rotate, .Fullsize, .Add]
         }

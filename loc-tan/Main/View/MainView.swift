@@ -94,7 +94,7 @@ class MainView: UIView {
         updateCanvasTopConstraints()
         
         // キャンバス縦横比の制約
-        updateCanvasAspectRatio()
+        updateCanvasAspectRatio(.wide)
     }
     
     private func setupCaptureButton(){
@@ -168,7 +168,7 @@ class MainView: UIView {
         NSLayoutConstraint.activate([
             opacitySlider.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.8),
             opacitySlider.centerXAnchor.constraint(equalTo: centerXAnchor),
-            opacitySlider.bottomAnchor.constraint(equalTo: captureButton.topAnchor, constant: -30)
+            opacitySlider.bottomAnchor.constraint(equalTo: captureButton.topAnchor, constant: -15)
         ])
         opacitySlider.addTarget(self, action: #selector(onChangeOpacitySlider), for: .valueChanged)
     }
@@ -182,9 +182,9 @@ class MainView: UIView {
     
     /// キャンバスのアスペクト比を変更する
     /// - Parameter ratio: 設定するアスペクト比
-    func updateCanvasAspectRatio(_ ratio: CGFloat = 16.0 / 9.0){
+    func updateCanvasAspectRatio(_ ratio: AspectRatio){
         canvasAspectRatioConstraint.isActive = false
-        canvasAspectRatioConstraint = canvasContainer.heightAnchor.constraint(equalTo: canvasContainer.widthAnchor, multiplier: ratio)
+        canvasAspectRatioConstraint = canvasContainer.heightAnchor.constraint(equalTo: canvasContainer.widthAnchor, multiplier: ratio.rawValue)
         canvasAspectRatioConstraint.isActive = true
         setNeedsLayout()
     }

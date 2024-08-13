@@ -27,6 +27,13 @@ class MainViewController: UIViewController {
     /// ステータスバーを隠す
     override var prefersStatusBarHidden: Bool {true}
     
+    /// 現在のアスペクト比
+    private var currentAspectRatio: AspectRatio = .wide {
+        didSet {
+            mainView.updateCanvasAspectRatio(currentAspectRatio)
+        }
+    }
+    
     /// ステッカーの状態を表示すべきかどうか
     private var shouldIndicateState: Bool { toolbarModel.currentMode == .Edit }
     
@@ -194,9 +201,8 @@ extension MainViewController: ToolbarViewDelegate {
     
     func toolbarView(_ view: ToolbarView, didTapItem item: ToolBarItem) {
         switch item {
-        case .Settings:
-            // TODO: カメラ設定の実装
-            print("settings")
+        case .AspectRatio:
+            currentAspectRatio = currentAspectRatio.next
         case .Rotate:
             stickerBoardViewController.rotateCurrentSticker(diff: .init(degrees: 90))
         case .Fullsize:
@@ -248,6 +254,21 @@ extension MainViewController: PHPickerViewControllerDelegate {
             DispatchQueue.main.async {
                 self?.spawnSticker(with: image)
             }
+        }
+    }
+    
+}
+
+fileprivate extension AspectRatio {
+    
+    var next: AspectRatio {
+        switch self {
+        case .standard:
+            .wide
+        case .wide:
+            .standard
+        default:
+            .wide
         }
     }
     

@@ -49,7 +49,7 @@ fileprivate extension ToolBarItem {
     
     var tagValue: Int {
         switch self {
-        case .Settings:
+        case .AspectRatio:
             return 1
         case .Rotate:
             return 2
@@ -63,7 +63,7 @@ fileprivate extension ToolBarItem {
     init?(tagValue: Int){
         switch tagValue {
         case 1:
-            self = .Settings
+            self = .AspectRatio
         case 2:
             self = .Rotate
         case 3:
@@ -78,8 +78,8 @@ fileprivate extension ToolBarItem {
     var symbolImage: UIImage {
         let symbolName: String
         switch self {
-        case .Settings:
-            symbolName = "gearshape"
+        case .AspectRatio:
+            symbolName = "aspectratio"
         case .Rotate:
             symbolName = "rotate.right"
         case .Fullsize:
