@@ -49,13 +49,13 @@ fileprivate extension ToolBarItem {
     
     var tagValue: Int {
         switch self {
-        case .AspectRatio:
+        case .aspectRatio:
             return 1
-        case .Rotate:
+        case .rotate:
             return 2
-        case .Fullsize:
+        case .expandToFullScreen:
             return 3
-        case .Add:
+        case .add:
             return 4
         }
     }
@@ -63,13 +63,13 @@ fileprivate extension ToolBarItem {
     init?(tagValue: Int){
         switch tagValue {
         case 1:
-            self = .AspectRatio
+            self = .aspectRatio
         case 2:
-            self = .Rotate
+            self = .rotate
         case 3:
-            self = .Fullsize
+            self = .expandToFullScreen
         case 4:
-            self = .Add
+            self = .add
         default:
             return nil
         }
@@ -78,13 +78,13 @@ fileprivate extension ToolBarItem {
     var symbolImage: UIImage {
         let symbolName: String
         switch self {
-        case .AspectRatio:
+        case .aspectRatio:
             symbolName = "aspectratio"
-        case .Rotate:
+        case .rotate:
             symbolName = "rotate.right"
-        case .Fullsize:
+        case .expandToFullScreen:
             symbolName = "arrow.up.left.and.arrow.down.right"
-        case .Add:
+        case .add:
             symbolName = "plus.circle"
         }
         return .init(systemName: symbolName)!.withTintColor(.white, renderingMode: .alwaysOriginal)

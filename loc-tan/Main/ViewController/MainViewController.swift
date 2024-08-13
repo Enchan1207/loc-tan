@@ -22,7 +22,7 @@ class MainViewController: UIViewController {
     
     private let stickerBoardModel = StickerBoardModel(stickers: [])
     
-    private let toolbarModel = ToolbarModel(mode: .Camera)
+    private let toolbarModel = ToolbarModel(mode: .camera)
     
     /// ステータスバーを隠す
     override var prefersStatusBarHidden: Bool {true}
@@ -35,7 +35,7 @@ class MainViewController: UIViewController {
     }
     
     /// ステッカーの状態を表示すべきかどうか
-    private var shouldIndicateState: Bool { toolbarModel.currentMode == .Edit }
+    private var shouldIndicateState: Bool { toolbarModel.currentMode == .edit }
     
     private var mainView: MainView { self.view as! MainView }
     
@@ -174,7 +174,7 @@ class MainViewController: UIViewController {
     /// キャンバスビュー内のインタラクション状態を更新する
     private func updateCanvasInteractionState(){
         // 編集モードのときはステッカーボード、撮影モードの時はカメラビューのユーザ操作を受け付ける
-        let isEditMode = toolbarModel.currentMode == .Edit
+        let isEditMode = toolbarModel.currentMode == .edit
         stickerBoardViewController.view.isUserInteractionEnabled = isEditMode
         cameraViewController.view.isUserInteractionEnabled = !isEditMode
     }
@@ -201,13 +201,13 @@ extension MainViewController: ToolbarViewDelegate {
     
     func toolbarView(_ view: ToolbarView, didTapItem item: ToolBarItem) {
         switch item {
-        case .AspectRatio:
+        case .aspectRatio:
             currentAspectRatio = currentAspectRatio.next
-        case .Rotate:
+        case .rotate:
             stickerBoardViewController.rotateCurrentSticker(diff: .init(degrees: 90))
-        case .Fullsize:
+        case .expandToFullScreen:
             stickerBoardViewController.expandCurrentStickerToFullScreen()
-        case .Add:
+        case .add:
             presentPhotoPicker()
         }
     }
@@ -217,7 +217,7 @@ extension MainViewController: ToolbarViewDelegate {
         toolbarModel.setMode(nextMode)
         
         // 編集モードのときはステッカーのハイライトを有効にする
-        stickerBoardModel.shouldIndicateState = nextMode == .Edit
+        stickerBoardModel.shouldIndicateState = nextMode == .edit
         updateCanvasInteractionState()
     }
     

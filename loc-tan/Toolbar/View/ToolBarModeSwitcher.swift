@@ -59,9 +59,9 @@ fileprivate extension ToolbarMode {
     var symbolImage: UIImage {
         let symbolName: String
         switch self {
-        case .Camera:
+        case .camera:
             symbolName = "square.2.layers.3d.bottom.filled"
-        case .Edit:
+        case .edit:
             symbolName = "square.2.layers.3d.top.filled"
         }
         return .init(systemName: symbolName)!.withTintColor(.white, renderingMode: .alwaysOriginal)
