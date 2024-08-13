@@ -30,6 +30,7 @@
 		9E7DCCD32C5115C200E78F5D /* StickerBoardModelDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E7DCCD22C5115C200E78F5D /* StickerBoardModelDelegate.swift */; };
 		9E8DD3862C6A4B540015A96B /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E8DD3852C6A4B540015A96B /* MainViewController.swift */; };
 		9E8DD3882C6A4B5E0015A96B /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E8DD3872C6A4B5E0015A96B /* MainView.swift */; };
+		9E8DD38A2C6AFEB10015A96B /* MainViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E8DD3892C6AFEB10015A96B /* MainViewDelegate.swift */; };
 		9ED49FB52C4BD269001A7A5B /* StickerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ED49FB42C4BD269001A7A5B /* StickerModel.swift */; };
 		9ED49FB92C4BE062001A7A5B /* StickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ED49FB82C4BE062001A7A5B /* StickerViewController.swift */; };
 		9ED49FBB2C4BEE1C001A7A5B /* StickerViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ED49FBA2C4BEE1C001A7A5B /* StickerViewControllerDelegate.swift */; };
@@ -66,6 +67,7 @@
 		9E7DCCD22C5115C200E78F5D /* StickerBoardModelDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerBoardModelDelegate.swift; sourceTree = "<group>"; };
 		9E8DD3852C6A4B540015A96B /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		9E8DD3872C6A4B5E0015A96B /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
+		9E8DD3892C6AFEB10015A96B /* MainViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewDelegate.swift; sourceTree = "<group>"; };
 		9ED49FB42C4BD269001A7A5B /* StickerModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerModel.swift; sourceTree = "<group>"; };
 		9ED49FB82C4BE062001A7A5B /* StickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerViewController.swift; sourceTree = "<group>"; };
 		9ED49FBA2C4BEE1C001A7A5B /* StickerViewControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerViewControllerDelegate.swift; sourceTree = "<group>"; };
@@ -210,6 +212,7 @@
 			isa = PBXGroup;
 			children = (
 				9E8DD3872C6A4B5E0015A96B /* MainView.swift */,
+				9E8DD3892C6AFEB10015A96B /* MainViewDelegate.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -382,6 +385,7 @@
 				9E3417832C5F3E83006B8360 /* CameraViewController.swift in Sources */,
 				9E3417742C5F0B27006B8360 /* ToolbarModel.swift in Sources */,
 				9E3417892C5F7B8B006B8360 /* CGRectExt.swift in Sources */,
+				9E8DD38A2C6AFEB10015A96B /* MainViewDelegate.swift in Sources */,
 				9E3417772C5F0B27006B8360 /* ToolbarView.swift in Sources */,
 				9ED49FBE2C4BF554001A7A5B /* StickerView.swift in Sources */,
 				9E34177A2C5F0DBB006B8360 /* ToolbarModelDelegate.swift in Sources */,
@@ -558,7 +562,6 @@
 				INFOPLIST_KEY_NSCameraUsageDescription = "This app uses camera.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
@@ -588,7 +591,6 @@
 				INFOPLIST_KEY_NSCameraUsageDescription = "This app uses camera.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;

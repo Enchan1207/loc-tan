@@ -6,24 +6,249 @@
 //
 
 import UIKit
+import PhotosUI
 
 class MainViewController: UIViewController {
+    
+    // MARK: - ViewControllers
+    
+    private var cameraViewController: CameraViewController!
+    
+    private var stickerBoardViewController: StickerBoardViewController!
+    
+    private var toolbarViewController: ToolbarViewController!
+    
+    // MARK: - Properties
+    
+    private let stickerBoardModel = StickerBoardModel(stickers: [])
+    
+    private let toolbarModel = ToolbarModel(mode: .Camera)
+    
+    /// ステータスバーを隠す
+    override var prefersStatusBarHidden: Bool {true}
+    
+    /// ステッカーの状態を表示すべきかどうか
+    private var shouldIndicateState: Bool { toolbarModel.currentMode == .Edit }
+    
+    private var mainView: MainView { self.view as! MainView }
+    
+    // MARK: - View lifecycle
+    
+    override func loadView() {
+        self.view = MainView()
+        mainView.delegate = self
+        
+        // ツールバー
+        toolbarViewController = .init()
+        toolbarViewController.delegate = self
+        toolbarViewController.model = toolbarModel
+        placeChildController(toolbarViewController, to: mainView.toolbarContainer)
+        
+        // カメラビュー
+        cameraViewController = .init()
+        cameraViewController.delegate = self
+        placeChildController(cameraViewController, to: mainView.canvasContainer)
+        
+        // ステッカーボード
+        stickerBoardViewController = .init(boardModel: stickerBoardModel)
+        placeChildController(stickerBoardViewController, to: mainView.canvasContainer)
+        
+        // その他コントロール
+        mainView.opacitySlider.value = stickerBoardModel.stickersOpacity
+        mainView.zoomFactorButton.setTitle(cameraViewController.zoomFactorDescription, for: .normal)
+        
+        updateCanvasInteractionState()
+    }
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+    /// 子VCをコンテナビューいっぱいに配置する
+    /// - Parameters:
+    ///   - controller: 子VC
+    ///   - container: 配置先
+    private func placeChildController(_ controller: UIViewController, to container: UIView){
+        guard let childView = controller.view else {return}
+        addChild(controller)
+        container.addSubview(childView)
+        NSLayoutConstraint.activate([
+            childView.topAnchor.constraint(equalTo: container.topAnchor),
+            childView.bottomAnchor.constraint(equalTo: container.bottomAnchor),
+            childView.leftAnchor.constraint(equalTo: container.leftAnchor),
+            childView.rightAnchor.constraint(equalTo: container.rightAnchor),
+        ])
+        controller.didMove(toParent: self)
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(appDidEnterBackground), name: UIApplication.didEnterBackgroundNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(appDidBecomeActive), name: UIApplication.didBecomeActiveNotification, object: nil)
     }
-    */
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.cameraViewController.startSession()
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+    
+    // MARK: - Notifications
+    
+    @objc private func appDidEnterBackground(){
+        self.cameraViewController.stopSession()
+    }
+    
+    @objc private func appDidBecomeActive(){
+        self.cameraViewController.startSession()
+    }
+    
+    // MARK: - Methods
+    
+    /// フォトライブラリに写真を保存する
+    /// - Parameter image: 保存する画像
+    private func saveImageToPhotoLibrary(_ image: UIImage){
+        // TODO: クロージャじゃなくてｴｲｼﾝｸとか使う?
+        PHPhotoLibrary.requestAuthorization(for: .addOnly) { status in
+            guard status == .authorized else {
+                print("Photo library access denied")
+                return
+            }
+            
+            // 写真を保存
+            PHPhotoLibrary.shared().performChanges({
+                PHAssetChangeRequest.creationRequestForAsset(from: image)
+            }) { success, error in
+                if(success){
+                    print("Photo saved")
+                }else {
+                    print("error: \(error!)")
+                }
+            }
+        }
+    }
+    
+    /// 画像ピッカーを表示する
+    private func presentPhotoPicker(){
+        let config = {
+            var config = PHPickerConfiguration(photoLibrary: .shared())
+            config.filter = .images
+            config.selectionLimit = 1
+            config.preferredAssetRepresentationMode = .current
+            return config
+        }()
+        
+        let picker = PHPickerViewController(configuration: config)
+        picker.delegate = self
+        if let sheet = picker.sheetPresentationController {
+            sheet.detents = [.medium(), .large()]
+            sheet.prefersScrollingExpandsWhenScrolledToEdge = false
+            sheet.prefersGrabberVisible = true
+        }
+        self.present(picker, animated: true)
+    }
+    
+    /// 与えられた画像のステッカーを追加する
+    /// - Parameter image: ステッカーの画像
+    /// - Note: ステッカーはビュー中心に生成されます。
+    private func spawnSticker(with image: UIImage){
+        let width = stickerBoardViewController.view.bounds.width
+        let sticker = StickerModel(
+            image: image,
+            center: .zero,
+            width: width,
+            angle: .zero,
+            isTargetted: false,
+            opacity: stickerBoardModel.stickersOpacity,
+            shouldIndicateState: stickerBoardModel.shouldIndicateState)
+        stickerBoardModel.add(sticker)
+    }
+    
+    /// キャンバスビュー内のインタラクション状態を更新する
+    private func updateCanvasInteractionState(){
+        // 編集モードのときはステッカーボード、撮影モードの時はカメラビューのユーザ操作を受け付ける
+        let isEditMode = toolbarModel.currentMode == .Edit
+        stickerBoardViewController.view.isUserInteractionEnabled = isEditMode
+        cameraViewController.view.isUserInteractionEnabled = !isEditMode
+    }
 
+}
+
+extension MainViewController: MainViewDelegate {
+    
+    func mainViewDidTapCaptureButton(_ view: MainView) {
+        cameraViewController.capturePhoto()
+    }
+    
+    func mainViewDidTapZoomFactorButton(_ view: MainView) {
+        cameraViewController.snapZoomFactor()
+    }
+    
+    func mainView(_ view: MainView, didChangeOpacitySliderValue to: Float) {
+        stickerBoardModel.setStickersOpacity(to, animated: false)
+    }
+    
+}
+
+extension MainViewController: ToolbarViewDelegate {
+    
+    func toolbarView(_ view: ToolbarView, didTapItem item: ToolBarItem) {
+        switch item {
+        case .Settings:
+            // TODO: カメラ設定の実装
+            print("settings")
+        case .Rotate:
+            stickerBoardViewController.rotateCurrentSticker(diff: .init(degrees: 90))
+        case .Fullsize:
+            stickerBoardViewController.expandCurrentStickerToFullScreen()
+        case .Add:
+            presentPhotoPicker()
+        }
+    }
+    
+    func toolbarViewDidTapModeSwitcher(_ view: ToolbarView) {
+        let nextMode = toolbarModel.currentMode.opposite
+        toolbarModel.setMode(nextMode)
+        
+        // 編集モードのときはステッカーのハイライトを有効にする
+        stickerBoardModel.shouldIndicateState = nextMode == .Edit
+        updateCanvasInteractionState()
+    }
+    
+}
+
+extension MainViewController: CameraViewControllerDelegate {
+    
+    func cameraView(_ viewController: CameraViewController, didChangeZoomFactor scale: CGFloat) {
+        mainView.zoomFactorButton.setTitle(cameraViewController.zoomFactorDescription, for: .normal)
+    }
+    
+    func cameraView(_ viewController: CameraViewController, didCapture image: UIImage) {
+        saveImageToPhotoLibrary(image)
+    }
+    
+    func cameraView(_ viewController: CameraViewController, didFailCapture error: (any Error)?) {
+        // TODO: 撮影エラー時の処理
+    }
+    
+}
+
+extension MainViewController: PHPickerViewControllerDelegate {
+    
+    func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
+        picker.dismiss(animated: true)
+        guard let provider = results.first?.itemProvider,
+              provider.canLoadObject(ofClass: UIImage.self) else {return}
+        
+        provider.loadObject(ofClass: UIImage.self) {[weak self] item, error in
+            guard error == nil, let image = item as? UIImage else {
+                print(error!)
+                return
+            }
+            DispatchQueue.main.async {
+                self?.spawnSticker(with: image)
+            }
+        }
+    }
+    
 }
