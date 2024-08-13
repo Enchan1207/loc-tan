@@ -30,6 +30,8 @@
 		9E8DD3882C6A4B5E0015A96B /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E8DD3872C6A4B5E0015A96B /* MainView.swift */; };
 		9E8DD38A2C6AFEB10015A96B /* MainViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E8DD3892C6AFEB10015A96B /* MainViewDelegate.swift */; };
 		9E8DD38C2C6B278B0015A96B /* AspectRatio.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E8DD38B2C6B278B0015A96B /* AspectRatio.swift */; };
+		9E8DD3902C6B3F250015A96B /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 9E8DD38F2C6B3F250015A96B /* Localizable.xcstrings */; };
+		9E8DD3942C6B402C0015A96B /* InfoPlist.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 9E8DD3932C6B402C0015A96B /* InfoPlist.xcstrings */; };
 		9ED49FB52C4BD269001A7A5B /* StickerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ED49FB42C4BD269001A7A5B /* StickerModel.swift */; };
 		9ED49FB92C4BE062001A7A5B /* StickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ED49FB82C4BE062001A7A5B /* StickerViewController.swift */; };
 		9ED49FBB2C4BEE1C001A7A5B /* StickerViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ED49FBA2C4BEE1C001A7A5B /* StickerViewControllerDelegate.swift */; };
@@ -66,6 +68,8 @@
 		9E8DD3872C6A4B5E0015A96B /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		9E8DD3892C6AFEB10015A96B /* MainViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewDelegate.swift; sourceTree = "<group>"; };
 		9E8DD38B2C6B278B0015A96B /* AspectRatio.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AspectRatio.swift; sourceTree = "<group>"; };
+		9E8DD38F2C6B3F250015A96B /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
+		9E8DD3932C6B402C0015A96B /* InfoPlist.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = InfoPlist.xcstrings; sourceTree = "<group>"; };
 		9ED49FB42C4BD269001A7A5B /* StickerModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerModel.swift; sourceTree = "<group>"; };
 		9ED49FB82C4BE062001A7A5B /* StickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerViewController.swift; sourceTree = "<group>"; };
 		9ED49FBA2C4BEE1C001A7A5B /* StickerViewControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerViewControllerDelegate.swift; sourceTree = "<group>"; };
@@ -191,6 +195,8 @@
 				9E78F15C2C1D9993000EDE4A /* Assets.xcassets */,
 				9E78F15E2C1D9993000EDE4A /* LaunchScreen.storyboard */,
 				9E78F1612C1D9993000EDE4A /* Info.plist */,
+				9E8DD38F2C6B3F250015A96B /* Localizable.xcstrings */,
+				9E8DD3932C6B402C0015A96B /* InfoPlist.xcstrings */,
 			);
 			path = "loc-tan";
 			sourceTree = "<group>";
@@ -344,6 +350,7 @@
 			knownRegions = (
 				en,
 				Base,
+				ja,
 			);
 			mainGroup = 9E78F1472C1D9991000EDE4A;
 			productRefGroup = 9E78F1512C1D9991000EDE4A /* Products */;
@@ -362,6 +369,8 @@
 			files = (
 				9E78F1602C1D9993000EDE4A /* LaunchScreen.storyboard in Resources */,
 				9E78F15D2C1D9993000EDE4A /* Assets.xcassets in Resources */,
+				9E8DD3942C6B402C0015A96B /* InfoPlist.xcstrings in Resources */,
+				9E8DD3902C6B3F250015A96B /* Localizable.xcstrings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -547,8 +556,8 @@
 				DEVELOPMENT_TEAM = 9JTFXT4CWH;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "loc-tan/Info.plist";
-				INFOPLIST_KEY_NSCameraUsageDescription = "This app uses camera.";
-				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "To save captured photo, please grant access for add images.";
+				INFOPLIST_KEY_NSCameraUsageDescription = "Grant to access your camera so that you can take photos.";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Allow to access photo library so that save captured photo.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
@@ -577,8 +586,8 @@
 				DEVELOPMENT_TEAM = 9JTFXT4CWH;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "loc-tan/Info.plist";
-				INFOPLIST_KEY_NSCameraUsageDescription = "This app uses camera.";
-				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "To save captured photo, please grant access for add images.";
+				INFOPLIST_KEY_NSCameraUsageDescription = "Grant to access your camera so that you can take photos.";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Allow to access photo library so that save captured photo.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;

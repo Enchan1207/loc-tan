@@ -229,7 +229,7 @@ extension StickerViewController: UIEditMenuInteractionDelegate {
     
     func editMenuInteraction(_ interaction: UIEditMenuInteraction, menuFor configuration: UIEditMenuConfiguration, suggestedActions: [UIMenuElement]) -> UIMenu? {
         return .init(children: [
-            UIAction(title: "削除", attributes: .destructive, handler: { _ in
+            UIAction(title: .init(localized: "STICKER_MENU_REMOVE"), attributes: .destructive, handler: { _ in
                 self.delegate?.stickerViewDidRequireDeletion(self)
             })
         ])
