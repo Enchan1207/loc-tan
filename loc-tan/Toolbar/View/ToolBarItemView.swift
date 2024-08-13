@@ -41,6 +41,19 @@ class ToolBarItemView: UIButton {
             imageView!.leftAnchor.constraint(equalTo: leftAnchor, constant: 5),
             imageView!.rightAnchor.constraint(equalTo: rightAnchor, constant: -5),
         ])
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(onDeviceOrientationChange), name: UIDevice.orientationDidChangeNotification, object: nil)
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+    
+    @objc private func onDeviceOrientationChange(){
+        let angle = UIDevice.current.orientation.rotationAngle
+        UIView.animate(withDuration: 0.2) {[weak self] in
+            self?.transform = .init(rotationAngle: angle)
+        }
     }
 
 }

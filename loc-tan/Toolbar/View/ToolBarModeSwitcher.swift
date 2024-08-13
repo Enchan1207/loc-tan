@@ -35,6 +35,12 @@ class ToolBarModeSwitcher: UIButton {
             imageView!.leftAnchor.constraint(equalTo: leftAnchor, constant: 5),
             imageView!.rightAnchor.constraint(equalTo: rightAnchor, constant: -5),
         ])
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(onDeviceOrientationChange), name: UIDevice.orientationDidChangeNotification, object: nil)
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
     }
     
     // MARK: - Interface between ViewController
@@ -50,6 +56,13 @@ class ToolBarModeSwitcher: UIButton {
             self.updateView(mode: mode)
         }
         self.isUserInteractionEnabled = true
+    }
+    
+    @objc private func onDeviceOrientationChange(){
+        let angle = UIDevice.current.orientation.rotationAngle
+        UIView.animate(withDuration: 0.2) {[weak self] in
+            self?.transform = .init(rotationAngle: angle)
+        }
     }
 
 }
