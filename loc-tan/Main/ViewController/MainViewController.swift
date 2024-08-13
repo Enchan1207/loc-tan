@@ -22,13 +22,20 @@ class MainViewController: UIViewController {
     
     private let stickerBoardModel = StickerBoardModel(stickers: [])
     
-    private let toolbarModel = ToolbarModel(mode: .Camera)
+    private let toolbarModel = ToolbarModel(mode: .camera)
     
     /// ステータスバーを隠す
     override var prefersStatusBarHidden: Bool {true}
     
+    /// 現在のアスペクト比
+    private var currentAspectRatio: AspectRatio = .wide {
+        didSet {
+            mainView.updateCanvasAspectRatio(currentAspectRatio)
+        }
+    }
+    
     /// ステッカーの状態を表示すべきかどうか
-    private var shouldIndicateState: Bool { toolbarModel.currentMode == .Edit }
+    private var shouldIndicateState: Bool { toolbarModel.currentMode == .edit }
     
     private var mainView: MainView { self.view as! MainView }
     
@@ -167,7 +174,7 @@ class MainViewController: UIViewController {
     /// キャンバスビュー内のインタラクション状態を更新する
     private func updateCanvasInteractionState(){
         // 編集モードのときはステッカーボード、撮影モードの時はカメラビューのユーザ操作を受け付ける
-        let isEditMode = toolbarModel.currentMode == .Edit
+        let isEditMode = toolbarModel.currentMode == .edit
         stickerBoardViewController.view.isUserInteractionEnabled = isEditMode
         cameraViewController.view.isUserInteractionEnabled = !isEditMode
     }
@@ -194,14 +201,13 @@ extension MainViewController: ToolbarViewDelegate {
     
     func toolbarView(_ view: ToolbarView, didTapItem item: ToolBarItem) {
         switch item {
-        case .Settings:
-            // TODO: カメラ設定の実装
-            print("settings")
-        case .Rotate:
+        case .aspectRatio:
+            currentAspectRatio = currentAspectRatio.next
+        case .rotate:
             stickerBoardViewController.rotateCurrentSticker(diff: .init(degrees: 90))
-        case .Fullsize:
+        case .expandToFullScreen:
             stickerBoardViewController.expandCurrentStickerToFullScreen()
-        case .Add:
+        case .add:
             presentPhotoPicker()
         }
     }
@@ -211,7 +217,7 @@ extension MainViewController: ToolbarViewDelegate {
         toolbarModel.setMode(nextMode)
         
         // 編集モードのときはステッカーのハイライトを有効にする
-        stickerBoardModel.shouldIndicateState = nextMode == .Edit
+        stickerBoardModel.shouldIndicateState = nextMode == .edit
         updateCanvasInteractionState()
     }
     
@@ -248,6 +254,21 @@ extension MainViewController: PHPickerViewControllerDelegate {
             DispatchQueue.main.async {
                 self?.spawnSticker(with: image)
             }
+        }
+    }
+    
+}
+
+fileprivate extension AspectRatio {
+    
+    var next: AspectRatio {
+        switch self {
+        case .standard:
+            .wide
+        case .wide:
+            .standard
+        default:
+            .wide
         }
     }
     

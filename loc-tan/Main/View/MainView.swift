@@ -32,6 +32,9 @@ class MainView: UIView {
     /// キャンバス上端からトップバー下端への制約
     private var canvasTopConstraintToTopbar = NSLayoutConstraint()
     
+    /// キャンバスのアスペクト比の制約
+    private var canvasAspectRatioConstraint = NSLayoutConstraint()
+    
     // MARK: - Properties
     
     weak var delegate: MainViewDelegate?
@@ -51,6 +54,8 @@ class MainView: UIView {
         setup()
     }
     
+    // MARK: - Components setup
+    
     private func setup(){
         self.translatesAutoresizingMaskIntoConstraints = false
         self.backgroundColor = .black
@@ -68,8 +73,7 @@ class MainView: UIView {
         canvasContainer.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             canvasContainer.leftAnchor.constraint(equalTo: safeAreaLayoutGuide.leftAnchor),
-            canvasContainer.rightAnchor.constraint(equalTo: safeAreaLayoutGuide.rightAnchor),
-            canvasContainer.widthAnchor.constraint(equalTo: canvasContainer.heightAnchor, multiplier: 9.0 / 16.0)
+            canvasContainer.rightAnchor.constraint(equalTo: safeAreaLayoutGuide.rightAnchor)
         ])
         
         // ツールバーコンテナ
@@ -88,6 +92,9 @@ class MainView: UIView {
         canvasTopConstraintToTopbar = canvasContainer.topAnchor.constraint(equalTo: toolbarContainer.bottomAnchor)
         NSLayoutConstraint.activate([canvasTopConstraintToSafeArea, canvasTopConstraintToTopbar])
         updateCanvasTopConstraints()
+        
+        // キャンバス縦横比の制約
+        updateCanvasAspectRatio(.wide)
     }
     
     private func setupCaptureButton(){
@@ -161,7 +168,7 @@ class MainView: UIView {
         NSLayoutConstraint.activate([
             opacitySlider.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.8),
             opacitySlider.centerXAnchor.constraint(equalTo: centerXAnchor),
-            opacitySlider.bottomAnchor.constraint(equalTo: captureButton.topAnchor, constant: -30)
+            opacitySlider.bottomAnchor.constraint(equalTo: captureButton.topAnchor, constant: -15)
         ])
         opacitySlider.addTarget(self, action: #selector(onChangeOpacitySlider), for: .valueChanged)
     }
@@ -171,15 +178,18 @@ class MainView: UIView {
         canvasTopConstraintToTopbar.priority = hasNotch ? .defaultHigh : .defaultLow
     }
     
-    override func safeAreaInsetsDidChange() {
-        super.safeAreaInsetsDidChange()
-        
-        // キャンバス上端の制約を更新
-        updateCanvasTopConstraints()
-        
-        // ツールバーコンテナの背景色を再設定
-        toolbarContainer.backgroundColor = hasNotch ? .black : .clear
+    // MARK: - Public interfaces
+    
+    /// キャンバスのアスペクト比を変更する
+    /// - Parameter ratio: 設定するアスペクト比
+    func updateCanvasAspectRatio(_ ratio: AspectRatio){
+        canvasAspectRatioConstraint.isActive = false
+        canvasAspectRatioConstraint = canvasContainer.heightAnchor.constraint(equalTo: canvasContainer.widthAnchor, multiplier: ratio.rawValue)
+        canvasAspectRatioConstraint.isActive = true
+        setNeedsLayout()
     }
+    
+    // MARK: - GUI Events
     
     @objc private func onTapCaptureButton(){
         delegate?.mainViewDidTapCaptureButton(self)
@@ -191,6 +201,16 @@ class MainView: UIView {
     
     @objc private func onChangeOpacitySlider(){
         delegate?.mainView(self, didChangeOpacitySliderValue: opacitySlider.value)
+    }
+    
+    override func safeAreaInsetsDidChange() {
+        super.safeAreaInsetsDidChange()
+        
+        // キャンバス上端の制約を更新
+        updateCanvasTopConstraints()
+        
+        // ツールバーコンテナの背景色を再設定
+        toolbarContainer.backgroundColor = hasNotch ? .black : .clear
     }
 
 }

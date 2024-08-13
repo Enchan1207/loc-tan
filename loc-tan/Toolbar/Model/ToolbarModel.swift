@@ -8,19 +8,19 @@
 import Foundation
 
 enum ToolbarMode {
-    case Camera
-    case Edit
+    case camera
+    case edit
     
     var opposite: ToolbarMode {
-        self == .Camera ? .Edit : .Camera
+        self == .camera ? .edit : .camera
     }
 }
 
 enum ToolBarItem {
-    case Settings
-    case Rotate
-    case Fullsize
-    case Add
+    case aspectRatio
+    case rotate
+    case expandToFullScreen
+    case add
 }
 
 class ToolbarModel {
@@ -40,10 +40,10 @@ class ToolbarModel {
     
     var toolBarItems: [ToolBarItem] {
         switch currentMode {
-        case .Camera:
-            return [.Settings]
-        case .Edit:
-            return [.Rotate, .Fullsize, .Add]
+        case .camera:
+            return [.aspectRatio]
+        case .edit:
+            return [.rotate, .expandToFullScreen, .add]
         }
     }
     
