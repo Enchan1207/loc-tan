@@ -84,16 +84,10 @@ class StickerBoardViewController: UIViewController {
         // 回転角度を考慮したステッカーのアスペクト比を計算
         let isRotated = (45...135).contains(abs(activeStickerModel.angle.degrees))
         let stickerImageSize = activeStickerModel.image.size
-        let stickerAspectRatioOnScreen = isRotated ? stickerImageSize.height / stickerImageSize.width : stickerImageSize.width / stickerImageSize.height
+        let stickerAspectRatioOnScreen: AspectRatio = isRotated ? .custom(stickerImageSize.height / stickerImageSize.width) : .custom(stickerImageSize.width / stickerImageSize.height)
         
-        // ビューをはみ出ない最大サイズを取得
-        let maxStickerSizeOnScreen: CGSize = ({viewSize, aspectRatio in
-            let widthBasedSize = CGSize(width: viewSize.width, height: viewSize.width / aspectRatio)
-            let heightBasedSize = CGSize(width: viewSize.height * aspectRatio, height: viewSize.height)
-            return widthBasedSize.height <= viewSize.height ? widthBasedSize : heightBasedSize
-        })(view.bounds.size, stickerAspectRatioOnScreen)
-        
-        // 設定
+        // ビューをはみ出ない最大サイズを取得し、設定
+        let maxStickerSizeOnScreen = view.bounds.size.maxFitSize(at: stickerAspectRatioOnScreen)
         activeStickerModel.width = isRotated ? maxStickerSizeOnScreen.height : maxStickerSizeOnScreen.width
     }
     

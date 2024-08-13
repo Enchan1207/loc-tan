@@ -30,6 +30,17 @@ class CameraView: UIView {
         set { videoPreviewLayer.session = newValue }
     }
     
+    /// プレビューViewのアスペクト比
+    var aspectRatio: AspectRatio {
+        // TODO: アス比変更をアニメーションしてもいいか
+        didSet {
+            aspectConstraint.isActive = false
+            aspectConstraint = heightAnchor.constraint(equalTo: widthAnchor, multiplier: aspectRatio.rawValue)
+            aspectConstraint.isActive = true
+            setNeedsLayout()
+        }
+    }
+    
     // MARK: - Private
     
     // グリッド
@@ -38,14 +49,19 @@ class CameraView: UIView {
     /// フォーカス枠
     private var focusFrame = CAShapeLayer()
     
+    /// ビューのアス比制約
+    private var aspectConstraint = NSLayoutConstraint()
+    
     // MARK: - Initializing
     
-    override init(frame: CGRect) {
+    init(frame: CGRect, aspectRatio: AspectRatio) {
+        self.aspectRatio = aspectRatio
         super.init(frame: frame)
         setup()
     }
     
     required init?(coder: NSCoder) {
+        self.aspectRatio = .wide
         super.init(coder: coder)
         setup()
     }
@@ -62,6 +78,10 @@ class CameraView: UIView {
         // フォーカス枠を初期化
         initFocusFrame()
         layer.addSublayer(focusFrame)
+        
+        // アス比制約を初期化
+        aspectConstraint = heightAnchor.constraint(equalTo: widthAnchor, multiplier: aspectRatio.rawValue)
+        aspectConstraint.isActive = true
         
         setNeedsLayout()
     }

@@ -24,15 +24,10 @@ class MainViewController: UIViewController {
     
     private let toolbarModel = ToolbarModel(mode: .camera)
     
+    private let cameraModel = CameraModel(aspectRatio: .wide)
+    
     /// ステータスバーを隠す
     override var prefersStatusBarHidden: Bool {true}
-    
-    /// 現在のアスペクト比
-    private var currentAspectRatio: AspectRatio = .wide {
-        didSet {
-            mainView.updateCanvasAspectRatio(currentAspectRatio)
-        }
-    }
     
     /// ステッカーの状態を表示すべきかどうか
     private var shouldIndicateState: Bool { toolbarModel.currentMode == .edit }
@@ -52,7 +47,7 @@ class MainViewController: UIViewController {
         placeChildController(toolbarViewController, to: mainView.toolbarContainer)
         
         // カメラビュー
-        cameraViewController = .init()
+        cameraViewController = .init(cameraModel: cameraModel)
         cameraViewController.delegate = self
         placeChildController(cameraViewController, to: mainView.canvasContainer)
         
@@ -207,7 +202,7 @@ extension MainViewController: ToolbarViewDelegate {
     func toolbarView(_ view: ToolbarView, didTapItem item: ToolBarItem) {
         switch item {
         case .aspectRatio:
-            currentAspectRatio = currentAspectRatio.next
+            cameraModel.aspectRatio = cameraModel.aspectRatio.next
         case .rotate:
             stickerBoardViewController.rotateCurrentSticker(diff: .init(degrees: 90))
         case .expandToFullScreen:
