@@ -24,10 +24,12 @@
 		9E78F1542C1D9991000EDE4A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E78F1532C1D9991000EDE4A /* AppDelegate.swift */; };
 		9E78F1562C1D9991000EDE4A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E78F1552C1D9991000EDE4A /* SceneDelegate.swift */; };
 		9E78F1582C1D9991000EDE4A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E78F1572C1D9991000EDE4A /* ViewController.swift */; };
-		9E78F15B2C1D9991000EDE4A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9E78F1592C1D9991000EDE4A /* Main.storyboard */; };
 		9E78F15D2C1D9993000EDE4A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9E78F15C2C1D9993000EDE4A /* Assets.xcassets */; };
 		9E78F1602C1D9993000EDE4A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9E78F15E2C1D9993000EDE4A /* LaunchScreen.storyboard */; };
 		9E7DCCD32C5115C200E78F5D /* StickerBoardModelDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E7DCCD22C5115C200E78F5D /* StickerBoardModelDelegate.swift */; };
+		9E8DD3862C6A4B540015A96B /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E8DD3852C6A4B540015A96B /* MainViewController.swift */; };
+		9E8DD3882C6A4B5E0015A96B /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E8DD3872C6A4B5E0015A96B /* MainView.swift */; };
+		9E8DD38A2C6AFEB10015A96B /* MainViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E8DD3892C6AFEB10015A96B /* MainViewDelegate.swift */; };
 		9ED49FB52C4BD269001A7A5B /* StickerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ED49FB42C4BD269001A7A5B /* StickerModel.swift */; };
 		9ED49FB92C4BE062001A7A5B /* StickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ED49FB82C4BE062001A7A5B /* StickerViewController.swift */; };
 		9ED49FBB2C4BEE1C001A7A5B /* StickerViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ED49FBA2C4BEE1C001A7A5B /* StickerViewControllerDelegate.swift */; };
@@ -57,11 +59,13 @@
 		9E78F1532C1D9991000EDE4A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9E78F1552C1D9991000EDE4A /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		9E78F1572C1D9991000EDE4A /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		9E78F15A2C1D9991000EDE4A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		9E78F15C2C1D9993000EDE4A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9E78F15F2C1D9993000EDE4A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		9E78F1612C1D9993000EDE4A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9E7DCCD22C5115C200E78F5D /* StickerBoardModelDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerBoardModelDelegate.swift; sourceTree = "<group>"; };
+		9E8DD3852C6A4B540015A96B /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
+		9E8DD3872C6A4B5E0015A96B /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
+		9E8DD3892C6AFEB10015A96B /* MainViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewDelegate.swift; sourceTree = "<group>"; };
 		9ED49FB42C4BD269001A7A5B /* StickerModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerModel.swift; sourceTree = "<group>"; };
 		9ED49FB82C4BE062001A7A5B /* StickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerViewController.swift; sourceTree = "<group>"; };
 		9ED49FBA2C4BEE1C001A7A5B /* StickerViewControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerViewControllerDelegate.swift; sourceTree = "<group>"; };
@@ -180,16 +184,42 @@
 				9E78F1532C1D9991000EDE4A /* AppDelegate.swift */,
 				9E78F1552C1D9991000EDE4A /* SceneDelegate.swift */,
 				9E78F1572C1D9991000EDE4A /* ViewController.swift */,
+				9E8DD3822C6A4B3A0015A96B /* Main */,
 				9E34177B2C5F3E3F006B8360 /* Camera */,
 				9E1E5D162C313255001F8EB9 /* Extensions */,
 				9E3417722C5F0B27006B8360 /* Toolbar */,
 				9ED49FBC2C4BF518001A7A5B /* Overlay */,
-				9E78F1592C1D9991000EDE4A /* Main.storyboard */,
 				9E78F15C2C1D9993000EDE4A /* Assets.xcassets */,
 				9E78F15E2C1D9993000EDE4A /* LaunchScreen.storyboard */,
 				9E78F1612C1D9993000EDE4A /* Info.plist */,
 			);
 			path = "loc-tan";
+			sourceTree = "<group>";
+		};
+		9E8DD3822C6A4B3A0015A96B /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				9E8DD3842C6A4B460015A96B /* ViewController */,
+				9E8DD3832C6A4B430015A96B /* View */,
+			);
+			path = Main;
+			sourceTree = "<group>";
+		};
+		9E8DD3832C6A4B430015A96B /* View */ = {
+			isa = PBXGroup;
+			children = (
+				9E8DD3872C6A4B5E0015A96B /* MainView.swift */,
+				9E8DD3892C6AFEB10015A96B /* MainViewDelegate.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		9E8DD3842C6A4B460015A96B /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				9E8DD3852C6A4B540015A96B /* MainViewController.swift */,
+			);
+			path = ViewController;
 			sourceTree = "<group>";
 		};
 		9ED49FB02C4BC3A3001A7A5B /* Sticker */ = {
@@ -332,7 +362,6 @@
 			files = (
 				9E78F1602C1D9993000EDE4A /* LaunchScreen.storyboard in Resources */,
 				9E78F15D2C1D9993000EDE4A /* Assets.xcassets in Resources */,
-				9E78F15B2C1D9991000EDE4A /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -344,6 +373,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9ED49FC42C4BF599001A7A5B /* StickerBoardModel.swift in Sources */,
+				9E8DD3882C6A4B5E0015A96B /* MainView.swift in Sources */,
 				9E1E5D1A2C3193C0001F8EB9 /* CGPointExt.swift in Sources */,
 				9E1E5D182C31325D001F8EB9 /* UIViewExt.swift in Sources */,
 				9E1917542C4EA2D400ECA384 /* Angle.swift in Sources */,
@@ -351,6 +381,7 @@
 				9E3417832C5F3E83006B8360 /* CameraViewController.swift in Sources */,
 				9E3417742C5F0B27006B8360 /* ToolbarModel.swift in Sources */,
 				9E3417892C5F7B8B006B8360 /* CGRectExt.swift in Sources */,
+				9E8DD38A2C6AFEB10015A96B /* MainViewDelegate.swift in Sources */,
 				9E3417772C5F0B27006B8360 /* ToolbarView.swift in Sources */,
 				9ED49FBE2C4BF554001A7A5B /* StickerView.swift in Sources */,
 				9E34177A2C5F0DBB006B8360 /* ToolbarModelDelegate.swift in Sources */,
@@ -367,6 +398,7 @@
 				9E34177F2C5F3E6D006B8360 /* CameraView.swift in Sources */,
 				9E78F1562C1D9991000EDE4A /* SceneDelegate.swift in Sources */,
 				9ED49FB52C4BD269001A7A5B /* StickerModel.swift in Sources */,
+				9E8DD3862C6A4B540015A96B /* MainViewController.swift in Sources */,
 				9E7DCCD32C5115C200E78F5D /* StickerBoardModelDelegate.swift in Sources */,
 				9E3417752C5F0B27006B8360 /* ToolBarItemView.swift in Sources */,
 			);
@@ -375,14 +407,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		9E78F1592C1D9991000EDE4A /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				9E78F15A2C1D9991000EDE4A /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		9E78F15E2C1D9993000EDE4A /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -527,7 +551,6 @@
 				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "To save captured photo, please grant access for add images.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
@@ -558,7 +581,6 @@
 				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "To save captured photo, please grant access for add images.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
