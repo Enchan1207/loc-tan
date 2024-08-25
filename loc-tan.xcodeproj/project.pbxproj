@@ -21,6 +21,7 @@
 		9E3417832C5F3E83006B8360 /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E3417822C5F3E83006B8360 /* CameraViewController.swift */; };
 		9E3417872C5F66A0006B8360 /* CameraViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E3417862C5F66A0006B8360 /* CameraViewControllerDelegate.swift */; };
 		9E3417892C5F7B8B006B8360 /* CGRectExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E3417882C5F7B8B006B8360 /* CGRectExt.swift */; };
+		9E50FC6B2C7B091700E51E0C /* DeviceOrientation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E50FC6A2C7B091700E51E0C /* DeviceOrientation.swift */; };
 		9E78F1542C1D9991000EDE4A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E78F1532C1D9991000EDE4A /* AppDelegate.swift */; };
 		9E78F1562C1D9991000EDE4A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E78F1552C1D9991000EDE4A /* SceneDelegate.swift */; };
 		9E78F15D2C1D9993000EDE4A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9E78F15C2C1D9993000EDE4A /* Assets.xcassets */; };
@@ -30,12 +31,12 @@
 		9E8DD3882C6A4B5E0015A96B /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E8DD3872C6A4B5E0015A96B /* MainView.swift */; };
 		9E8DD38A2C6AFEB10015A96B /* MainViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E8DD3892C6AFEB10015A96B /* MainViewDelegate.swift */; };
 		9E8DD38C2C6B278B0015A96B /* AspectRatio.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E8DD38B2C6B278B0015A96B /* AspectRatio.swift */; };
+		9E8DD38E2C6B39310015A96B /* UIDeviceOrientationExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E8DD38D2C6B39310015A96B /* UIDeviceOrientationExt.swift */; };
 		9E8DD3902C6B3F250015A96B /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 9E8DD38F2C6B3F250015A96B /* Localizable.xcstrings */; };
 		9E8DD3942C6B402C0015A96B /* InfoPlist.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 9E8DD3932C6B402C0015A96B /* InfoPlist.xcstrings */; };
 		9E8DD3972C6B972C0015A96B /* CameraModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E8DD3962C6B972C0015A96B /* CameraModel.swift */; };
 		9E8DD3992C6B97510015A96B /* CameraModelDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E8DD3982C6B97510015A96B /* CameraModelDelegate.swift */; };
 		9E8DD39B2C6B9DDF0015A96B /* CGSizeExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E8DD39A2C6B9DDF0015A96B /* CGSizeExt.swift */; };
-		9E8DD38E2C6B39310015A96B /* UIDeviceOrientationExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E8DD38D2C6B39310015A96B /* UIDeviceOrientationExt.swift */; };
 		9ED49FB52C4BD269001A7A5B /* StickerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ED49FB42C4BD269001A7A5B /* StickerModel.swift */; };
 		9ED49FB92C4BE062001A7A5B /* StickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ED49FB82C4BE062001A7A5B /* StickerViewController.swift */; };
 		9ED49FBB2C4BEE1C001A7A5B /* StickerViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ED49FBA2C4BEE1C001A7A5B /* StickerViewControllerDelegate.swift */; };
@@ -61,6 +62,7 @@
 		9E3417822C5F3E83006B8360 /* CameraViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
 		9E3417862C5F66A0006B8360 /* CameraViewControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraViewControllerDelegate.swift; sourceTree = "<group>"; };
 		9E3417882C5F7B8B006B8360 /* CGRectExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGRectExt.swift; sourceTree = "<group>"; };
+		9E50FC6A2C7B091700E51E0C /* DeviceOrientation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceOrientation.swift; sourceTree = "<group>"; };
 		9E78F1502C1D9991000EDE4A /* loc-tan.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "loc-tan.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9E78F1532C1D9991000EDE4A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9E78F1552C1D9991000EDE4A /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -72,12 +74,12 @@
 		9E8DD3872C6A4B5E0015A96B /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		9E8DD3892C6AFEB10015A96B /* MainViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewDelegate.swift; sourceTree = "<group>"; };
 		9E8DD38B2C6B278B0015A96B /* AspectRatio.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AspectRatio.swift; sourceTree = "<group>"; };
+		9E8DD38D2C6B39310015A96B /* UIDeviceOrientationExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIDeviceOrientationExt.swift; sourceTree = "<group>"; };
 		9E8DD38F2C6B3F250015A96B /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		9E8DD3932C6B402C0015A96B /* InfoPlist.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = InfoPlist.xcstrings; sourceTree = "<group>"; };
 		9E8DD3962C6B972C0015A96B /* CameraModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraModel.swift; sourceTree = "<group>"; };
 		9E8DD3982C6B97510015A96B /* CameraModelDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraModelDelegate.swift; sourceTree = "<group>"; };
 		9E8DD39A2C6B9DDF0015A96B /* CGSizeExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGSizeExt.swift; sourceTree = "<group>"; };
-		9E8DD38D2C6B39310015A96B /* UIDeviceOrientationExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIDeviceOrientationExt.swift; sourceTree = "<group>"; };
 		9ED49FB42C4BD269001A7A5B /* StickerModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerModel.swift; sourceTree = "<group>"; };
 		9ED49FB82C4BE062001A7A5B /* StickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerViewController.swift; sourceTree = "<group>"; };
 		9ED49FBA2C4BEE1C001A7A5B /* StickerViewControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerViewControllerDelegate.swift; sourceTree = "<group>"; };
@@ -198,6 +200,7 @@
 			children = (
 				9E78F1532C1D9991000EDE4A /* AppDelegate.swift */,
 				9E78F1552C1D9991000EDE4A /* SceneDelegate.swift */,
+				9E50FC6A2C7B091700E51E0C /* DeviceOrientation.swift */,
 				9E8DD3822C6A4B3A0015A96B /* Main */,
 				9E34177B2C5F3E3F006B8360 /* Camera */,
 				9E1E5D162C313255001F8EB9 /* Extensions */,
@@ -403,6 +406,7 @@
 			files = (
 				9E8DD39B2C6B9DDF0015A96B /* CGSizeExt.swift in Sources */,
 				9E8DD3992C6B97510015A96B /* CameraModelDelegate.swift in Sources */,
+				9E50FC6B2C7B091700E51E0C /* DeviceOrientation.swift in Sources */,
 				9E8DD38C2C6B278B0015A96B /* AspectRatio.swift in Sources */,
 				9ED49FC42C4BF599001A7A5B /* StickerBoardModel.swift in Sources */,
 				9E8DD3972C6B972C0015A96B /* CameraModel.swift in Sources */,
