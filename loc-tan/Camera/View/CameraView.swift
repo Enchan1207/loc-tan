@@ -16,7 +16,6 @@ class CameraView: UIView {
     /// 現在フォーカスが当たっている点の座標
     var focusPoint: CGPoint? {
         didSet {
-            // TODO: フォーカスポイントがなくなった(=デバイスの自動設定に任せる)ことを伝えるために、nilを渡したくないか?
             if focusPoint != nil {
                 updateFocusFrame(to: focusPoint!)
             }else{
