@@ -69,7 +69,7 @@ class MainView: UIView {
         setupZoomFactorButton()
         setupOpacitySlider()
         
-        NotificationCenter.default.addObserver(self, selector: #selector(onDeviceOrientationChange), name: UIDevice.orientationDidChangeNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(onDeviceOrientationChange), name: DeviceOrientation.orientationDidChangeNotification, object: nil)
     }
     
     private func setupContainers(){
@@ -206,7 +206,7 @@ class MainView: UIView {
     }
     
     @objc private func onDeviceOrientationChange(){
-        let angle = UIDevice.current.orientation.rotationAngle
+        let angle = DeviceOrientation.shared.currentOrientation.rotationAngle
         UIView.animate(withDuration: 0.2) {[weak self] in
             self?.zoomFactorButton.transform = .init(rotationAngle: angle)
         }

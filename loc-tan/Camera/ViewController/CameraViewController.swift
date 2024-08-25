@@ -247,7 +247,7 @@ class CameraViewController: UIViewController {
     /// デバイスの向きから生成する画像の向きを取得
     /// - Parameter deviceOrientation: デバイスの向き
     /// - Returns: 画像の向き
-    private func imageOrientation(_ deviceOrientation: UIDeviceOrientation = UIDevice.current.orientation) -> UIImage.Orientation {
+    private func imageOrientation(_ deviceOrientation: UIDeviceOrientation = DeviceOrientation.shared.currentOrientation) -> UIImage.Orientation {
         switch deviceOrientation {
         case .portrait:
             return .right
