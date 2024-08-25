@@ -57,7 +57,7 @@ class MainViewController: UIViewController {
         
         // その他コントロール
         mainView.opacitySlider.value = stickerBoardModel.stickersOpacity
-        mainView.zoomFactorButton.setTitle(cameraViewController.zoomFactorDescription, for: .normal)
+        mainView.zoomFactorButton.setTitle("1.0x", for: .normal)
         
         updateCanvasInteractionState()
     }
@@ -226,7 +226,9 @@ extension MainViewController: ToolbarViewDelegate {
 extension MainViewController: CameraViewControllerDelegate {
     
     func cameraView(_ viewController: CameraViewController, didChangeZoomFactor scale: CGFloat) {
-        mainView.zoomFactorButton.setTitle(cameraViewController.zoomFactorDescription, for: .normal)
+        Task {
+            mainView.zoomFactorButton.setTitle(await cameraViewController.zoomFactorDescription, for: .normal)
+        }
     }
     
     func cameraView(_ viewController: CameraViewController, didCapture image: UIImage) {
