@@ -34,6 +34,10 @@ class CameraView: UIView {
     var aspectRatio: AspectRatio {
         // TODO: アス比変更をアニメーションしてもいいか
         didSet {
+            // フォーカスリングを削除
+            self.focusPoint = nil
+            
+            // 比率制約を再設定
             aspectConstraint.isActive = false
             aspectConstraint = heightAnchor.constraint(equalTo: widthAnchor, multiplier: aspectRatio.rawValue)
             aspectConstraint.isActive = true
@@ -156,22 +160,25 @@ class CameraView: UIView {
         let rect = CGRect(x: layerPoint.x - size / 2, y: layerPoint.y - size / 2, width: size, height: size)
         focusFrame.path = UIBezierPath(rect: rect).cgPath
         
-        let animation = CABasicAnimation(keyPath: "opacity")
-        animation.fromValue = 0.0
-        animation.toValue = 1.0
-        animation.duration = 0.3
-        animation.timingFunction = CAMediaTimingFunction(name: .easeOut)
-        
-        // トランジション終了後に値が戻るのを防ぐ
-        animation.isRemovedOnCompletion = false
-        animation.fillMode = .forwards
-        
-        focusFrame.add(animation, forKey: "opacity")
+        let animation = makeOpacityAnimation(from: 0.0, to: 1.0, duration: 0.3)
+        focusFrame.add(animation, forKey: "frame_visibility")
     }
     
     /// フォーカス枠を削除する
     private func removeFocusFrame(){
-        focusFrame.opacity = 0.0
+        let animation = makeOpacityAnimation(from: 1.0, to: 0.0, duration: 0.3)
+        focusFrame.add(animation, forKey: "frame_visibility")
+    }
+    
+    private func makeOpacityAnimation(from: CGFloat, to: CGFloat, duration: CFTimeInterval) -> CAAnimation {
+        let animation = CABasicAnimation(keyPath: "opacity")
+        animation.fromValue = from
+        animation.toValue = to
+        animation.duration = duration
+        animation.timingFunction = CAMediaTimingFunction(name: .easeOut)
+        animation.isRemovedOnCompletion = false
+        animation.fillMode = .forwards
+        return animation
     }
     
 }

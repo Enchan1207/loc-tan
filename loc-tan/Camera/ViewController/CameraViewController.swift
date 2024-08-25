@@ -13,7 +13,14 @@ class CameraViewController: UIViewController {
     let model: CameraModel
     
     /// ズーム倍率文字列
-    var zoomFactorDescription: String { .init(format: "%.1fx", (currentInputDevice?.videoZoomFactor ?? 1.0) / zoomFactorUnit) }
+    var zoomFactorDescription: String {
+        get async {
+            await withCheckedContinuation { continuation in
+                let zoomFactorString = String(format: "%.1fx", (currentInputDevice?.videoZoomFactor ?? 1.0) / zoomFactorUnit)
+                continuation.resume(returning: zoomFactorString)
+            }
+        }
+    }
     
     var delegate: CameraViewControllerDelegate?
     
